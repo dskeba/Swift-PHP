@@ -1,0 +1,26 @@
+# Turn the Apache rewrite engine on
+RewriteEngine On
+
+# Specify our directory for rewrites
+RewriteBase /
+
+# Remove the www prefix
+RewriteCond %{REQUEST_METHOD} =GET
+RewriteCond %{HTTP_HOST} ^www\.(.*) [NC]
+RewriteCond %{REQUEST_URI} ^(.*)$ [NC]
+RewriteRule .* %1/%2 [R=301,NC,L]
+
+# Remove multiple slashes anywhere
+RewriteCond %{REQUEST_URI} ^(.*)//(.*)$
+RewriteRule ^(.*)$ $1 [R=301,NC,L]
+
+# Add a single trailing slash if not present
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !(\.[a-zA-Z0-9]{1,5}|/)$
+RewriteRule ^(.*)$ $1/ [R=301,NC,L]
+
+# Load up the index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [L]
