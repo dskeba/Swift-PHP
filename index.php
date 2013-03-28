@@ -28,6 +28,7 @@ $swift = Swift::getInstance();
  */
 $swift->config('app_url', 'http://localhost/');
 $swift->config('app_view_dir', 'view');
+$swift->config('app_404', load404Page);
 
 /**
  * Step 4: Add routes to Swift PHP
@@ -58,6 +59,12 @@ function loadUserPage() {
 	global $swift;
 	$data['username'] = $swift->param(0);
 	$swift->render('user.php', $data);
+}
+
+function load404Page() {
+	global $swift;
+	echo "<h1>404 Error</h1>";
+	echo "Could not locate: '" . $swift->getRequestUri() . "'";
 }
 
 /**
