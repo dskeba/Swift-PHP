@@ -1,8 +1,8 @@
 <?php
 /**
- * Validator.php
+ * SwiftValidator.php
  *
- * This file contains the Validator class.
+ * This file contains the SwiftValidator class.
  *
  * @author Derek Skeba <derek@mediavim.com>
  * @copyright 2013 Media Vim LLC
@@ -35,7 +35,7 @@
  */
 
 /**
- * The Validator Class contains functions and
+ * The SwiftValidator class contains functions and
  * code to help validate and decipher user input
  * (or any input for that matter).
  * @package Swift
@@ -43,8 +43,8 @@
 class SwiftValidator {
 	
 	/**
-	 * Creates a new Validator object.
-	 * @return SwiftValidator The new Validator object.
+	 * Creates a new SwiftValidator object.
+	 * @return SwiftValidator The new SwiftValidator object.
 	 */
 	public function __construct() {}
 	

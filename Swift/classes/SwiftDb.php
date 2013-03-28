@@ -1,8 +1,8 @@
 <?php
 /**
- * Db.php
+ * SwiftDb.php
  *
- * This file contains the Db class.
+ * This file contains the SwiftDb class.
  *
  * @author Derek Skeba <derek@mediavim.com>
  * @copyright 2013 Media Vim LLC
@@ -35,7 +35,7 @@
  */
 
 /**
- * The Db class contains functions to connect to any MySQL database.
+ * The SwiftDb class contains functions to connect to any MySQL database.
  * Once connected you can add/remove/update data quickly and easily.
  * 
  * @package Swift
@@ -51,13 +51,13 @@ class SwiftDb {
 	private $m_result;
 	
 	/**
-	 * Creates a new database object. The object will attempt to automatically
+	 * Creates a new SwiftDb object. The object will attempt to automatically
 	 * connect to a database if connection paramters are provided when calling.
 	 * @param string $host Host IP or address of the MySQL server
 	 * @param string $user Username for the MySQL database
 	 * @param string $pass Password for the MySQL user
 	 * @param string $db Name of the MySQL database
-	 * @return SwiftDb The new Db object
+	 * @return SwiftDb The new SwiftDb object
 	 */
 	public function __construct($host, $user, $pass, $db) {
 		if (isset($host) && isset($user) && isset($pass) && isset($db)) {

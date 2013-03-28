@@ -1,8 +1,8 @@
 <?php
 /**
- * Tag.php
+ * SwiftTag.php
  *
- * This file contains the Tag class.
+ * This file contains the SwiftTag class.
  *
  * @author Derek Skeba <derek@mediavim.com>
  * @copyright 2013 Media Vim LLC
@@ -42,8 +42,8 @@
 class SwiftTag {
 	
 	/**
-	 * Creates a new Tag object.
-	 * @return SwiftTag The new Tag object.
+	 * Creates a new SwiftTag object.
+	 * @return SwiftTag The new SwiftTag object.
 	 */
 	public function __construct() {}
 	

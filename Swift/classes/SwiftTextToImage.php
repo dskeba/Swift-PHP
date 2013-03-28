@@ -1,8 +1,8 @@
 <?php
 /**
- * SwiftRegistry.php
+ * SwiftTextToImage.php
  *
- * This file contains the SwiftRegistry class.
+ * This file contains the SwiftTextToImage class.
  *
  * @author Derek Skeba <derek@mediavim.com>
  * @copyright 2013 Media Vim LLC
@@ -35,57 +35,17 @@
  */
 
 /**
- * Stores all of our needed objects and configuration settings
- * for our App.
+ * The SwiftTextToImage class contains functions to help us create and write
+ * text onto images dynamically.
  * @package Swift
  */
-class SwiftRegistry {
-	
-	private $m_data = array();
+class SwiftTextToImage {
 	
 	/**
-	 * Creates a new SwiftRegistry object.
-	 * @return SwiftRegistry The new SwiftRegistry object
+	 * Creates a new SwiftTextToImage object.
+	 * @return SwiftTextToImage The new SwiftTextToImage object.
 	 */
 	public function __construct() {}
-    
-	/**
-	 * Outputs the stored data with the given key.
-	 * @param string $key Key for data
-	 */
-    public function out($key) {
-    	echo $this->get($key);
-    }
-    
-	/**
-	 * Sets or automatically overwrites provided key and value in registry.
-	 * @param string $key Key for data
-	 * @param object $value Value to store
-	 */
-    public function set($key, $value) {
-    	$this->m_data[$key] = $value;
-    }
-	
-	public function setAll($array) {
-		$this->m_data = $array;
-	}
-    
-	/**
-	 * Get the current data stored at the provided key in registry.
-	 * @param string $key Key for data
-	 * @return object Stored data for this key.
-	 */
-    public function get($key) {
-    	return $this->m_data[$key];
-    }
-    
-	/**
-	 * Get the Registry array/map object and return it.
-	 * @return array Array/map of all Registry data.
-	 */
-    public function getAll() {
-    	return $this->m_data;
-    }
 	
 }
 

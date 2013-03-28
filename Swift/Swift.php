@@ -184,6 +184,14 @@ class Swift {
 	public function createTag() {
 		return new SwiftTag();
 	}
+	
+	/**
+	 * Creates and returns a new SwiftTextToImage object.
+	 * @return SwiftTextToImage A SwiftTextToImage object
+	 */
+	public function createTextToImage() {
+		return new SwiftTextToImage();
+	}
     
 	/**
 	 * Get or set configuration settings for Swift. Provide single parameter,

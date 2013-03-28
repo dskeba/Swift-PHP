@@ -1,8 +1,8 @@
 <?php
 /**
- * Pinger.php
+ * SwiftPinger.php
  *
- * This file contains the Pinger class.
+ * This file contains the SwiftPinger class.
  *
  * @author Derek Skeba <derek@mediavim.com>
  * @copyright 2013 Media Vim LLC
@@ -62,11 +62,12 @@ class SwiftPinger {
 	);
 	
 	/**
-	 * Creates and initializes a new Pinger object with the provided parameters.
+	 * Creates and initializes a new SwiftPinger object with the provided parameters.
 	 * @param string $name Name or title of website
 	 * @param string $url The URL of the homepage.
 	 * @param string $changedUrl The changed or updated url.
 	 * @param string $feedUrl Optional RSS/ATOM feed url to include in ping.
+	 * @return SwiftPinger The new SwiftPinger object
 	 */
 	public function __construct($name, $url, $changedUrl = null, $feedUrl = null) {
 		$this->m_name = $name;

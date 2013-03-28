@@ -1,8 +1,8 @@
 <?php
 /**
- * Google.php
+ * SwiftGoogle.php
  *
- * This file contains the Google class.
+ * This file contains the SwiftGoogle class.
  *
  * @author Derek Skeba <derek@mediavim.com>
  * @copyright 2013 Media Vim LLC
@@ -46,11 +46,11 @@ class SwiftGoogle {
 	private $m_key = null;
 	
 	/**
-	 * Creates and initializes a new Google object with the given
+	 * Creates and initializes a new SwiftGoogle object with the given
 	 * referer url and Google api key params.
 	 * @param string $referer Referer url
 	 * @param string $key Google API key
-	 * @return SwiftGoogle The new Google object
+	 * @return SwiftGoogle The new SwiftGoogle object
 	 */
 	public function __construct($referer, $key = null) {
 		$this->m_referer = $referer;

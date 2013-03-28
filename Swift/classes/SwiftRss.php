@@ -1,8 +1,8 @@
 <?php
 /**
- * Rss.php
+ * SwiftRss.php
  *
- * This file contains the Rss class.
+ * This file contains the SwiftRss class.
  *
  * @author Derek Skeba <derek@mediavim.com>
  * @copyright 2013 Media Vim LLC
@@ -46,12 +46,12 @@ class SwiftRss {
 	private $m_skeleton = "<rss version=\"2.0\"><channel></channel></rss>";
 	
 	/**
-	 * Create and load a new RSS object. If a filename to a well-formed
+	 * Create and load a new SwiftRss object. If a filename to a well-formed
 	 * RSS feed is provided then it will be loaded into new object. Otherwise,
 	 * if filename is null then an empty feed will be loaded which elements may
 	 * added to.
 	 * @param string $filename The filename or URI to the XML RSS feed.
-	 * @return SwiftGoogle The new Google object
+	 * @return SwiftRss The new SwiftRss object
 	 */
 	public function __construct($filename = null) {
 		$this->load($filename);

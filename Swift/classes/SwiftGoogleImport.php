@@ -1,6 +1,6 @@
 <?php
 /**
- * GoogleImport.php
+ * SwiftGoogleImport.php
  *
  * This file contains the GoogleImport class.
  *
@@ -45,11 +45,11 @@ class SwiftGoogleImport {
 	private $m_google;
 	
 	/**
-	 * Creates and initializes a new GoogleImport object with the given
+	 * Creates and initializes a new SwiftGoogleImport object with the given
 	 * Db object and Google object.
 	 * @param Db $db A Swift Db object
 	 * @param Google $google A Swift Google object
-	 * @return SwiftGoogle The new Google object
+	 * @return SwiftGoogleImport The new SwiftGoogleImport object
 	 */
 	public function __construct($db, $google) {
 		$this->m_db = $db;

@@ -1,8 +1,8 @@
 <?php
 /**
- * Sitemap.php
+ * SwiftSitemap.php
  *
- * This file contains the Sitemap class.
+ * This file contains the SwiftSitemap class.
  *
  * @author Derek Skeba <derek@mediavim.com>
  * @copyright 2013 Media Vim LLC
@@ -51,7 +51,7 @@ class SwiftSitemap {
 	 * stylesheet used.
 	 * @param string $filename The filename or URI to the XML Sitemap feed.
 	 * @param string $stylesheet The stylesheet to use if loading a new sitemap (optional).
-	 * @return SwiftGoogle The new Google object
+	 * @return SwiftSitemap The new SwiftSitemap object
 	 */
 	public function __construct($filename = null, $stylesheet = null) {
 		$this->load($filename, $stylesheet);

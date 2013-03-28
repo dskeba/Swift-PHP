@@ -1,8 +1,8 @@
 <?php
 /**
- * Router.php
+ * SwiftRouter.php
  *
- * This file contains the Router class.
+ * This file contains the SwiftRouter class.
  *
  * @author Derek Skeba <derek@mediavim.com>
  * @copyright 2013 Media Vim LLC
@@ -49,8 +49,8 @@ class SwiftRouter {
 	private $m_params;
 	
 	/**
-	 * Creates a new Router object
-	 * @return SwiftRouter The new Router object
+	 * Creates a new SwiftRouter object
+	 * @return SwiftRouter The new SwiftRouter object
 	 */
 	public function __construct() {
 		// Get and trim the request uri
