@@ -42,13 +42,17 @@
 class SwiftTextToImage {
 	
 	// private class variables
-	$m_img = null;
+	private $m_img = null;
+	private $m_width = null;
+	private $m_height = null;
 	
 	/**
 	 * Creates a new SwiftTextToImage object.
 	 * @return SwiftTextToImage The new SwiftTextToImage object.
 	 */
 	public function __construct($width, $height) {
+		$this->m_width = $width;
+		$this->m_height = $height;
 		$this->m_img = ImageCreate($width, $height);
 	}
 	
@@ -64,11 +68,11 @@ class SwiftTextToImage {
 		$text_width = $font_width * strlen($text);
 		$text_height = $font_height;
 		// Position to align in center width
-		$position_x = ceil(($width - $text_width) / 2);
+		$position_x = ceil(($this->m_width - $text_width) / 2);
 		// Position to align in center height
-		$position_y = ceil(($height - $text_height) / 2);
+		$position_y = ceil(($this->m_height - $text_height) / 2);
 		// Create text color
-		$text_color = ImageColorAllocate($this->$m_img, $red, $green, $blue);
+		$text_color = ImageColorAllocate($this->m_img, $red, $green, $blue);
 		// Render the text onto the image object and return the result
 		return ImageString($this->m_img, $size, $position_x, $position_y, $text, $text_color);
 	}

@@ -189,8 +189,8 @@ class Swift {
 	 * Creates and returns a new SwiftTextToImage object.
 	 * @return SwiftTextToImage A SwiftTextToImage object
 	 */
-	public function createTextToImage() {
-		return new SwiftTextToImage();
+	public function createTextToImage($width, $height) {
+		return new SwiftTextToImage($width, $height);
 	}
     
 	/**
