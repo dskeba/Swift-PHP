@@ -28,7 +28,7 @@ $swift = Swift::getInstance();
  */
 $swift->config('app_url', 'http://localhost/');
 $swift->config('app_view_dir', 'view');
-$swift->config('app_404', load404Page);
+$swift->config('app_404', 'load404Page');
 
 /**
  * Step 4: Add routes to Swift PHP
@@ -41,8 +41,8 @@ $swift->config('app_404', load404Page);
  * accessible with the $swift->param($key) function, where $key
  * is the index of all matches.
  */
-$swift->map('/', loadHomePage);
-$swift->map('/user/([a-bA-Z0-9_\-]+)/', loadUserPage);
+$swift->map('/', 'loadHomePage');
+$swift->map('/user/([a-bA-Z0-9_\-]+)/', 'loadUserPage');
 
 /**
  * Step 5: Create functions for loading pages
