@@ -197,6 +197,14 @@ class Swift {
 	public function createTextToImage($width, $height) {
 		return new SwiftTextToImage($width, $height);
 	}
+		
+	/**
+	 * Creates and returns a new SwiftScript object.s
+	 * @return SwiftScript A SwiftScript object
+	 */
+	public function createScript() {
+		return new SwiftScript();
+	}
     
 	/**
 	 * Get or set configuration settings for Swift. Provide single parameter,

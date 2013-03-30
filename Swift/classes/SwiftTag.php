@@ -77,28 +77,6 @@ class SwiftTag {
 	}
 	
 	/**
-	 * Automatically creates and returns an script which uses JQuery to animate your menu
-	 * with the specified CSS classes for the parent buttons and child buttons.
-	 * @param string $top_class The CSS class for the top/parent buttons of your menu
-	 * @param string $sub_class The CSS class for the sub/child buttons of your menu
-	 * @return string A HTML compatible script tag with the JS code.
-	 */
-	public function createMenuScript($top_class, $sub_class) {
-		return "<script type=\"text/javascript\"> 
-					$(document).ready(function(){
-						$(\"ul.".$sub_class."\").parent().append(\"<span></span>\"); //Only shows drop down trigger when js is enabled
-						$(\"ul.".$top_class." li a\").hover(function() { //When trigger is clicked...
-							//Following events are applied to the subnav itself (moving subnav up and down)
-							$(this).parent().find(\"ul.".$sub_class."\").slideDown('fast').show(); //Drop down the subnav on click
-							$(this).parent().hover(function() {}, function(){
-								$(this).parent().find(\"ul.".$sub_class."\").slideUp('fast'); //When the mouse hovers out, move it back up
-							});
-						});
-					});
-				</script>\n";
-	}
-	
-	/**
 	 * Creates and returns an HTML script tag which links the web page to a specificed JavaScript file.
 	 * @param string $src The JavaScript file to link/include.
 	 * @return string A HTML compatible script tag.
