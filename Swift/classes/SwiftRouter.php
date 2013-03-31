@@ -5,7 +5,7 @@
  * This file contains the SwiftRouter class.
  *
  * @author Derek Skeba <derek@mediavim.com>
- * @copyright 2013 Media Vim LLC
+ * @copyright 2012 - 2013 Media Vim LLC
  * @link http://swiftphp.org
  * @license http://swiftphp.org/license
  * @version 1.1
@@ -13,7 +13,7 @@
  *
  * MIT LICENSE
  *
- * Copyright (c) 2013 Media Vim LLC (http://mediavim.com)
+ * Copyright (c) 2012 - 2013 Media Vim LLC (http://mediavim.com)
  *
  * Permission is hereby granted, free of charge, to any person obtaining 
  * a copy of this software and associated documentation files (the "Software"), 
