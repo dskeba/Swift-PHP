@@ -194,8 +194,8 @@ class Swift {
 	 * Creates and returns a new SwiftImage object.
 	 * @return SwiftImage A SwiftImage object
 	 */
-	public function createImage($filename, $width, $height) {
-		return new SwiftImage($filename, $width, $height);
+	public function createImage($width, $height) {
+		return new SwiftImage($width, $height);
 	}
 		
 	/**
