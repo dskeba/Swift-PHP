@@ -5,7 +5,7 @@
  * Contains __autoload() function in global scope to
  * handle automatic loading of any required classes.
  *
- * @author Derek Skeba <derek@mediavim.com>
+ * @author Derek Skeba
  * @copyright 2012 - 2013 Media Vim LLC
  * @link http://swiftphp.org
  * @license http://swiftphp.org/license

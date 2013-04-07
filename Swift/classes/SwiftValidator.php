@@ -4,7 +4,7 @@
  *
  * This file contains the SwiftValidator class.
  *
- * @author Derek Skeba <derek@mediavim.com>
+ * @author Derek Skeba
  * @copyright 2012 - 2013 Media Vim LLC
  * @link http://swiftphp.org
  * @license http://swiftphp.org/license
