@@ -192,10 +192,13 @@ class Swift {
 	
 	/**
 	 * Creates and returns a new SwiftImage object.
+	 * @param String $filename The filename of a PNG, GIF, or JPEG image to load. (Optional)
+	 * @param Integer $width The width of the image to render. (Specifiy if $filename is not provided)
+	 * @param Integer $height The height of the image to render. (Specifiy if $filename is not provided)
 	 * @return SwiftImage A SwiftImage object
 	 */
-	public function createImage($width, $height) {
-		return new SwiftImage($width, $height);
+	public function createImage($filename = null, $width, $height) {
+		return new SwiftImage($filename, $width, $height);
 	}
 		
 	/**

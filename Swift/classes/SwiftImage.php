@@ -46,12 +46,24 @@ class SwiftImage {
 	
 	/**
 	 * Creates a new SwiftImage object.
-	 * @param Integer $width The width of the image to render.
-	 * @param Integer $height The height of the image to render.
+	 * @param String $filename The filename of a PNG, GIF, or JPEG image to load. (Optional)
+	 * @param Integer $width The width of the image to render. (Specifiy if $filename is not provided)
+	 * @param Integer $height The height of the image to render. (Specifiy if $filename is not provided)
 	 * @return SwiftImage The new SwiftImage object.
 	 */
-	public function __construct($width, $height) {
-		$this->m_img = imagecreate($width, $height);
+	public function __construct($filename = null, $width, $height) {
+		if ($filename != null) {
+			$type = substr($filename, strrpos($filename, '.'));
+			if ($type == '.png') {
+				$this->m_img = imagecreatefrompng($filename);
+			} else if ($type == '.gif') {
+				$this->m_img = imagecreatefromgif($filename);
+			} else if ($type == '.jpg' || $type == '.jpeg') {
+				$this->m_img = imagecreatefromjpeg($filename);
+			}
+		} else {
+			$this->m_img = imagecreatetruecolor($width, $height);
+		}
 	}
 	
 	/**
@@ -101,7 +113,7 @@ class SwiftImage {
 	 */
 	public function drawBackground($color = array('red' => '255', 'green' => '255', 'blue' => '255')) {
 		// Draw the background and return true on success.
-		return $this->drawRectangle(0, 0, $width, $height, $color);
+		return $this->drawRectangle(0, 0, $this->getWidth(), $this->getHeight(), $color);
 	}
 	
 	/**
@@ -117,7 +129,7 @@ class SwiftImage {
 		// Create the background color
 		$bg = imagecolorallocate($this->m_img, $color['red'], $color['green'], $color['blue']);
 		// Draw the rectangle and return true on success.
-		return imagerectangle($this->m_img, $x1, $y1, $x2, $y2, $bg);
+		return imagefilledrectangle($this->m_img, $x1, $y1, $x2, $y2, $bg);
 	}
 	
 	/**
@@ -141,7 +153,7 @@ class SwiftImage {
 	 * @param Integer $x_spacing Number of pixels to space between vertical lines of grid.
 	 * @param Integer $y_spacing Number of pixels to space between horizontal lines of grid.
 	 * @param Array $color An array containing color values from 0 to 255 for the keys: 'red', 'green', and 'blue'.
-	 * @param Integer $offset Value between -100 and 100 to offset the angle of the grid lines.
+	 * @param Integer $offset Value to offset the angle of the grid lines.
 	 * @return Boolean True on success, otherwise False.
 	 */
 	public function drawGrid($x_spacing, $y_spacing, $color, $offset = 0) {
