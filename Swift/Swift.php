@@ -183,11 +183,11 @@ class Swift {
 	}
 	
 	/**
-	 * Creates and returns a new SwiftTag object.
-	 * @return SwiftTag A SwiftTag object
+	 * Creates and returns a new SwiftHtml object.
+	 * @return SwiftHtml A SwiftHtml object
 	 */
 	public function createTag() {
-		return new SwiftTag();
+		return new SwiftHtml();
 	}
 	
 	/**

@@ -1,8 +1,8 @@
 <?php
 /**
- * SwiftTag.php
+ * SwiftHtml.php
  *
- * This file contains the SwiftTag class.
+ * This file contains the SwiftHtml class.
  *
  * @author Derek Skeba
  * @copyright 2012 - 2013 Media Vim LLC
@@ -35,15 +35,14 @@
  */
 
 /**
- * Utility for creating and outputing data for the template,
- * such as Meta data and template files.
+ * Utility for creating and outputing HTML tags.
  * @package Swift
  */
-class SwiftTag {
+class SwiftHtml {
 	
 	/**
-	 * Creates a new SwiftTag object.
-	 * @return SwiftTag The new SwiftTag object.
+	 * Creates a new SwiftHtml object.
+	 * @return SwiftHtml The new SwiftHtml object.
 	 */
 	public function __construct() {}
 	
