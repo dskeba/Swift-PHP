@@ -86,32 +86,88 @@ class SwiftImage {
 	 * Draws text with the given properties onto the image.
 	 * @param String $text The text to write onto the image.
 	 * @param Integer $size The size of the text.
-	 * @param Array $color An array containing color values from 0 to 255 for the keys: 'red', 'green', and 'blue'.
+	 * @param Array $color An array containing color values from 0 to 255 for the keys: 'red', 'green', 'blue', and 'alpha'.
+	 * @param String $position Sets the position of the text on the image. (center, top, bottom, left, right, topleft, bottomleft, topright, bottomright)
+	 * @param String $font Sets the font type. (arial, comicsans, couriernew, georgia, tahoma, timesnewroman, verdana)
+	 * @param Integer $x_padding Sets the x coordinate padding when positioning the text. (Default: 10)
+	 * @param Integer $y_padding Sets the Y coordinate padding when positioning the text. (Default: 10)
+	 * @param Integer $angle Sets the angle in degrees to draw the text at.
 	 * @return Boolean True on success, otherwise False.
 	 */
-	public function drawText($text, $size, $color = array('red' => '0', 'green' => '0', 'blue' => '0')) {
+	public function drawText($text, $size, $color = array('red' => '0', 'green' => '0', 'blue' => '0', 'alpha' => '0'), $font = 'arial', $position = 'center', $x_padding = 10, $y_padding = 10, $angle = 0) {
 		// Calculate the fonts width and height
 		$font_width = imagefontwidth($size);
 		$font_height = imagefontheight($size);
 		// Find width and height of our text
 		$text_width = $font_width * strlen($text);
 		$text_height = $font_height;
-		// Position to align in center width
-		$position_x = ceil(($this->getWidth() - $text_width) / 2);
-		// Position to align in center height
-		$position_y = ceil(($this->getHeight() - $text_height) / 2);
+		// Check the font param
+		if ($font != 'arial' && $font != 'comicsans' && $font != 'couriernew' && $font != 'georgia' && $font != 'tahoma' && $font != 'timesnewroman' && $font != 'verdana') {
+			// Set it to our default font
+			$font = 'arial';
+		}
+		// Add the path to our select font
+		$font = FW_INCLUDES_DIR . '/fonts/' . $font . '.ttf';
+		// Position our text on the image
+		if ($position == 'center') {
+			// Align x at center
+			$position_x = ceil(($this->getWidth() - $text_width) / 2);
+			// Align y at center
+			$position_y = ceil(($this->getHeight() - $text_height) / 2);
+		} else if ($position == 'top') {
+			// Align x at center
+			$position_x = ceil(($this->getWidth() - $text_width) / 2);
+			// Align y at top
+			$position_y = $y_padding;
+		} else if ($position == 'bottom') {
+			// Align x at center
+			$position_x = ceil(($this->getWidth() - $text_width) / 2);
+			// Align y at bottom
+			$position_y = $this->getHeight() - $text_height - $y_padding;
+		} else if ($position == 'left') {
+			// Align x at left
+			$position_x = $x_padding;
+			// Align y at center
+			$position_y = ceil(($this->getHeight() - $text_height) / 2);
+		} else if ($position == 'right') {
+			// Align x at right
+			$position_x = $this->getWidth() - $text_width - $x_padding;
+			// Align y at center
+			$position_y = ceil(($this->getHeight() - $text_height) / 2);
+		} else if ($position == 'topleft') {
+			// Align x at left
+			$position_x = $x_padding;
+			// Align y at top
+			$position_y = $y_padding;
+		} else if ($position == 'bottomleft') {
+			// Align x at left
+			$position_x = $x_padding;
+			// Align y at bottom
+			$position_y = $this->getHeight() - $text_height - $y_padding;
+		} else if ($position == 'topright') {
+			// Align x at right
+			$position_x = $this->getWidth() - $text_width - $x_padding;
+			// Align y at top
+			$position_y = $y_padding;
+		} else if ($position == 'bottomright') {
+			// Align x at right
+			$position_x = $this->getWidth() - $text_width - $x_padding;
+			// Align y at bottom
+			$position_y = $this->getHeight() - $text_height - $y_padding;
+		}
 		// Create text color
-		$text_color = imagecolorallocate($this->m_img, $color['red'], $color['green'], $color['blue']);
+		$text_color = imagecolorallocatealpha($this->m_img, $color['red'], $color['green'], $color['blue'], $color['alpha']);
 		// Render the text onto the image object and return the result
-		return imagestring($this->m_img, $size, $position_x, $position_y, $text, $text_color);
+		return imagettftext($this->m_img, $size, $angle, $position_x, $position_y, $text_color, $font, $text);
+		//return imagestring($this->m_img, $size, $position_x, $position_y, $text, $text_color);
 	}
 	
 	/**
 	 * Draws background with the given properties onto the image.
-	 * @param Array $color An array containing color values from 0 to 255 for the keys: 'red', 'green', and 'blue'.
+	 * @param Array $color An array containing color values from 0 to 255 for the keys: 'red', 'green', 'blue', and 'alpha'.
 	 * @return Boolean True on success, otherwise False.
 	 */
-	public function drawBackground($color = array('red' => '255', 'green' => '255', 'blue' => '255')) {
+	public function drawBackground($color = array('red' => '255', 'green' => '255', 'blue' => '255', 'alpha' => '0')) {
 		// Draw the background and return true on success.
 		return $this->drawRectangle(0, 0, $this->getWidth(), $this->getHeight(), $color);
 	}
@@ -122,12 +178,12 @@ class SwiftImage {
 	 * @param Integer $y1 The y coordinate of the upper left point of the rectangle.
 	 * @param Integer $x2 The x coordinate of the lower right point of the rectangle.
 	 * @param Integer $y2 The y coordinate of the lower right point of the rectangle.
-	 * @param Array $color An array containing color values from 0 to 255 for the keys: 'red', 'green', and 'blue'.
+	 * @param Array $color An array containing color values from 0 to 255 for the keys: 'red', 'green', 'blue', and 'alpha'.
 	 * @return Boolean True on success, otherwise False.
 	 */
-	public function drawRectangle($x1, $y1, $x2, $y2, $color = array('red' => '0', 'green' => '0', 'blue' => '0')) {
+	public function drawRectangle($x1, $y1, $x2, $y2, $color = array('red' => '0', 'green' => '0', 'blue' => '0', 'alpha' => '0')) {
 		// Create the background color
-		$bg = imagecolorallocate($this->m_img, $color['red'], $color['green'], $color['blue']);
+		$bg = imagecolorallocatealpha($this->m_img, $color['red'], $color['green'], $color['blue'], $color['alpha']);
 		// Draw the rectangle and return true on success.
 		return imagefilledrectangle($this->m_img, $x1, $y1, $x2, $y2, $bg);
 	}
@@ -138,12 +194,12 @@ class SwiftImage {
 	 * @param Integer $y1 The y coordinate of the starting point of the line.
 	 * @param Integer $x2 The x coordinate of the ending point of the line.
 	 * @param Integer $y2 The y coordinate of the ending point of the line.
-	 * @param Array $color An array containing color values from 0 to 255 for the keys: 'red', 'green', and 'blue'.
+	 * @param Array $color An array containing color values from 0 to 255 for the keys: 'red', 'green', 'blue', and 'alpha'.
 	 * @return Boolean True on success, otherwise False.
 	 */
-	public function drawLine($x1, $y1, $x2, $y2, $color) {
+	public function drawLine($x1, $y1, $x2, $y2, $color = array('red' => '0', 'green' => '0', 'blue' => '0', 'alpha' => '0')) {
 		// Create the line color
-		$line_color = imagecolorallocate($this->m_img, $color['red'], $color['green'], $color['blue']);
+		$line_color = imagecolorallocatealpha($this->m_img, $color['red'], $color['green'], $color['blue'], $color['alpha']);
 		// Draw the line and return true on succcess.
 		return imageline($this->m_img, $x1, $y1, $x2, $y2, $line_color);
 	}
@@ -152,16 +208,14 @@ class SwiftImage {
 	 * Draws a grid of lines with the given properties onto the image.
 	 * @param Integer $x_spacing Number of pixels to space between vertical lines of grid.
 	 * @param Integer $y_spacing Number of pixels to space between horizontal lines of grid.
-	 * @param Array $color An array containing color values from 0 to 255 for the keys: 'red', 'green', and 'blue'.
+	 * @param Array $color An array containing color values from 0 to 255 for the keys: 'red', 'green', 'blue', and 'alpha'.
 	 * @param Integer $offset Value to offset the angle of the grid lines.
 	 * @return Boolean True on success, otherwise False.
 	 */
-	public function drawGrid($x_spacing, $y_spacing, $color, $offset = 0) {
+	public function drawGrid($x_spacing, $y_spacing, $color = array('red' => '0', 'green' => '0', 'blue' => '0', 'alpha' => '0'), $offset = 0) {
 		$offset = ($offset / 100) * 20;
 		$x_count = $this->getWidth() / $x_spacing;
 		$y_count = $this->getHeight() / $y_spacing;
-		// Create the grid color
-		$grid_color = imagecolorallocate($this->m_img, $color['red'], $color['green'], $color['blue']);
 		for ($i = -1; $i < $x_count + 1; $i++) {
 			$this->drawLine(($i * $x_spacing) - $offset, 0, ($i * $x_spacing) + $offset, $this->getHeight(), $color);
 		}
