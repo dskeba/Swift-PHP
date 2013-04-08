@@ -83,6 +83,46 @@ class SwiftImage {
 	}
 	
 	/**
+	 * Returns the width in pixels of the provided text and attributes.
+	 * @param String $text The text to find the width for.
+	 * @param Integer $size The size of the font.
+	 * @param Integer $angle The angle of the text. (Default: 0)
+	 * @param String $font The name of the font. (Default: arial)
+	 * @return Integer The pixel width of the text.
+	 */
+	public function getTextWidth($text, $size, $angle = 0, $font = 'arial') {
+		// Check the font param
+		if ($font != 'arial' && $font != 'comicsans' && $font != 'couriernew' && $font != 'georgia' && $font != 'tahoma' && $font != 'timesnewroman' && $font != 'verdana') {
+			// Set it to our default font
+			$font = 'arial';
+		}
+		// Add the path to our select font
+		$font = FW_INCLUDES_DIR . '/fonts/' . $font . '.ttf';
+		$arr = imagettfbbox($size, $angle, $font, $text);
+		return ($arr[4] - $arr[6]);
+	}
+	
+	/**
+	 * Returns the height in pixels of the provided text and attributes.
+	 * @param String $text The text to find the height for.
+	 * @param Integer $size The size of the font.
+	 * @param Integer $angle The angle of the text. (Default: 0)
+	 * @param String $font The name of the font. (Default: arial)
+	 * @return Integer The pixel height of the text.
+	 */
+	public function getTextHeight($text, $size, $angle = 0, $font = 'arial') {
+		// Check the font param
+		if ($font != 'arial' && $font != 'comicsans' && $font != 'couriernew' && $font != 'georgia' && $font != 'tahoma' && $font != 'timesnewroman' && $font != 'verdana') {
+			// Set it to our default font
+			$font = 'arial';
+		}
+		// Add the path to our select font
+		$font = FW_INCLUDES_DIR . '/fonts/' . $font . '.ttf';
+		$arr = imagettfbbox($size, $angle, $font, $text);
+		return ($arr[1] - $arr[7]);
+	}
+	
+	/**
 	 * Draws text with the given properties onto the image.
 	 * @param String $text The text to write onto the image.
 	 * @param Integer $size The size of the text.
@@ -95,12 +135,9 @@ class SwiftImage {
 	 * @return Boolean True on success, otherwise False.
 	 */
 	public function drawText($text, $size, $color = array('red' => '0', 'green' => '0', 'blue' => '0', 'alpha' => '0'), $font = 'arial', $position = 'center', $x_padding = 10, $y_padding = 10, $angle = 0) {
-		// Calculate the fonts width and height
-		$font_width = imagefontwidth($size);
-		$font_height = imagefontheight($size);
 		// Find width and height of our text
-		$text_width = $font_width * strlen($text);
-		$text_height = $font_height;
+		$text_width = $this->getTextWidth($text, $size, $angle, $font);
+		$text_height = $this->getTextHeight($text, $size, $angle, $font);
 		// Check the font param
 		if ($font != 'arial' && $font != 'comicsans' && $font != 'couriernew' && $font != 'georgia' && $font != 'tahoma' && $font != 'timesnewroman' && $font != 'verdana') {
 			// Set it to our default font
@@ -113,53 +150,52 @@ class SwiftImage {
 			// Align x at center
 			$position_x = ceil(($this->getWidth() - $text_width) / 2);
 			// Align y at center
-			$position_y = ceil(($this->getHeight() - $text_height) / 2);
+			$position_y = ceil(($this->getHeight() + $text_height) / 2);
 		} else if ($position == 'top') {
 			// Align x at center
 			$position_x = ceil(($this->getWidth() - $text_width) / 2);
 			// Align y at top
-			$position_y = $y_padding;
+			$position_y = $y_padding + $text_height;
 		} else if ($position == 'bottom') {
 			// Align x at center
 			$position_x = ceil(($this->getWidth() - $text_width) / 2);
 			// Align y at bottom
-			$position_y = $this->getHeight() - $text_height - $y_padding;
+			$position_y = $this->getHeight() - $y_padding;
 		} else if ($position == 'left') {
 			// Align x at left
 			$position_x = $x_padding;
 			// Align y at center
-			$position_y = ceil(($this->getHeight() - $text_height) / 2);
+			$position_y = ceil(($this->getHeight() + $text_height) / 2);
 		} else if ($position == 'right') {
 			// Align x at right
 			$position_x = $this->getWidth() - $text_width - $x_padding;
 			// Align y at center
-			$position_y = ceil(($this->getHeight() - $text_height) / 2);
+			$position_y = ceil(($this->getHeight() + $text_height) / 2);
 		} else if ($position == 'topleft') {
 			// Align x at left
 			$position_x = $x_padding;
 			// Align y at top
-			$position_y = $y_padding;
+			$position_y = $y_padding + $text_height;
 		} else if ($position == 'bottomleft') {
 			// Align x at left
 			$position_x = $x_padding;
 			// Align y at bottom
-			$position_y = $this->getHeight() - $text_height - $y_padding;
+			$position_y = $this->getHeight() - $y_padding;
 		} else if ($position == 'topright') {
 			// Align x at right
 			$position_x = $this->getWidth() - $text_width - $x_padding;
 			// Align y at top
-			$position_y = $y_padding;
+			$position_y = $y_padding + $text_height;
 		} else if ($position == 'bottomright') {
 			// Align x at right
 			$position_x = $this->getWidth() - $text_width - $x_padding;
 			// Align y at bottom
-			$position_y = $this->getHeight() - $text_height - $y_padding;
+			$position_y = $this->getHeight() - $y_padding;
 		}
 		// Create text color
 		$text_color = imagecolorallocatealpha($this->m_img, $color['red'], $color['green'], $color['blue'], $color['alpha']);
 		// Render the text onto the image object and return the result
 		return imagettftext($this->m_img, $size, $angle, $position_x, $position_y, $text_color, $font, $text);
-		//return imagestring($this->m_img, $size, $position_x, $position_y, $text, $text_color);
 	}
 	
 	/**
