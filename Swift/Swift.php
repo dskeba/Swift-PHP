@@ -208,6 +208,14 @@ class Swift {
 	public function createScript() {
 		return new SwiftScript();
 	}
+	
+	/**
+	 * Creates and returns a new SwiftEncrypt object.
+	 * @return SwiftEncrypt A SwiftEncrypt object
+	 */
+	public function createEncrypt() {
+		return new SwiftEncrypt();
+	}
     
 	/**
 	 * Get or set configuration settings for Swift. Provide single parameter,
