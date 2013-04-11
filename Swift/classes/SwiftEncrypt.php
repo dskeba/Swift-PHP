@@ -87,6 +87,36 @@ class SwiftEncrypt {
 		return crypt($string, $salt);
 	}
 	
+	/**
+	 * Encrypts a String with the SHA-526 encryption using a 16-character salt.
+	 * @param String $string The String to encrypt.
+	 * @param String $salt A sixteen character salt to encrypt the string with.
+	 * @param Integer $rounds Numbers of times the hashing loop should be executed. (Default: 5000)
+	 * @return String The encryped string.
+	 */
+	public function encryptSha256($string, $salt, $rounds = 5000) {
+		if (strlen($salt) != 16) {
+			return false;
+		}
+		$salt = '$5$rounds=' . $rounds . '$' . $salt . '$';
+		return crypt($string, $salt);
+	}
+	
+	/**
+	 * Encrypts a String with the SHA-512 encryption using a 16-character salt.
+	 * @param String $string The String to encrypt.
+	 * @param String $salt A sixteen character salt to encrypt the string with.
+	 * @param Integer $rounds Numbers of times the hashing loop should be executed. (Default: 5000)
+	 * @return String The encryped string.
+	 */
+	public function encryptSha512($string, $salt, $rounds = 5000) {
+		if (strlen($salt) != 16) {
+			return false;
+		}
+		$salt = '$6$rounds=' . $rounds . '$' . $salt . '$';
+		return crypt($string, $salt);
+	}
+	
 }
 
 ?>
