@@ -88,6 +88,25 @@ class SwiftEncrypt {
 	}
 	
 	/**
+	 * Encrypts a String with the Blowfish encryption using a 22-character salt.
+	 * @param String $string The String to encrypt.
+	 * @param String $salt A sixteen character salt to encrypt the string with.
+	 * @param Integer $cost A two digit base-2 logarithm representing the iteration count for the Blowfish hashing loop. (Default: 7)
+	 * @return String The encryped string.
+	 */
+	public function encryptBlowfish($string, $salt, $cost = 7) {
+		if (strlen($salt) != 22) {
+			return false;
+		}
+		if ($cost < 10) {
+			$salt = '$2a$0' . $cost . '$' . $salt . '$';
+		} else {
+			$salt = '$2a$' . $cost . '$' . $salt . '$';
+		}
+		return crypt($string, $salt);
+	}
+	
+	/**
 	 * Encrypts a String with the SHA-526 encryption using a 16-character salt.
 	 * @param String $string The String to encrypt.
 	 * @param String $salt A sixteen character salt to encrypt the string with.
