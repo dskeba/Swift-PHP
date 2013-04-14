@@ -49,7 +49,7 @@ class SwiftEncrypt {
 	/**
 	 * Encrypts a String with the Standard DES encryption using a 2-character salt.
 	 * @param String $string The String to encrypt.
-	 * @param String $salt A two character salt to encrypt the string with.
+	 * @param String $salt A 2-character alphanumeric salt to encrypt the string with.
 	 * @return String The encryped string.
 	 */
 	public function encryptStdDes($string, $salt) {
@@ -62,7 +62,7 @@ class SwiftEncrypt {
 	/**
 	 * Encrypts a String with the Extended DES encryption using a 9-character salt.
 	 * @param String $string The String to encrypt.
-	 * @param String $salt A nine character salt to encrypt the string with.
+	 * @param String $salt A 9-character alphanumeric salt to encrypt the string with.
 	 * @return String The encryped string.
 	 */
 	public function encryptExtDes($string, $salt) {
@@ -76,7 +76,7 @@ class SwiftEncrypt {
 	/**
 	 * Encrypts a String with the MD5 encryption using a 12-character salt.
 	 * @param String $string The String to encrypt.
-	 * @param String $salt A twelve character salt to encrypt the string with.
+	 * @param String $salt A 12-character alphanumeric salt to encrypt the string with.
 	 * @return String The encryped string.
 	 */
 	public function encryptMd5($string, $salt) {
@@ -90,7 +90,7 @@ class SwiftEncrypt {
 	/**
 	 * Encrypts a String with the Blowfish encryption using a 22-character salt.
 	 * @param String $string The String to encrypt.
-	 * @param String $salt A sixteen character salt to encrypt the string with.
+	 * @param String $salt A 22-character alphanumeric salt to encrypt the string with.
 	 * @param Integer $cost A two digit base-2 logarithm representing the iteration count for the Blowfish hashing loop. (Default: 7)
 	 * @return String The encryped string.
 	 */
@@ -109,7 +109,7 @@ class SwiftEncrypt {
 	/**
 	 * Encrypts a String with the SHA-526 encryption using a 16-character salt.
 	 * @param String $string The String to encrypt.
-	 * @param String $salt A sixteen character salt to encrypt the string with.
+	 * @param String $salt A 16-character salt to encrypt the string with.
 	 * @param Integer $rounds Numbers of times the hashing loop should be executed. (Default: 5000)
 	 * @return String The encryped string.
 	 */
