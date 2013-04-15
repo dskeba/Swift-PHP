@@ -245,6 +245,33 @@ class SwiftHtml {
 	}
 	
 	/**
+	 * Creates and returns an HTML input tag with the provided attributes.
+	 * @param string $type The HTML input type. (Default: text)
+	 * @param string $name The name attribute. (Optional)
+	 * @param string $value The value attribute. (Optional)
+	 * @param Integer $min The min attribute. (Optional)
+	 * @param Integer $max The max attribute. (Optional)
+	 * @return string A HTML compatible input tag.
+	 */
+	public function createInputTag($type = 'text', $name = null, $value = null, $min = null, $max = null) {
+		$input_tag = "<input type=\"" . $type . "\"";
+		if ($name) {
+			$input_tag .= " name=\"" . $name . "\"";
+		}
+		if ($value) {
+			$input_tag .= " value=\"" . $value . "\"";
+		}
+		if ($min) {
+			$input_tag .= " min=\"" . $min . "\"";
+		}
+		if ($max) {
+			$input_tag .= " max=\"" . $max . "\"";
+		}
+		$input_tag .= " />\n";
+		return $input_tag;
+	}
+	
+	/**
 	 * Creates and returns an HTML script tag of the specified $type and $src.
 	 * @param string $type The type of script (e.g. JavaScript).
 	 * @param string $src The source or URL of an external script document.

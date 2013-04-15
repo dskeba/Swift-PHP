@@ -39,12 +39,53 @@
  * @package Swift
  */
 class SwiftForm {
+
+	// private properties
+	private $m_fields = null;
 	
 	/**
 	 * Creates a new SwiftForm object.
 	 * @return SwiftForm The new SwiftForm object
 	 */
 	public function __construct() {}
+	
+	/**
+	 * Creates and adds a field with the provided attributes to the SwiftForm.
+	 * @param string $input_type The HTML input type. (Default: text)
+	 * @param string $name The name attribute. (Optional)
+	 * @param string $value The value attribute. (Optional)
+	 * @param String $label A label for the input field. (Optional)
+	 * @return boolean True on success. Otherwise False.
+	 */
+	public function addField($input_type = 'text', $name = null, $value = null, $label = null) {
+		$swift = Swift::getInstance();
+		$swift_html = $swift->createHtml();
+		if ($label) {
+			if ($name) {
+				$field_data = "<label for=\"" . $name . "\">" . $label . "</label>\n";
+			} else {
+				$field_data = "<label>" . $label . "</label>\n";
+			}
+		}
+		$field_data .= $swift_html->createInputTag($type, $name, $value);
+		if ($field_data) {
+			$this->m_fields[count($this->m_fields)] = $field_data;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Outputs the HTML form onto the page.
+	 */
+	public function renderForm() {
+		echo "<form>\n";
+		for ($i = 0; $i < count($this->m_fields); $i++) {
+			echo $this->m_fields[$i];
+		}
+		echo "</form>\n";
+	}
 	
 }
 

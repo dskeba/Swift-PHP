@@ -186,7 +186,7 @@ class Swift {
 	 * Creates and returns a new SwiftHtml object.
 	 * @return SwiftHtml A SwiftHtml object
 	 */
-	public function createTag() {
+	public function createHtml() {
 		return new SwiftHtml();
 	}
 	
@@ -215,6 +215,14 @@ class Swift {
 	 */
 	public function createEncrypt() {
 		return new SwiftEncrypt();
+	}
+	
+	/**
+	 * Creates and returns a new SwiftForm object.
+	 * @return SwiftForm A SwiftForm object
+	 */
+	public function createForm() {
+		return new SwiftForm();
 	}
     
 	/**
