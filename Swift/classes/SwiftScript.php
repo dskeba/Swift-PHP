@@ -69,6 +69,44 @@ class SwiftScript {
 				</script>\n";
 	}
 	
+	public function createAjaxPostFunction($url, $data, $element_id, $callback) {
+		return "<script type=\"text/javascript\">
+					function " . $callback . "(){
+						var data = { data:\"" . $data . "\" };
+						$.post(\"" . $url . "\", data, function(data,status){
+							if(status==\"success\"){
+								$(\"#" . $element_id . "\").html(data);
+							} else {
+								$(\"#" . $element_id . "\").html(\"Error:\" + xhr.status + \" \" + xhr.statusText);
+							}
+						});
+					}
+				</script>\n";
+	}
+	
+	public function createAjaxGetFunction($url, $data, $element_id, $callback) {
+		return "<script type=\"text/javascript\">
+					function " . $callback . "(){
+						var data = { data:\"" . $data . "\" };
+						$.get(\"" . $url . "\", data, function(data,status){
+							if(status==\"success\"){
+								$(\"#" . $element_id . "\").html(data);
+							} else {
+								$(\"#" . $element_id . "\").html(\"Error:\" + xhr.status + \" \" + xhr.statusText);
+							}
+						});
+					}
+				</script>\n";
+	}
+	
+	public function createEventHook($element_id, $event, $callback) {
+		return "<script type=\"text/javascript\">
+					$(document).ready(function(){
+						$(\"#" . $element_id . "\")." . $event . "(" . $callback . ");
+					});
+				</script>\n";
+	}
+	
 }
 
 ?>
