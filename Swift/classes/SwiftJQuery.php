@@ -1,8 +1,8 @@
 <?php
 /**
- * SwiftScript.php
+ * SwiftJQuery.php
  *
- * This file contains the SwiftScript class.
+ * This file contains the SwiftJQuery class.
  *
  * @author Derek Skeba
  * @copyright 2012 - 2013 Media Vim LLC
@@ -35,26 +35,26 @@
  */
 
 /**
- * The SwiftScript class contains many helper
+ * The SwiftJQuery class contains many helper
  * functions to insert useful scripts into
  * your web app.
  */
-class SwiftScript {
+class SwiftJQuery {
 	
 	/**
-	 * Creates a new SwiftScript object.
-	 * @return SwiftScript The new SwiftScript object.
+	 * Creates a new SwiftJQuery object.
+	 * @return SwiftJQuery The new SwiftJQuery object.
 	 */
 	public function __construct() {}
 	
 	/**
-	 * Automatically creates and returns an script which uses JQuery to animate your menu
+	 * Automatically creates and returns an JQuery drop down menu script
 	 * with the specified CSS classes for the parent buttons and child buttons.
 	 * @param string $top_class The CSS class for the top/parent buttons of your menu
 	 * @param string $sub_class The CSS class for the sub/child buttons of your menu
 	 * @return string A HTML compatible script tag with the JS code.
 	 */
-	public function createMenuScript($top_class, $sub_class) {
+	public function createDropDownMenu($top_class, $sub_class) {
 		return "<script type=\"text/javascript\"> 
 					$(document).ready(function(){
 						$(\"ul.".$sub_class."\").parent().append(\"<span></span>\"); //Only shows drop down trigger when js is enabled
@@ -68,43 +68,65 @@ class SwiftScript {
 					});
 				</script>\n";
 	}
-	
-	public function createAjaxPostFunction($url, $data, $element_id, $callback) {
-		return "<script type=\"text/javascript\">
-					function " . $callback . "(){
-						var data = { data:\"" . $data . "\" };
-						$.post(\"" . $url . "\", data, function(data,status){
-							if(status==\"success\"){
-								$(\"#" . $element_id . "\").html(data);
-							} else {
-								$(\"#" . $element_id . "\").html(\"Error:\" + xhr.status + \" \" + xhr.statusText);
-							}
-						});
-					}
-				</script>\n";
+
+	public function createAjaxFunction($func_name, $url, $data_ids, $method = "get", $load_id) {
+		$script .= '<script type="text/javascript">\n';
+		$script .= '	function ' . $func_name . '() {\n';
+		$script .= '		var data = {\n';
+		$count = count($data_ids);
+		foreach ($data_ids as $key => $value) {
+			$script .= '				"' . $key . '":"' . $value . '"';
+			$cur = $cur + 1;
+			if ($cur < ($count - 1)) {
+				$script .= ',\n';
+			} else {
+				$script .= '		};\n';
+			}
+		}
+		$script .= '		$.' . $method . '("' . $url . '", data, function(data, status, xhr) {\n';
+		$script .= '			if (status == "success") {\n';
+		$script .= '				$("#' . $load_id . '").html(data);\n';
+		$script .= '			} else {\n';
+		$script .= '				console.log("Error: " + xhr.status + " " + xhr.statusText);\n';
+		$script .= '			}\n';
+		$script .= '		});\n';
+		$script .= '	}\n';
+		$script .= '</script>\n';
+		return $script;
 	}
 	
-	public function createAjaxGetFunction($url, $data, $element_id, $callback) {
-		return "<script type=\"text/javascript\">
-					function " . $callback . "(){
-						var data = { data:\"" . $data . "\" };
-						$.get(\"" . $url . "\", data, function(data,status){
-							if(status==\"success\"){
-								$(\"#" . $element_id . "\").html(data);
-							} else {
-								$(\"#" . $element_id . "\").html(\"Error:\" + xhr.status + \" \" + xhr.statusText);
-							}
-						});
-					}
-				</script>\n";
+	public function createAjaxPostFunction($func_name, $url, $data_ids, $load_id) {
+		return $this->createAjaxFunction($func_name, $url, $data_ids, 'post', $load_id);
 	}
 	
-	public function createEventHook($element_id, $event, $callback) {
-		return "<script type=\"text/javascript\">
+	public function createAjaxGetFunction($func_name, $url, $data_ids, $load_id) {
+		return $this->createAjaxFunction($func_name, $url, $data_ids, 'get', $load_id);
+	}
+	
+	public function createEventHook($id, $event, $func_name) {
+		return '<script type="text/javascript">
 					$(document).ready(function(){
-						$(\"#" . $element_id . "\")." . $event . "(" . $callback . ");
+						$("#' . $id . '").' . $event . '(' . $func_name . ');
 					});
-				</script>\n";
+				</script>\n';
+	}
+	
+	public function createIntervalHook($delay, $func_name, $interval_var) {
+		return '<script type="text/javascript">
+					$(document).ready(function(){
+						var ' . $interval_var . ' = setInterval(function(){
+							' . $func_name . '();
+						}, ' . $delay . ');
+					});
+				</script>';
+	}
+	
+	public function createAlertFunction($func_name, $msg) {
+		return '<script type="text/javascript">
+					function ' . $func_name . '() {
+						alert("' . $msg . '");
+					}
+				</script>';
 	}
 	
 }

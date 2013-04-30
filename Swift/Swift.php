@@ -202,11 +202,11 @@ class Swift {
 	}
 		
 	/**
-	 * Creates and returns a new SwiftScript object.s
-	 * @return SwiftScript A SwiftScript object
+	 * Creates and returns a new SwiftJQuery object.
+	 * @return SwiftJQuery A SwiftJQuery object
 	 */
-	public function createScript() {
-		return new SwiftScript();
+	public function createJQuery() {
+		return new SwiftJQuery();
 	}
 	
 	/**
