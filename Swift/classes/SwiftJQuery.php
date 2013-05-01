@@ -121,6 +121,32 @@ class SwiftJQuery {
 				</script>';
 	}
 	
+	public function createIntervalClearFunction($func_name, $interval_var) {
+		return '<script type="text/javascript">
+					function ' . $func_name . '() {
+						window.clearInterval(' . $interval_var . ');
+					}
+				</script>';
+	}
+	
+	public function createTimeoutHook($delay, $func_name, $interval_var) {
+		return '<script type="text/javascript">
+					$(document).ready(function(){
+						var ' . $interval_var . ' = setTimeout(function(){
+							' . $func_name . '();
+						}, ' . $delay . ');
+					});
+				</script>';
+	}
+	
+	public function createTimeoutClearFunction($func_name, $interval_var) {
+		return '<script type="text/javascript">
+					function ' . $func_name . '() {
+						window.clearTimeout(' . $interval_var . ');
+					}
+				</script>';
+	}
+	
 	public function createAlertFunction($func_name, $msg) {
 		return '<script type="text/javascript">
 					function ' . $func_name . '() {
