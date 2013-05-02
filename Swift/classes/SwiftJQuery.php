@@ -55,26 +55,58 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JS code.
 	 */
 	public function createDropDownMenu($top_class, $sub_class) {
-		return "<script type=\"text/javascript\"> 
-					$(document).ready(function(){
-						$(\"ul.".$sub_class."\").parent().append(\"<span></span>\"); //Only shows drop down trigger when js is enabled
-						$(\"ul.".$top_class." li a\").hover(function() { //When trigger is clicked...
-							//Following events are applied to the subnav itself (moving subnav up and down)
-							$(this).parent().find(\"ul.".$sub_class."\").slideDown('fast').show(); //Drop down the subnav on click
-							$(this).parent().hover(function() {}, function(){
-								$(this).parent().find(\"ul.".$sub_class."\").slideUp('fast'); //When the mouse hovers out, move it back up
-							});
-						});
-					});
-				</script>\n";
+		$script .= "<script type=\"text/javascript\">\n";
+		$script .= "	$(document).ready(function(){\n";
+		$script .= "		$(\"ul.".$sub_class."\").parent().append(\"<span></span>\"); //Only shows drop down trigger when js is enabled\n";
+		$script .= "		$(\"ul.".$top_class." li a\").hover(function() { //When trigger is clicked...\n";
+		$script .= "			//Following events are applied to the subnav itself (moving subnav up and down)\n";
+		$script .= "			$(this).parent().find(\"ul.".$sub_class."\").slideDown('fast').show(); //Drop down the subnav on click\n";
+		$script .= "			$(this).parent().hover(function() {}, function(){\n";
+		$script .= "				$(this).parent().find(\"ul.".$sub_class."\").slideUp('fast'); //When the mouse hovers out, move it back up\n";
+		$script .= "			});\n";
+		$script .= "		});\n";
+		$script .= "	});\n";
+		$script .= "</script>\n";
+		return "\n" . $script . "\n";
 	}
 
-	public function createAjaxFunction($func_name, $url, $method = "get", $ids_with_data, $id_to_set) {
+	public function createAjaxCallback($func_name, $id, $action = 'html') {
+		$script .= "<script type=\"text/javascript\">\n";
+		$script .= "	function " . $func_name . "(data, status, xhr) {\n";
+		$script .= "		if (status == \"success\") {\n";
+		if ($action == 'hide' || $action == 'show' || $action == 'toggle' ||
+			$action == 'fadein' || $action == 'fadeout' || $action == 'fadetoggle' ||
+			$action == 'slidedown' || $action == 'slideup' || $action == 'slidetoggle' ||
+			$action == 'stop' || $action == 'remove' || $action == 'empty') {
+			$script .= "			$(\"#" . $id . "\").();\n";
+		} else  {
+			$script .= "			$(\"#" . $id . "\")." . $action . "(data);\n";
+		}
+		$script .= "		} else {\n";
+		$script .= "			console.log(\"Error: \" + xhr.status + \" \" + xhr.statusText);\n";
+		$script .= "		}\n";
+		$script .= "	}\n";
+		$script .= "</script>\n";
+		return "\n" . $script . "\n";
+	}
+	
+	public function createChainFunction($func_name, $func_array) {
+		$script .= "<script type=\"text/javascript\">\n";
+		$script .= "	function " . $func_name . "() {\n";
+		for ($i = 0; $i < count($data_ids); $i++) {
+		$script .= "		" . $func_arr[$i] . "();\n";
+		}
+		$script .= "	}\n";
+		$script .= "</script>\n";
+		return "\n" . $script . "\n";
+	}
+	
+	public function createAjaxFunction($func_name, $url, $method = "get", $data_ids, $callback) {
 		$script .= "<script type=\"text/javascript\">\n";
 		$script .= "	function " . $func_name . "() {\n";
 		$script .= "		var data = {\n";
-		$count = count($ids_with_data);
-		foreach ($ids_with_data as $key => $value) {
+		$count = count($data_ids);
+		foreach ($data_ids as $key => $value) {
 			$script .= "				\"" . $key . "\":\"" . $value . "\"";
 			$cur = $cur + 1;
 			if ($cur < ($count - 1)) {
@@ -83,24 +115,18 @@ class SwiftJQuery {
 				$script .= "		};\n";
 			}
 		}
-		$script .= "		$." . $method . "(\"" . $url . "\", data, function(data, status, xhr) {\n";
-		$script .= "			if (status == \"success\") {\n";
-		$script .= "				$(\"#" . $id_to_set . "\").html(data);\n";
-		$script .= "			} else {\n";
-		$script .= "				console.log(\"Error: \" + xhr.status + \" \" + xhr.statusText);\n";
-		$script .= "			}\n";
-		$script .= "		});\n";
+		$script .= "		$." . $method . "(\"" . $url . "\", data, " . $callback . ");\n";
 		$script .= "	}\n";
 		$script .= "</script>\n";
 		return "\n" . $script . "\n";
 	}
 	
-	public function createAjaxPostFunction($func_name, $url, $ids_with_data, $id_to_set) {
-		return $this->createAjaxFunction($func_name, $url, $ids_with_data, 'post', $id_to_set);
+	public function createAjaxPostFunction($func_name, $url, $data_ids, $callback) {
+		return $this->createAjaxFunction($func_name, $url, 'post', $data_ids, $callback);
 	}
 	
-	public function createAjaxGetFunction($func_name, $url, $ids_with_data, $id_to_set) {
-		return $this->createAjaxFunction($func_name, $url, $ids_with_data, 'get', $id_to_set);
+	public function createAjaxGetFunction($func_name, $url, $data_ids, $callback) {
+		return $this->createAjaxFunction($func_name, $url, 'get', $data_ids, $callback);
 	}
 	
 	public function createEventHook($id, $event, $callback) {
