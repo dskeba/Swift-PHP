@@ -70,7 +70,7 @@ class SwiftJQuery {
 		return "\n" . $script . "\n";
 	}
 
-	public function createAjaxCallback($func_name, $id, $action = 'html') {
+	public function createAjaxCallback($func_name, $id, $action = 'html', $callback = null) {
 		$script .= "<script type=\"text/javascript\">\n";
 		$script .= "	function " . $func_name . "(data, status, xhr) {\n";
 		$script .= "		if (status == \"success\") {\n";
@@ -85,6 +85,9 @@ class SwiftJQuery {
 		$script .= "		} else {\n";
 		$script .= "			console.log(\"Error: \" + xhr.status + \" \" + xhr.statusText);\n";
 		$script .= "		}\n";
+		if ($callback != null) {
+			$script .= "		" . $callback . "();\n";
+		}
 		$script .= "	}\n";
 		$script .= "</script>\n";
 		return "\n" . $script . "\n";
@@ -106,16 +109,17 @@ class SwiftJQuery {
 		$script .= "	function " . $func_name . "() {\n";
 		$script .= "		var data = {\n";
 		$count = count($data_ids);
+		$cur = 0;
 		foreach ($data_ids as $key => $value) {
-			$script .= "				\"" . $key . "\":\"" . $value . "\"";
-			$cur = $cur + 1;
-			if ($cur < ($count - 1)) {
+			$script .= "			\"" . $value . "\": $(\"#" . $value . "\").val()";
+			$cur++;
+			if ($cur < ($count)) {
 				$script .= ",\n";
 			} else {
-				$script .= "		};\n";
+				$script .= "\n		};\n";
 			}
 		}
-		$script .= "		$." . $method . "(\"" . $url . "\", data, " . $callback . ");\n";
+		$script .= "		$." . strtolower($method) . "(\"" . $url . "\", data, " . $callback . ");\n";
 		$script .= "	}\n";
 		$script .= "</script>\n";
 		return "\n" . $script . "\n";
