@@ -248,15 +248,19 @@ class SwiftHtml {
 	 * Creates and returns an HTML input tag with the provided attributes.
 	 * @param string $type The HTML input type. (Default: text)
 	 * @param string $name The name attribute. (Optional)
+	 * @param string $id The ID attribute. (Optional)
 	 * @param string $value The value attribute. (Optional)
 	 * @param Integer $min The min attribute. (Optional)
 	 * @param Integer $max The max attribute. (Optional)
 	 * @return string A HTML compatible input tag.
 	 */
-	public function createInputTag($type = 'text', $name = null, $value = null, $min = null, $max = null) {
+	public function createInputTag($type = 'text', $name = null, $id = null, $value = null, $min = null, $max = null) {
 		$input_tag = "<input type=\"" . $type . "\"";
 		if ($name) {
 			$input_tag .= " name=\"" . $name . "\"";
+		}
+		if ($id) {
+			$input_tag .= " id=\"" . $id . "\"";
 		}
 		if ($value) {
 			$input_tag .= " value=\"" . $value . "\"";
@@ -269,6 +273,89 @@ class SwiftHtml {
 		}
 		$input_tag .= " />\n";
 		return $input_tag;
+	}
+	
+	/**
+	 * Creates and returns an HTML textarea tag with the provided attributes.
+	 * @param string $name The name attribute. (Optional)
+	 * @param string $id The ID attribute. (Optional)
+	 * @param string $value The value of the textarea. (Optional)
+	 * @return string A HTML compatible textarea tag.
+	 */
+	public function createTextAreaTag($name = null, $id = null, $value = null) {
+		$textarea_tag = "<textarea ";
+		if ($name) {
+			$textarea_tag .= " name=\"" . $name . "\"";
+		}
+		if ($id) {
+			$textarea_tag .= " id=\"" . $id . "\"";
+		}
+		$textarea_tag .= ">";
+		if ($value) {
+			$textarea_tag .= $value;
+		}
+		$textarea_tag .= "</textarea>\n";
+		return $textarea_tag;
+	}
+	
+	/**
+	 * Creates and returns an HTML select tag with the provided options and attributes.
+	 * @param array $option_array An array, where array key is the option value and array value is the option label.
+	 * @param string $name The name attribute. (Optional)
+	 * @param string $id The ID attribute. (Optional)
+	 * @param string $value The value of the textarea. (Optional)
+	 * @return string A HTML compatible select tag.
+	 */
+	public function createSelectTag($option_array = null, $name = null, $id = null) {
+		if (!is_array($option_array)) {
+			return false;
+		}
+		$select_tag = "<select ";
+		if ($name) {
+			$select_tag .= " name=\"" . $name . "\"";
+		}
+		if ($id) {
+			$select_tag .= " id=\"" . $id . "\"";
+		}
+		$select_tag .= ">\n";
+		$first_option = true;
+		foreach ($option_array as $key => $value) {
+			if ($first_option) {
+				$select_tag .= $this->createOptionTag($key, $key, $value, true);
+				$first_option = false;
+			} else {
+				$select_tag .= $this->createOptionTag($key, $key, $value, false);
+			}
+		}
+		$select_tag .= "</select>\n";
+		return $select_tag;
+	}
+	
+	/**
+	 * Creates and returns an HTML option tag with the provided attributes.
+	 * @param string $name The name attribute. (Optional)
+	 * @param string $id The ID attribute. (Optional)
+	 * @param string $value The value of the textarea. (Optional)
+	 * @param string $value Whether this value should be selected. Default = false (Optional)
+	 * @return string A HTML compatible option tag.
+	 */
+	public function createOptionTag($name = null, $id = null, $value = null, $selected = false) {
+		$option_tag = "<option ";
+		if ($name) {
+			$option_tag .= " name=\"" . $name . "\"";
+		}
+		if ($id) {
+			$option_tag .= " id=\"" . $id . "\"";
+		}
+		if ($selected) {
+			$option_tag .= " selected=\"selected\"";
+		}
+		$option_tag .= ">";
+		if ($value) {
+			$option_tag .= $value;
+		}
+		$option_tag .= "</option>\n";
+		return $option_tag;
 	}
 	
 	/**

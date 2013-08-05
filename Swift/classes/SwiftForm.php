@@ -50,24 +50,94 @@ class SwiftForm {
 	public function __construct() {}
 	
 	/**
-	 * Creates and adds a field with the provided attributes to the SwiftForm.
-	 * @param string $input_type The HTML input type. (Default: text)
+	 * Creates and adds a input field with the provided attributes to the SwiftForm.
+	 * @param string $type The HTML input type. (Default: text)
 	 * @param string $name The name attribute. (Optional)
+	 * @param string $id The ID attribute. (Optional)
 	 * @param string $value The value attribute. (Optional)
 	 * @param String $label A label for the input field. (Optional)
+	 * @param String $label_valign The vertical-align css style for the label. Default = top (Optional)
 	 * @return boolean True on success. Otherwise False.
 	 */
-	public function addField($input_type = 'text', $name = null, $value = null, $label = null) {
+	public function addInputField($type = 'text', $name = null, $id = null, $value = null, $label = null, $label_valign = "top") {
 		$swift = Swift::getInstance();
 		$swift_html = $swift->createHtml();
 		if ($label) {
-			if ($name) {
-				$field_data = "<label for=\"" . $name . "\">" . $label . "</label>\n";
+			if ($label_valign) {
+				$valign_out = " style=\"vertical-align:" . $label_valign . ";\" ";
+			}
+			if ($id) {
+				$field_data = "<label " . $valign_out . "for=\"" . $id . "\">" . $label . "</label>\n";
 			} else {
-				$field_data = "<label>" . $label . "</label>\n";
+				$field_data = "<label" . $valign_out . ">" . $label . "</label>\n";
 			}
 		}
-		$field_data .= $swift_html->createInputTag($type, $name, $value);
+		$field_data .= $swift_html->createInputTag($type, $name, $id, $value);
+		if ($field_data) {
+			$this->m_fields[count($this->m_fields)] = $field_data;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Creates and adds a textarea field with the provided attributes to the SwiftForm.
+	 * @param string $name The name attribute. (Optional)
+	 * @param string $id The ID attribute. (Optional)
+	 * @param string $value The value of the textarea. (Optional)
+	 * @param String $label A label for the textarea field. (Optional)
+	 * @param String $label_valign The vertical-align css style for the label. Default = top (Optional)
+	 * @return boolean True on success. Otherwise False.
+	 */
+	public function addTextAreaField($name = null, $id = null, $value = null, $label = null, $label_valign = "top") {
+		$swift = Swift::getInstance();
+		$swift_html = $swift->createHtml();
+		if ($label) {
+			if ($label_valign) {
+				$valign_out = " style=\"vertical-align:" . $label_valign . ";\" ";
+			}
+			if ($id) {
+				$field_data = "<label " . $valign_out . "for=\"" . $id . "\">" . $label . "</label>\n";
+			} else {
+				$field_data = "<label" . $valign_out . ">" . $label . "</label>\n";
+			}
+		}
+		$field_data .= $swift_html->createTextAreaTag($name, $id, $value);
+		if ($field_data) {
+			$this->m_fields[count($this->m_fields)] = $field_data;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Creates and adds a select field with the provided options and attributes to the SwiftForm.
+	 * @param array $option_array An array, where array key is the option value and array value is the option label.
+	 * @param string $name The name attribute. (Optional)
+	 * @param string $id The ID attribute. (Optional)
+	 * @param String $label A label for the select field. (Optional)
+	 * @param String $label_valign The vertical-align css style for the label. Default = top (Optional)
+	 * @return boolean True on success. Otherwise False.
+	 */
+	public function addSelectField($option_array = null, $name = null, $id = null, $label = null, $label_valign = "top") {
+		$swift = Swift::getInstance();
+		$swift_html = $swift->createHtml();
+		if (!is_array($option_array)) {
+			return false;
+		}
+		if ($label) {
+			if ($label_valign) {
+				$valign_out = " style=\"vertical-align:" . $label_valign . ";\" ";
+			}
+			if ($id) {
+				$field_data = "<label " . $valign_out . "for=\"" . $id . "\">" . $label . "</label>\n";
+			} else {
+				$field_data = "<label" . $valign_out . ">" . $label . "</label>\n";
+			}
+		}
+		$field_data .= $swift_html->createSelectTag($option_array, $name, $id);
 		if ($field_data) {
 			$this->m_fields[count($this->m_fields)] = $field_data;
 			return true;
@@ -79,12 +149,16 @@ class SwiftForm {
 	/**
 	 * Outputs the HTML form onto the page.
 	 */
-	public function renderForm() {
-		echo "<form>\n";
+	public function renderForm($field_seperator = null) {
+		$form_out .= "<form>\n";
 		for ($i = 0; $i < count($this->m_fields); $i++) {
-			echo $this->m_fields[$i];
+			$form_out .= $this->m_fields[$i];
+			if ($field_seperator && $i < (count($this->m_fields) - 1)) {
+				$form_out .= $field_seperator;
+			}
 		}
-		echo "</form>\n";
+		$form_out .= "</form>\n";
+		echo $form_out;
 	}
 	
 }
