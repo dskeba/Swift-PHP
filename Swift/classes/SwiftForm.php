@@ -113,6 +113,41 @@ class SwiftForm {
 	}
 	
 	/**
+	 * Creates and adds a field with the provided radio buttons and attributes to the SwiftForm.
+	 * @param array $radio_array An array, where array key is the radio button value and array value is the radio button label.
+	 * @param string $name The name attribute. (Optional)
+	 * @param string $id The ID attribute. (Optional)
+	 * @param String $label A label for the radio button field. (Optional)
+	 * @param String $label_valign The vertical-align css style for the label. Default = top (Optional)
+	 * @return boolean True on success. Otherwise False.
+	 */
+	public function addRadioField($radio_array = null, $name = null, $id = null, $label = null, $label_valign = "top") {
+		$swift = Swift::getInstance();
+		$swift_html = $swift->createHtml();
+		if (!is_array($radio_array)) {
+			return false;
+		}
+		if ($label) {
+			if ($label_valign) {
+				$valign_out = " style=\"vertical-align:" . $label_valign . ";\" ";
+			}
+			$field_data = "<label" . $valign_out . ">" . $label . "</label>\n";
+		}
+		$i = 0;
+		foreach ($radio_array as $key => $value) {
+			$field_data .= $swift_html->createInputTag("radio", $name, $id . '_' . $i, $key);
+			$field_data .= "<label for=\"" . $id . '_' . $i . "\">" . $value . "</label>\n";
+			$i++;
+		}
+		if ($field_data) {
+			$this->m_fields[count($this->m_fields)] = $field_data;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
 	 * Creates and adds a select field with the provided options and attributes to the SwiftForm.
 	 * @param array $option_array An array, where array key is the option value and array value is the option label.
 	 * @param string $name The name attribute. (Optional)
