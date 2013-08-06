@@ -113,15 +113,15 @@ class SwiftForm {
 	}
 	
 	/**
-	 * Creates and adds a field with the provided radio buttons and attributes to the SwiftForm.
+	 * Creates and adds a field with the provided group of radio buttons and attributes to the SwiftForm.
 	 * @param array $radio_array An array, where array key is the radio button value and array value is the radio button label.
 	 * @param string $name The name attribute. (Optional)
-	 * @param string $id The ID attribute. (Optional)
+	 * @param string $id The base ID. Will be appended by the count of radio buttons e.g. id_0, id_1, id_2 (Optional)
 	 * @param String $label A label for the radio button field. (Optional)
 	 * @param String $label_valign The vertical-align css style for the label. Default = top (Optional)
 	 * @return boolean True on success. Otherwise False.
 	 */
-	public function addRadioField($radio_array = null, $name = null, $id = null, $label = null, $label_valign = "top") {
+	public function addRadioGroupField($radio_array = null, $name = null, $id = null, $label = null, $label_valign = "top") {
 		$swift = Swift::getInstance();
 		$swift_html = $swift->createHtml();
 		if (!is_array($radio_array)) {
