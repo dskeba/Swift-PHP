@@ -252,9 +252,10 @@ class SwiftHtml {
 	 * @param string $value The value attribute. (Optional)
 	 * @param Integer $min The min attribute. (Optional)
 	 * @param Integer $max The max attribute. (Optional)
+	 * @param Integer $checked The checked attribute. (Optional)
 	 * @return string A HTML compatible input tag.
 	 */
-	public function createInputTag($type = 'text', $name = null, $id = null, $value = null, $min = null, $max = null) {
+	public function createInputTag($type = 'text', $name = null, $id = null, $value = null, $min = null, $max = null, $checked = false) {
 		$input_tag = "<input type=\"" . $type . "\"";
 		if ($name) {
 			$input_tag .= " name=\"" . $name . "\"";
@@ -270,6 +271,9 @@ class SwiftHtml {
 		}
 		if ($max) {
 			$input_tag .= " max=\"" . $max . "\"";
+		}
+		if ($checked) {
+			$input_tag .= " checked=\"checked\"";
 		}
 		$input_tag .= " />\n";
 		return $input_tag;
@@ -304,9 +308,10 @@ class SwiftHtml {
 	 * @param string $name The name attribute. (Optional)
 	 * @param string $id The ID attribute. (Optional)
 	 * @param string $value The value of the textarea. (Optional)
+	 * @param Integer $selected_option The index of the $option_array to preset as selected. (Optional)
 	 * @return string A HTML compatible select tag.
 	 */
-	public function createSelectTag($option_array = null, $name = null, $id = null) {
+	public function createSelectTag($option_array = null, $name = null, $id = null, $selected_option = -1) {
 		if (!is_array($option_array)) {
 			return false;
 		}
@@ -318,9 +323,8 @@ class SwiftHtml {
 			$select_tag .= " id=\"" . $id . "\"";
 		}
 		$select_tag .= ">\n";
-		$first_option = true;
 		foreach ($option_array as $key => $value) {
-			if ($first_option) {
+			if ($selected_option == $i++) {
 				$select_tag .= $this->createOptionTag($key, $key, $value, true);
 				$first_option = false;
 			} else {

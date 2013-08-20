@@ -119,14 +119,15 @@ class SwiftForm {
 	 * @param string $id The base ID. Will be appended by the count of radio buttons e.g. id_0, id_1, id_2 (Optional)
 	 * @param String $label A label for the radio button field. (Optional)
 	 * @param String $label_valign The vertical-align css style for the label. Default = top (Optional)
+	 * @param Integer $checked_option The index of the $option_array to preset as checked. (Optional)
 	 * @return boolean True on success. Otherwise False.
 	 */
-	public function addRadioGroupField($radio_array = null, $name = null, $id = null, $label = null, $label_valign = "top") {
-		$swift = Swift::getInstance();
-		$swift_html = $swift->createHtml();
+	public function addRadioGroupField($radio_array = null, $name = null, $id = null, $label = null, $label_valign = "top", $checked_option = -1) {
 		if (!is_array($radio_array)) {
 			return false;
 		}
+		$swift = Swift::getInstance();
+		$swift_html = $swift->createHtml();
 		if ($label) {
 			if ($label_valign) {
 				$valign_out = " style=\"vertical-align:" . $label_valign . ";\" ";
@@ -135,7 +136,11 @@ class SwiftForm {
 		}
 		$i = 0;
 		foreach ($radio_array as $key => $value) {
-			$field_data .= $swift_html->createInputTag("radio", $name, $id . '_' . $i, $key);
+			if ($i == $checked_option) {
+				$field_data .= $swift_html->createInputTag("radio", $name, $id . '_' . $i, $key, null, null, true);
+			} else {
+				$field_data .= $swift_html->createInputTag("radio", $name, $id . '_' . $i, $key);
+			}
 			$field_data .= "<label for=\"" . $id . '_' . $i . "\">" . $value . "</label>\n";
 			$i++;
 		}
@@ -154,14 +159,15 @@ class SwiftForm {
 	 * @param string $id The ID attribute. (Optional)
 	 * @param String $label A label for the select field. (Optional)
 	 * @param String $label_valign The vertical-align css style for the label. Default = top (Optional)
+	 * @param Integer $selected_option The index of the $option_array to preset as selected. (Optional)
 	 * @return boolean True on success. Otherwise False.
 	 */
-	public function addSelectField($option_array = null, $name = null, $id = null, $label = null, $label_valign = "top") {
-		$swift = Swift::getInstance();
-		$swift_html = $swift->createHtml();
+	public function addSelectField($option_array = null, $name = null, $id = null, $label = null, $label_valign = "top", $selected_option = -1) {
 		if (!is_array($option_array)) {
 			return false;
 		}
+		$swift = Swift::getInstance();
+		$swift_html = $swift->createHtml();
 		if ($label) {
 			if ($label_valign) {
 				$valign_out = " style=\"vertical-align:" . $label_valign . ";\" ";
@@ -172,7 +178,7 @@ class SwiftForm {
 				$field_data = "<label" . $valign_out . ">" . $label . "</label>\n";
 			}
 		}
-		$field_data .= $swift_html->createSelectTag($option_array, $name, $id);
+		$field_data .= $swift_html->createSelectTag($option_array, $name, $id, $selected_option);
 		if ($field_data) {
 			$this->m_fields[count($this->m_fields)] = $field_data;
 			return true;
