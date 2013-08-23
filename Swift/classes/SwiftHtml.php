@@ -250,12 +250,10 @@ class SwiftHtml {
 	 * @param string $name The name attribute. (Optional)
 	 * @param string $id The ID attribute. (Optional)
 	 * @param string $value The value attribute. (Optional)
-	 * @param Integer $min The min attribute. (Optional)
-	 * @param Integer $max The max attribute. (Optional)
-	 * @param Integer $checked The checked attribute. (Optional)
+	 * @param array $attribute_array An array of attributes for the HTML input tag, where the key is the name and the value is the value. (Optional)
 	 * @return string A HTML compatible input tag.
 	 */
-	public function createInputTag($type = 'text', $name = null, $id = null, $value = null, $min = null, $max = null, $checked = false) {
+	public function createInputTag($type = 'text', $name = null, $id = null, $value = null, $attribute_array = null) {
 		$input_tag = "<input type=\"" . $type . "\"";
 		if ($name) {
 			$input_tag .= " name=\"" . $name . "\"";
@@ -274,6 +272,11 @@ class SwiftHtml {
 		}
 		if ($checked) {
 			$input_tag .= " checked=\"checked\"";
+		}
+		if (is_array($attribute_array)) {
+			foreach ($attribute_array as $attr => $val) {
+				$input_tag .= " " . $attr . "=\"" . $val . "\"";
+			}
 		}
 		$input_tag .= " />\n";
 		return $input_tag;

@@ -57,9 +57,10 @@ class SwiftForm {
 	 * @param string $value The value attribute. (Optional)
 	 * @param String $label A label for the input field. (Optional)
 	 * @param String $label_valign The vertical-align css style for the label. Default = top (Optional)
+	 * @param array $attribute_array An array of attributes for the HTML input tag, where the key is the name and the value is the value. (Optional)
 	 * @return boolean True on success. Otherwise False.
 	 */
-	public function addInputField($type = 'text', $name = null, $id = null, $value = null, $label = null, $label_valign = "top") {
+	public function addInputField($type = 'text', $name = null, $id = null, $value = null, $label = null, $label_valign = "top", $attribute_array = null) {
 		$swift = Swift::getInstance();
 		$swift_html = $swift->createHtml();
 		if ($label) {
@@ -72,7 +73,7 @@ class SwiftForm {
 				$field_data = "<label" . $valign_out . ">" . $label . "</label>\n";
 			}
 		}
-		$field_data .= $swift_html->createInputTag($type, $name, $id, $value);
+		$field_data .= $swift_html->createInputTag($type, $name, $id, $value, $attribute_array);
 		if ($field_data) {
 			$this->m_fields[count($this->m_fields)] = $field_data;
 			return true;
@@ -137,7 +138,7 @@ class SwiftForm {
 		$i = 0;
 		foreach ($radio_array as $key => $value) {
 			if ($i == $checked_option) {
-				$field_data .= $swift_html->createInputTag("radio", $name, $id . '_' . $i, $key, null, null, true);
+				$field_data .= $swift_html->createInputTag("radio", $name, $id . '_' . $i, $key, array('checked' => 'checked'));
 			} else {
 				$field_data .= $swift_html->createInputTag("radio", $name, $id . '_' . $i, $key);
 			}
