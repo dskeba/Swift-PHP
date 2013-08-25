@@ -42,6 +42,7 @@ class SwiftForm {
 
 	// private properties
 	private $m_fields = null;
+	private $m_labels = null;
 	
 	/**
 	 * Creates a new SwiftForm object.
@@ -68,14 +69,15 @@ class SwiftForm {
 				$valign_out = " style=\"vertical-align:" . $label_valign . ";\" ";
 			}
 			if ($id) {
-				$field_data = "<label " . $valign_out . "for=\"" . $id . "\">" . $label . "</label>\n";
+				$label_data = "<label " . $valign_out . "for=\"" . $id . "\">" . $label . "</label>\n";
 			} else {
-				$field_data = "<label" . $valign_out . ">" . $label . "</label>\n";
+				$label_data = "<label" . $valign_out . ">" . $label . "</label>\n";
 			}
 		}
-		$field_data .= $swift_html->createInputTag($type, $name, $id, $value, $attribute_array);
+		$field_data = $swift_html->createInputTag($type, $name, $id, $value, $attribute_array);
 		if ($field_data) {
 			$this->m_fields[count($this->m_fields)] = $field_data;
+			$this->m_labels[count($this->m_labels)] = $label_data;
 			return true;
 		} else {
 			return false;
@@ -99,14 +101,15 @@ class SwiftForm {
 				$valign_out = " style=\"vertical-align:" . $label_valign . ";\" ";
 			}
 			if ($id) {
-				$field_data = "<label " . $valign_out . "for=\"" . $id . "\">" . $label . "</label>\n";
+				$label_data = "<label " . $valign_out . "for=\"" . $id . "\">" . $label . "</label>\n";
 			} else {
-				$field_data = "<label" . $valign_out . ">" . $label . "</label>\n";
+				$label_data = "<label" . $valign_out . ">" . $label . "</label>\n";
 			}
 		}
-		$field_data .= $swift_html->createTextAreaTag($name, $id, $value);
+		$field_data = $swift_html->createTextAreaTag($name, $id, $value);
 		if ($field_data) {
 			$this->m_fields[count($this->m_fields)] = $field_data;
+			$this->m_labels[count($this->m_labels)] = $label_data;
 			return true;
 		} else {
 			return false;
@@ -133,7 +136,7 @@ class SwiftForm {
 			if ($label_valign) {
 				$valign_out = " style=\"vertical-align:" . $label_valign . ";\" ";
 			}
-			$field_data = "<label" . $valign_out . ">" . $label . "</label>\n";
+			$label_data = "<label" . $valign_out . ">" . $label . "</label>\n";
 		}
 		$i = 0;
 		foreach ($radio_array as $key => $value) {
@@ -147,6 +150,7 @@ class SwiftForm {
 		}
 		if ($field_data) {
 			$this->m_fields[count($this->m_fields)] = $field_data;
+			$this->m_labels[count($this->m_labels)] = $label_data;
 			return true;
 		} else {
 			return false;
@@ -174,14 +178,15 @@ class SwiftForm {
 				$valign_out = " style=\"vertical-align:" . $label_valign . ";\" ";
 			}
 			if ($id) {
-				$field_data = "<label " . $valign_out . "for=\"" . $id . "\">" . $label . "</label>\n";
+				$label_data = "<label " . $valign_out . "for=\"" . $id . "\">" . $label . "</label>\n";
 			} else {
-				$field_data = "<label" . $valign_out . ">" . $label . "</label>\n";
+				$label_data = "<label" . $valign_out . ">" . $label . "</label>\n";
 			}
 		}
-		$field_data .= $swift_html->createSelectTag($option_array, $name, $id, $selected_option);
+		$field_data = $swift_html->createSelectTag($option_array, $name, $id, $selected_option);
 		if ($field_data) {
 			$this->m_fields[count($this->m_fields)] = $field_data;
+			$this->m_labels[count($this->m_labels)] = $label_data;
 			return true;
 		} else {
 			return false;
@@ -189,15 +194,29 @@ class SwiftForm {
 	}
 	
 	/**
-	 * Outputs the HTML form onto the page.
+	 * Outputs the SwiftForm HTML to the page.
+	 * @param string $style The style type for displaying the SwiftForm (table or plain). Default: plain. (Optional)
+	 * @return string The HTML source code for the SwiftForm.
 	 */
-	public function renderForm($field_seperator = null) {
+	public function renderForm($style = "plain") {
 		$form_out .= "<form>\n";
+		if ($style == 'table') {
+			$form_out .= "<table>";
+		}
 		for ($i = 0; $i < count($this->m_fields); $i++) {
-			$form_out .= $this->m_fields[$i];
-			if ($field_seperator && $i < (count($this->m_fields) - 1)) {
-				$form_out .= $field_seperator;
+			if ($style == 'table') {
+				$form_out .= "<tr>";
+				$form_out .= "<td>" . $this->m_labels[$i] . "</td>";
+				$form_out .= "<td>" . $this->m_fields[$i] . "</td>";
+				$form_out .= "</tr>";
+			} else if ($style == 'plain') {
+				$form_out .= $this->m_labels[$i];
+				$form_out .= $this->m_fields[$i];
+				$form_out .= "</br>";
 			}
+		}
+		if ($style == 'table') {
+			$form_out .= "</table>";
 		}
 		$form_out .= "</form>\n";
 		echo $form_out;
