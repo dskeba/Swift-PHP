@@ -43,12 +43,33 @@ class SwiftForm {
 	// private properties
 	private $m_fields = null;
 	private $m_labels = null;
+	private $m_form_name = null;
+	private $m_form_id = null;
+	private $m_form_action = null;
+	private $m_form_method = null;
+	private $m_form_enctype = null;
 	
 	/**
 	 * Creates a new SwiftForm object.
 	 * @return SwiftForm The new SwiftForm object
 	 */
-	public function __construct() {}
+	public function __construct($form_name = null, $form_id = null, $form_action = '/', $form_method = 'get', $form_enctype = null) {
+		if ($form_name) {
+			$this->m_form_name = $form_name;
+		}
+		if ($form_id) {
+			$this->m_form_name = $form_id;
+		}
+		if ($form_action) {
+			$this->m_form_name = $form_action;
+		}
+		if ($form_method) {
+			$this->m_form_name = $form_method;
+		}
+		if ($form_enctype) {
+			$this->m_form_name = $form_enctype;
+		}
+	}
 	
 	/**
 	 * Creates and adds a input field with the provided attributes to the SwiftForm.
@@ -198,10 +219,12 @@ class SwiftForm {
 	 * @param string $style The style type for displaying the SwiftForm (table or plain). Default: plain. (Optional)
 	 * @return string The HTML source code for the SwiftForm.
 	 */
-	public function renderForm($style = "plain") {
+	public function renderForm($style = 'plain') {
 		$form_out .= "<form>\n";
 		if ($style == 'table') {
 			$form_out .= "<table>";
+		} else if ($style == 'list') {
+			$form_out .= "<ul>";
 		}
 		for ($i = 0; $i < count($this->m_fields); $i++) {
 			if ($style == 'table') {
@@ -213,10 +236,14 @@ class SwiftForm {
 				$form_out .= $this->m_labels[$i];
 				$form_out .= $this->m_fields[$i];
 				$form_out .= "</br>";
+			} else if ($style == 'list') {
+				$form_out .= "<li>" . $this->m_labels[$i] . " " . $this->m_fields[$i] . "</li>";
 			}
 		}
 		if ($style == 'table') {
 			$form_out .= "</table>";
+		} else if ($style == 'list') {
+			$form_out .= "</ul>";
 		}
 		$form_out .= "</form>\n";
 		echo $form_out;
