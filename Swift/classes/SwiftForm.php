@@ -51,6 +51,11 @@ class SwiftForm {
 	
 	/**
 	 * Creates a new SwiftForm object.
+	 * @param string $form_name The HTML name attribute for the form. (Optional)
+	 * @param string $form_id The HTML id attribute for the form. (Optional)
+	 * @param string $form_action The HTML action attribute for the form. Default: / (Optional)
+	 * @param string $form_method The HTML method attribute for the form. Default: get (Optional)
+	 * @param string $form_enctype The HTML enctype attribute for the form. (Optional)
 	 * @return SwiftForm The new SwiftForm object
 	 */
 	public function __construct($form_name = null, $form_id = null, $form_action = '/', $form_method = 'get', $form_enctype = null) {
@@ -58,16 +63,16 @@ class SwiftForm {
 			$this->m_form_name = $form_name;
 		}
 		if ($form_id) {
-			$this->m_form_name = $form_id;
+			$this->m_form_id = $form_id;
 		}
 		if ($form_action) {
-			$this->m_form_name = $form_action;
+			$this->m_form_action = $form_action;
 		}
 		if ($form_method) {
-			$this->m_form_name = $form_method;
+			$this->m_form_method = $form_method;
 		}
 		if ($form_enctype) {
-			$this->m_form_name = $form_enctype;
+			$this->m_form_enctype = $form_enctype;
 		}
 	}
 	
@@ -220,7 +225,23 @@ class SwiftForm {
 	 * @return string The HTML source code for the SwiftForm.
 	 */
 	public function renderForm($style = 'plain') {
-		$form_out .= "<form>\n";
+		$form_out .= "<form";
+		if ($this->m_form_name) {
+			$form_out .= " name=\"" . $this->m_form_name . "\"";
+		}
+		if ($this->m_form_id) {
+			$form_out .= " id=\"" . $this->m_form_id . "\"";
+		}
+		if ($this->m_form_action) {
+			$form_out .= " action=\"" . $this->m_form_action . "\"";
+		}
+		if ($this->m_form_method) {
+			$form_out .= " method=\"" . $this->m_form_method . "\"";
+		}
+		if ($this->m_form_enctype) {
+			$form_out .= " enctype=\"" . $this->m_form_enctype . "\"";
+		}
+		$form_out .= ">\n";
 		if ($style == 'table') {
 			$form_out .= "<table>";
 		} else if ($style == 'list') {
