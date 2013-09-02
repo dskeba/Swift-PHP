@@ -95,7 +95,7 @@ class SwiftForm {
 	 * @param string $value The value attribute. (Optional)
 	 * @param String $label A label for the input field. (Optional)
 	 * @param String $label_valign The vertical-align css style for the label. Default = top (Optional)
-	 * @param array $ajax_event Specify the event for this input field to trigger the AJAX call setup for this SwiftForm. (Optional)
+	 * @param array $ajax_event Specify the event for this input field to trigger the AJAX call for this SwiftForm. (Optional)
 	 * @return boolean True on success. Otherwise False.
 	 */
 	public function addInputField($type = 'text', $name = null, $id = null, $value = null, $label = null, $label_valign = "top", $ajax_event = null) {
