@@ -231,6 +231,14 @@ class Swift {
 	public function createForm($form_name = null, $form_id = null, $form_action = '/', $form_method = 'get', $form_enctype = null, $form_container_id = null, $form_ajax = false) {
 		return new SwiftForm($form_name, $form_id, $form_action, $form_method, $form_enctype, $form_container_id, $form_ajax);
 	}
+	
+	/**
+	 * Creates and returns a new SwiftLog object.
+	 * @return SwiftLog A SwiftLog object
+	 */
+	public function createLog() {
+		return new SwiftLog();
+	}
     
 	/**
 	 * Get or set configuration settings for Swift. Provide single parameter,
