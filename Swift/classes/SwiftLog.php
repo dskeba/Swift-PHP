@@ -75,7 +75,7 @@ class SwiftLog {
 	/**
 	 * Logs a debug message with a timestamp to the debug.log file in the default log directory.
 	 * @param string $msg The message to log.
-	 * @param int Returns the number of bytes that were written to the file, or FALSE on failure.
+	 * @return int Returns the number of bytes that were written to the file, or FALSE on failure.
 	 */
 	public function logDebug($msg) {
 		return file_put_contents($this->m_log_debug_file, '[' . date('Y-m-d H:i:s') . '] Debug: ' . $msg . "\r\n", FILE_APPEND | LOCK_EX);
@@ -84,7 +84,7 @@ class SwiftLog {
 	/**
 	 * Logs a info message with a timestamp to the info.log file in the default log directory.
 	 * @param string $msg The message to log.
-	 * @param int Returns the number of bytes that were written to the file, or FALSE on failure.
+	 * @return int Returns the number of bytes that were written to the file, or FALSE on failure.
 	 */
 	public function logInfo($msg) {
 		return file_put_contents($this->m_log_info_file, '[' . date('Y-m-d H:i:s') . '] Info: ' . $msg . "\r\n", FILE_APPEND | LOCK_EX);
@@ -93,7 +93,7 @@ class SwiftLog {
 	/**
 	 * Logs a warning message with a timestamp to the warning.log file in the default log directory.
 	 * @param string $msg The message to log.
-	 * @param int Returns the number of bytes that were written to the file, or FALSE on failure.
+	 * @return int Returns the number of bytes that were written to the file, or FALSE on failure.
 	 */
 	public function logWarning($msg) {
 		return file_put_contents($this->m_log_warning_file, '[' . date('Y-m-d H:i:s') . '] Warning: ' . $msg . "\r\n", FILE_APPEND | LOCK_EX);
@@ -102,7 +102,7 @@ class SwiftLog {
 	/**
 	 * Logs a error message with a timestamp to the error.log file in the default log directory.
 	 * @param string $msg The message to log.
-	 * @param int Returns the number of bytes that were written to the file, or FALSE on failure.
+	 * @return int Returns the number of bytes that were written to the file, or FALSE on failure.
 	 */
 	public function logError($msg) {
 		return file_put_contents($this->m_log_error_file, '[' . date('Y-m-d H:i:s') . '] Error: ' . $msg . "\r\n", FILE_APPEND | LOCK_EX);
@@ -111,7 +111,7 @@ class SwiftLog {
 	/**
 	 * Logs a fatal message with a timestamp to the fatal.log file in the default log directory.
 	 * @param string $msg The message to log.
-	 * @param int Returns the number of bytes that were written to the file, or FALSE on failure.
+	 * @return int Returns the number of bytes that were written to the file, or FALSE on failure.
 	 */
 	public function logFatal($msg) {
 		return file_put_contents($this->m_log_fatal_file, '[' . date('Y-m-d H:i:s') . '] Fatal: ' . $msg . "\r\n", FILE_APPEND | LOCK_EX);
