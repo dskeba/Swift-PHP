@@ -41,12 +41,81 @@
  * @package Swift
  */
 class SwiftLog {
+
+	// private properties
+	private $m_log_dir = null;
+	private $m_log_debug_file = null;
+	private $m_log_info_file = null;
+	private $m_log_warning_file = null;
+	private $m_log_error_file = null;
+	private $m_log_fatal_file = null;
 	
 	/**
 	 * Creates a new SwiftLog object.
+	 * @param string $log_dir The base log directory to store logs in. Default: null
 	 * @return SwiftLog The new SwiftLog object
 	 */
-	public function __construct() {}
+	public function __construct($log_dir = null) {
+		$this->m_log_dir = $log_dir;
+		if ($log_dir) {
+			$this->m_log_debug_file = $this->m_log_dir . '/' . 'debug.log';
+			$this->m_log_info_file = $this->m_log_dir . '/' . 'info.log';
+			$this->m_log_warning_file = $this->m_log_dir . '/' . 'warning.log';
+			$this->m_log_error_file = $this->m_log_dir . '/' . 'error.log';
+			$this->m_log_fatal_file = $this->m_log_dir . '/' . 'fatal.log';
+		} else {
+			$this->m_log_debug_file = $this->m_log_dir . 'debug.log';
+			$this->m_log_info_file = $this->m_log_dir . 'info.log';
+			$this->m_log_warning_file = $this->m_log_dir . 'warning.log';
+			$this->m_log_error_file = $this->m_log_dir . 'error.log';
+			$this->m_log_fatal_file = $this->m_log_dir . 'fatal.log';
+		}
+	}
+
+	/**
+	 * Logs a debug message with a timestamp to the debug.log file in the default log directory.
+	 * @param string $msg The message to log.
+	 * @param int Returns the number of bytes that were written to the file, or FALSE on failure.
+	 */
+	public function logDebug($msg) {
+		return file_put_contents($this->m_log_debug_file, '[' . date('Y-m-d H:i:s') . '] Debug: ' . $msg . "\r\n", FILE_APPEND | LOCK_EX);
+	}
+	
+	/**
+	 * Logs a info message with a timestamp to the info.log file in the default log directory.
+	 * @param string $msg The message to log.
+	 * @param int Returns the number of bytes that were written to the file, or FALSE on failure.
+	 */
+	public function logInfo($msg) {
+		return file_put_contents($this->m_log_info_file, '[' . date('Y-m-d H:i:s') . '] Info: ' . $msg . "\r\n", FILE_APPEND | LOCK_EX);
+	}
+	
+	/**
+	 * Logs a warning message with a timestamp to the warning.log file in the default log directory.
+	 * @param string $msg The message to log.
+	 * @param int Returns the number of bytes that were written to the file, or FALSE on failure.
+	 */
+	public function logWarning($msg) {
+		return file_put_contents($this->m_log_warning_file, '[' . date('Y-m-d H:i:s') . '] Warning: ' . $msg . "\r\n", FILE_APPEND | LOCK_EX);
+	}
+	
+	/**
+	 * Logs a error message with a timestamp to the error.log file in the default log directory.
+	 * @param string $msg The message to log.
+	 * @param int Returns the number of bytes that were written to the file, or FALSE on failure.
+	 */
+	public function logError($msg) {
+		return file_put_contents($this->m_log_error_file, '[' . date('Y-m-d H:i:s') . '] Error: ' . $msg . "\r\n", FILE_APPEND | LOCK_EX);
+	}
+	
+	/**
+	 * Logs a fatal message with a timestamp to the fatal.log file in the default log directory.
+	 * @param string $msg The message to log.
+	 * @param int Returns the number of bytes that were written to the file, or FALSE on failure.
+	 */
+	public function logFatal($msg) {
+		return file_put_contents($this->m_log_fatal_file, '[' . date('Y-m-d H:i:s') . '] Fatal: ' . $msg . "\r\n", FILE_APPEND | LOCK_EX);
+	}
 	
 }
 

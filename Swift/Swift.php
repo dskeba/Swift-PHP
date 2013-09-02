@@ -234,10 +234,11 @@ class Swift {
 	
 	/**
 	 * Creates and returns a new SwiftLog object.
+	 * @param string $log_dir The base log directory to store logs in. Default: null
 	 * @return SwiftLog A SwiftLog object
 	 */
-	public function createLog() {
-		return new SwiftLog();
+	public function createLog($log_dir = null) {
+		return new SwiftLog($log_dir);
 	}
     
 	/**
