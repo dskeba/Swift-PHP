@@ -219,10 +219,17 @@ class Swift {
 	
 	/**
 	 * Creates and returns a new SwiftForm object.
+	 * @param string $form_name The HTML name attribute for the form. (Optional)
+	 * @param string $form_id The HTML id attribute for the form. (Optional)
+	 * @param string $form_action The HTML action attribute for the form. Default: / (Optional)
+	 * @param string $form_method The HTML method attribute for the form. Default: get (Optional)
+	 * @param string $form_enctype The HTML enctype attribute for the form. (Optional)
+	 * @param string $form_container_id The ID of the HTML container for the form. (Optional)
+	 * @param boolean $form_ajax True for AJAX form submit or False for regular submit. Default: false (Optional)
 	 * @return SwiftForm A SwiftForm object
 	 */
-	public function createForm() {
-		return new SwiftForm();
+	public function createForm($form_name = null, $form_id = null, $form_action = '/', $form_method = 'get', $form_enctype = null, $form_container_id = null, $form_ajax = false) {
+		return new SwiftForm($form_name, $form_id, $form_action, $form_method, $form_enctype, $form_container_id, $form_ajax);
 	}
     
 	/**

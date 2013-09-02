@@ -48,6 +48,9 @@ class SwiftForm {
 	private $m_form_action = null;
 	private $m_form_method = null;
 	private $m_form_enctype = null;
+	private $m_form_container = null;
+	private $m_form_ajax = null;
+	private $m_field_ids = null;
 	
 	/**
 	 * Creates a new SwiftForm object.
@@ -56,9 +59,11 @@ class SwiftForm {
 	 * @param string $form_action The HTML action attribute for the form. Default: / (Optional)
 	 * @param string $form_method The HTML method attribute for the form. Default: get (Optional)
 	 * @param string $form_enctype The HTML enctype attribute for the form. (Optional)
+	 * @param string $form_container_id The ID of the HTML container for the form. (Optional)
+	 * @param boolean $form_ajax True for AJAX form submit or False for regular submit. Default: false (Optional)
 	 * @return SwiftForm The new SwiftForm object
 	 */
-	public function __construct($form_name = null, $form_id = null, $form_action = '/', $form_method = 'get', $form_enctype = null) {
+	public function __construct($form_name = null, $form_id = null, $form_action = '/', $form_method = 'get', $form_enctype = null, $form_container_id = null, $form_ajax = false) {
 		if ($form_name) {
 			$this->m_form_name = $form_name;
 		}
@@ -74,6 +79,12 @@ class SwiftForm {
 		if ($form_enctype) {
 			$this->m_form_enctype = $form_enctype;
 		}
+		if ($form_container_id) {
+			$this->m_form_container_id = $form_container_id;
+		}
+		if ($form_ajax) {
+			$this->m_form_ajax = $form_ajax;
+		}
 	}
 	
 	/**
@@ -84,10 +95,10 @@ class SwiftForm {
 	 * @param string $value The value attribute. (Optional)
 	 * @param String $label A label for the input field. (Optional)
 	 * @param String $label_valign The vertical-align css style for the label. Default = top (Optional)
-	 * @param array $attribute_array An array of attributes for the HTML input tag, where the key is the name and the value is the value. (Optional)
+	 * @param array $ajax_event Specify the event for this input field to trigger the AJAX call setup for this SwiftForm. (Optional)
 	 * @return boolean True on success. Otherwise False.
 	 */
-	public function addInputField($type = 'text', $name = null, $id = null, $value = null, $label = null, $label_valign = "top", $attribute_array = null) {
+	public function addInputField($type = 'text', $name = null, $id = null, $value = null, $label = null, $label_valign = "top", $ajax_event = null) {
 		$swift = Swift::getInstance();
 		$swift_html = $swift->createHtml();
 		if ($label) {
@@ -100,10 +111,16 @@ class SwiftForm {
 				$label_data = "<label" . $valign_out . ">" . $label . "</label>\n";
 			}
 		}
+		if ($ajax_event) {
+			$attribute_array[$ajax_event] = 'ajax_' . $this->m_form_id . '();';
+		}
 		$field_data = $swift_html->createInputTag($type, $name, $id, $value, $attribute_array);
 		if ($field_data) {
 			$this->m_fields[count($this->m_fields)] = $field_data;
 			$this->m_labels[count($this->m_labels)] = $label_data;
+			if ($id) {
+				$this->m_field_ids[count($this->m_field_ids)] = $id;
+			}
 			return true;
 		} else {
 			return false;
@@ -136,6 +153,9 @@ class SwiftForm {
 		if ($field_data) {
 			$this->m_fields[count($this->m_fields)] = $field_data;
 			$this->m_labels[count($this->m_labels)] = $label_data;
+			if ($id) {
+				$this->m_field_ids[count($this->m_field_ids)] = $id;
+			}
 			return true;
 		} else {
 			return false;
@@ -177,6 +197,9 @@ class SwiftForm {
 		if ($field_data) {
 			$this->m_fields[count($this->m_fields)] = $field_data;
 			$this->m_labels[count($this->m_labels)] = $label_data;
+			if ($id) {
+				$this->m_field_ids[count($this->m_field_ids)] = $id;
+			}
 			return true;
 		} else {
 			return false;
@@ -213,6 +236,9 @@ class SwiftForm {
 		if ($field_data) {
 			$this->m_fields[count($this->m_fields)] = $field_data;
 			$this->m_labels[count($this->m_labels)] = $label_data;
+			if ($id) {
+				$this->m_field_ids[count($this->m_field_ids)] = $id;
+			}
 			return true;
 		} else {
 			return false;
@@ -221,10 +247,19 @@ class SwiftForm {
 	
 	/**
 	 * Outputs the SwiftForm HTML to the page.
-	 * @param string $style The style type for displaying the SwiftForm (table or plain). Default: plain. (Optional)
+	 * @param string $style The style type for displaying the SwiftForm (plain, list, table). Default: plain. (Optional)
 	 * @return string The HTML source code for the SwiftForm.
 	 */
 	public function renderForm($style = 'plain') {
+		if ($this->m_form_container_id) {
+			$form_out .= "<div id=\"" . $this->m_form_container_id . "\">";
+		}
+		if ($this->m_form_ajax) {
+			$swift = Swift::getInstance();
+			$swift_jq = $swift->createJQuery();
+			$form_out .= $swift_jq->createAjaxCallback('ajax_callback_' . $this->m_form_id, $this->m_form_container_id, 'html');
+			$form_out .= $swift_jq->createAjaxFunction('ajax_' . $this->m_form_id, $this->m_form_action, $this->m_form_method, $this->m_field_ids, 'ajax_callback_' . $this->m_form_id) ;
+		}
 		$form_out .= "<form";
 		if ($this->m_form_name) {
 			$form_out .= " name=\"" . $this->m_form_name . "\"";
@@ -232,7 +267,7 @@ class SwiftForm {
 		if ($this->m_form_id) {
 			$form_out .= " id=\"" . $this->m_form_id . "\"";
 		}
-		if ($this->m_form_action) {
+		if ($this->m_form_action && !$this->m_form_ajax) {
 			$form_out .= " action=\"" . $this->m_form_action . "\"";
 		}
 		if ($this->m_form_method) {
@@ -267,6 +302,9 @@ class SwiftForm {
 			$form_out .= "</ul>";
 		}
 		$form_out .= "</form>\n";
+		if ($this->m_form_container_id) {
+			$form_out .= "</div>";
+		}
 		echo $form_out;
 	}
 	
