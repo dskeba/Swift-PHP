@@ -56,14 +56,14 @@ class SwiftForm {
 	 * Creates a new SwiftForm object.
 	 * @param string $form_name The HTML name attribute for the form. (Optional)
 	 * @param string $form_id The HTML id attribute for the form. (Optional)
-	 * @param string $form_action The HTML action attribute for the form. Default: / (Optional)
+	 * @param string $form_action The HTML action attribute for the form. (Optional)
 	 * @param string $form_method The HTML method attribute for the form. Default: get (Optional)
 	 * @param string $form_enctype The HTML enctype attribute for the form. (Optional)
 	 * @param string $form_container_id The ID of the HTML container for the form. (Optional)
 	 * @param boolean $form_ajax True for AJAX form submit or False for regular submit. Default: false (Optional)
 	 * @return SwiftForm The new SwiftForm object
 	 */
-	public function __construct($form_name = null, $form_id = null, $form_action = '/', $form_method = 'get', $form_enctype = null, $form_container_id = null, $form_ajax = false) {
+	public function __construct($form_name = null, $form_id = null, $form_action = null, $form_method = 'get', $form_enctype = null, $form_container_id = null, $form_ajax = false) {
 		if ($form_name) {
 			$this->m_form_name = $form_name;
 		}
@@ -270,7 +270,7 @@ class SwiftForm {
 		if ($this->m_form_action && !$this->m_form_ajax) {
 			$form_out .= " action=\"" . $this->m_form_action . "\"";
 		}
-		if ($this->m_form_method) {
+		if ($this->m_form_method && !$this->m_form_ajax) {
 			$form_out .= " method=\"" . $this->m_form_method . "\"";
 		}
 		if ($this->m_form_enctype) {
