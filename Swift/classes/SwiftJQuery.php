@@ -111,7 +111,7 @@ class SwiftJQuery {
 		$script .= "<script type=\"text/javascript\">\n";
 		$script .= "	function " . $func_name . "() {\n";
 		for ($i = 0; $i < count($data_ids); $i++) {
-		$script .= "		" . $func_arr[$i] . "();\n";
+			$script .= "		" . $func_arr[$i] . "();\n";
 		}
 		$script .= "	}\n";
 		$script .= "</script>\n";
