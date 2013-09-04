@@ -288,7 +288,7 @@ class SwiftJQuery {
 	}
 	
 	/**
-	 * Creates a JavaScript function hides the $id_to_hide
+	 * Creates a JavaScript function that hides the $id_to_hide
 	 * @param string $func_name The name of the JavaScript function.
 	 * @param string $id_to_hide The ID of the HTML element to hide.
 	 * @param integer $animation_time The number of milliseconds the hide animation should last. Default = 1000
@@ -309,7 +309,7 @@ class SwiftJQuery {
 	}
 	
 	/**
-	 * Creates a JavaScript function shows the $id_to_show
+	 * Creates a JavaScript function that shows the $id_to_show
 	 * @param string $func_name The name of the JavaScript function.
 	 * @param string $id_to_show The ID of the HTML element to show.
 	 * @param integer $animation_time The number of milliseconds the show animation should last. Default = 1000
@@ -323,6 +323,112 @@ class SwiftJQuery {
 			$script .= "		$(\"#" . $id_to_show . "\").show(" . $animation_time . ", " . $callback . ");\n";
 		} else {
 			$script .= "		$(\"#" . $id_to_show . "\").show(" . $animation_time . ");\n";
+		}
+		$script .= "	}\n";
+		$script .= "</script>\n";
+		return "\n" . $script . "\n";
+	}
+	
+	/**
+	 * Creates a JavaScript function that fades out the $id_to_fade
+	 * @param string $func_name The name of the JavaScript function.
+	 * @param string $id_to_fade The ID of the HTML element to fade.
+	 * @param integer $animation_time The number of milliseconds the fade animation should last. Default = 1000
+	 * @param string $callback The name of a JavaScript function to call after fading the element. (Optional)
+	 * @return string A HTML compatible script tag with the JavaScript code.
+	 */
+	public function createFadeOutFunction($func_name, $id_to_fade, $animation_time = 1000, $callback = null) {
+		$script .= "<script type=\"text/javascript\">\n";
+		$script .= "	function " . $func_name . "() {\n";
+		if ($callback) {
+			$script .= "		$(\"#" . $id_to_fade . "\").fadeOut(" . $animation_time . ", " . $callback . ");\n";
+		} else {
+			$script .= "		$(\"#" . $id_to_fade . "\").fadeOut(" . $animation_time . ");\n";
+		}
+		$script .= "	}\n";
+		$script .= "</script>\n";
+		return "\n" . $script . "\n";
+	}
+	
+	/**
+	 * Creates a JavaScript function that fades in the $id_to_fade
+	 * @param string $func_name The name of the JavaScript function.
+	 * @param string $id_to_fade The ID of the HTML element to fade.
+	 * @param integer $animation_time The number of milliseconds the fade animation should last. Default = 1000
+	 * @param string $callback The name of a JavaScript function to call after fading the element. (Optional)
+	 * @return string A HTML compatible script tag with the JavaScript code.
+	 */
+	public function createFadeInFunction($func_name, $id_to_fade, $animation_time = 1000, $callback = null) {
+		$script .= "<script type=\"text/javascript\">\n";
+		$script .= "	function " . $func_name . "() {\n";
+		if ($callback) {
+			$script .= "		$(\"#" . $id_to_fade . "\").fadeIn(" . $animation_time . ", " . $callback . ");\n";
+		} else {
+			$script .= "		$(\"#" . $id_to_fade . "\").fadeIn(" . $animation_time . ");\n";
+		}
+		$script .= "	}\n";
+		$script .= "</script>\n";
+		return "\n" . $script . "\n";
+	}
+	
+	/**
+	 * Creates a JavaScript function that fades the $id_to_fade to the specified opacity.
+	 * @param string $func_name The name of the JavaScript function.
+	 * @param string $id_to_fade The ID of the HTML element to fade.
+	 * @param integer $animation_time The number of milliseconds the fade animation should last. Default = 1000
+	 * @param double $opacity The percentage of opacity the element should fade to. Default = 0.5
+	 * @param string $callback The name of a JavaScript function to call after fading the element. (Optional)
+	 * @return string A HTML compatible script tag with the JavaScript code.
+	 */
+	public function createFadeToFunction($func_name, $id_to_fade, $animation_time = 1000, $opacity = 0.5, $callback = null) {
+		$script .= "<script type=\"text/javascript\">\n";
+		$script .= "	function " . $func_name . "() {\n";
+		if ($callback) {
+			$script .= "		$(\"#" . $id_to_fade . "\").fadeTo(" . $animation_time . ", " . $opacity . ", " . $callback . ");\n";
+		} else {
+			$script .= "		$(\"#" . $id_to_fade . "\").fadeTo(" . $animation_time .  ", " . $opacity . ");\n";
+		}
+		$script .= "	}\n";
+		$script .= "</script>\n";
+		return "\n" . $script . "\n";
+	}
+	
+	/**
+	 * Creates a JavaScript function that slides down the $id_to_slide
+	 * @param string $func_name The name of the JavaScript function.
+	 * @param string $id_to_slide The ID of the HTML element to slide.
+	 * @param integer $animation_time The number of milliseconds the slide animation should last. Default = 1000
+	 * @param string $callback The name of a JavaScript function to call after sliding the element. (Optional)
+	 * @return string A HTML compatible script tag with the JavaScript code.
+	 */
+	public function createSlideDownFunction($func_name, $id_to_slide, $animation_time = 1000, $callback = null) {
+		$script .= "<script type=\"text/javascript\">\n";
+		$script .= "	function " . $func_name . "() {\n";
+		if ($callback) {
+			$script .= "		$(\"#" . $id_to_slide . "\").slideDown(" . $animation_time . ", " . $callback . ");\n";
+		} else {
+			$script .= "		$(\"#" . $id_to_slide . "\").slideDown(" . $animation_time . ");\n";
+		}
+		$script .= "	}\n";
+		$script .= "</script>\n";
+		return "\n" . $script . "\n";
+	}
+	
+	/**
+	 * Creates a JavaScript function that slides up the $id_to_slide
+	 * @param string $func_name The name of the JavaScript function.
+	 * @param string $id_to_slide The ID of the HTML element to slide.
+	 * @param integer $animation_time The number of milliseconds the slide animation should last. Default = 1000
+	 * @param string $callback The name of a JavaScript function to call after sliding the element. (Optional)
+	 * @return string A HTML compatible script tag with the JavaScript code.
+	 */
+	public function createSlideUpFunction($func_name, $id_to_slide, $animation_time = 1000, $callback = null) {
+		$script .= "<script type=\"text/javascript\">\n";
+		$script .= "	function " . $func_name . "() {\n";
+		if ($callback) {
+			$script .= "		$(\"#" . $id_to_slide . "\").slideUp(" . $animation_time . ", " . $callback . ");\n";
+		} else {
+			$script .= "		$(\"#" . $id_to_slide . "\").slideUp(" . $animation_time . ");\n";
 		}
 		$script .= "	}\n";
 		$script .= "</script>\n";
