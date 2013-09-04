@@ -12,9 +12,11 @@ Swift PHP provides the following features:
 * Rapid Prototyping
 * Purely Object Oriented
 * User Input Validation
-* Easy-to-use JQuery Scripts
+* Easy-to-use JQuery and AJAX
+* Simple Logging
 * Text To Image
-* HTML Tag Helper
+* HTML Form Builder
+* HTML Tag Generator
 * XML Sitemaps
 * RSS Feeds
 * XML-RPC Pings
