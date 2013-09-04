@@ -226,7 +226,7 @@ class SwiftJQuery {
 	 * Creates a JavaScript timer that executes the $callback once after waiting $delay milliseconds.
 	 * @param integer $delay The number of milliseconds to delay between calls
 	 * @param string $callback The name of the JavaScript function to call.
-	 * @param string $interval_var The name of the JavaScript variable to store the timer in. Default = timeout_var
+	 * @param string $timeout_var The name of the JavaScript variable to store the timer in. Default = timeout_var
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createTimeoutHook($delay, $callback, $timeout_var = 'timeout_var') {
@@ -244,7 +244,7 @@ class SwiftJQuery {
 	/**
 	 * Creates a JavaScript function that clears the specified JavaScript timeout variable.
 	 * @param string $func_name The name of the JavaScript function.
-	 * @param string $interval_var The name of the JavaScript variable that holds the timer. Default = timeout_var
+	 * @param string $timeout_var The name of the JavaScript variable that holds the timer. Default = timeout_var
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createTimeoutClearFunction($func_name, $timeout_var = 'timeout_var') {
