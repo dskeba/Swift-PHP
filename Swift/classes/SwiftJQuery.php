@@ -75,7 +75,7 @@ class SwiftJQuery {
 	 * @param string $func_name The name of the function.
 	 * @param string $id The ID of the element to perform action on.
 	 * @param string $action The JQuery action to perform on the $id provided. Default: html
-	 * @param string $callback The name of a JavaScript function to call after completing AJAX callback function. (Optional)
+	 * @param string $callback The name of a JavaScript function to call after completing AJAX callback function.
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createAjaxCallback($func_name, $id, $action = 'html', $callback = null) {
@@ -226,7 +226,7 @@ class SwiftJQuery {
 	 * Creates a JavaScript timer that executes the $callback once after waiting $delay milliseconds.
 	 * @param integer $delay The number of milliseconds to delay between calls
 	 * @param string $callback The name of the JavaScript function to call.
-	 * @param string $interval_var The name of the JavaScript variable to store the timer in. Default = timeout_var
+	 * @param string $timeout_var The name of the JavaScript variable to store the timer in. Default = timeout_var
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createTimeoutHook($delay, $callback, $timeout_var = 'timeout_var') {
@@ -244,7 +244,7 @@ class SwiftJQuery {
 	/**
 	 * Creates a JavaScript function that clears the specified JavaScript timeout variable.
 	 * @param string $func_name The name of the JavaScript function.
-	 * @param string $interval_var The name of the JavaScript variable that holds the timer. Default = timeout_var
+	 * @param string $timeout_var The name of the JavaScript variable that holds the timer. Default = timeout_var
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createTimeoutClearFunction($func_name, $timeout_var = 'timeout_var') {
@@ -292,7 +292,7 @@ class SwiftJQuery {
 	 * @param string $func_name The name of the JavaScript function.
 	 * @param string $id_to_hide The ID of the HTML element to hide.
 	 * @param integer $animation_time The number of milliseconds the hide animation should last. Default = 1000
-	 * @param string $callback The name of a JavaScript function to call after hiding the element. (Optional)
+	 * @param string $callback The name of a JavaScript function to call after hiding the element.
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createHideFunction($func_name, $id_to_hide, $animation_time = 1000, $callback = null) {
@@ -313,7 +313,7 @@ class SwiftJQuery {
 	 * @param string $func_name The name of the JavaScript function.
 	 * @param string $id_to_show The ID of the HTML element to show.
 	 * @param integer $animation_time The number of milliseconds the show animation should last. Default = 1000
-	 * @param string $callback The name of a JavaScript function to call after showing the element. (Optional)
+	 * @param string $callback The name of a JavaScript function to call after showing the element.
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createShowFunction($func_name, $id_to_show, $animation_time = 1000, $callback = null) {
@@ -334,7 +334,7 @@ class SwiftJQuery {
 	 * @param string $func_name The name of the JavaScript function.
 	 * @param string $id_to_fade The ID of the HTML element to fade.
 	 * @param integer $animation_time The number of milliseconds the fade animation should last. Default = 1000
-	 * @param string $callback The name of a JavaScript function to call after fading the element. (Optional)
+	 * @param string $callback The name of a JavaScript function to call after fading the element.
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createFadeOutFunction($func_name, $id_to_fade, $animation_time = 1000, $callback = null) {
@@ -355,7 +355,7 @@ class SwiftJQuery {
 	 * @param string $func_name The name of the JavaScript function.
 	 * @param string $id_to_fade The ID of the HTML element to fade.
 	 * @param integer $animation_time The number of milliseconds the fade animation should last. Default = 1000
-	 * @param string $callback The name of a JavaScript function to call after fading the element. (Optional)
+	 * @param string $callback The name of a JavaScript function to call after fading the element.
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createFadeInFunction($func_name, $id_to_fade, $animation_time = 1000, $callback = null) {
@@ -377,7 +377,7 @@ class SwiftJQuery {
 	 * @param string $id_to_fade The ID of the HTML element to fade.
 	 * @param integer $animation_time The number of milliseconds the fade animation should last. Default = 1000
 	 * @param double $opacity The percentage of opacity the element should fade to. Default = 0.5
-	 * @param string $callback The name of a JavaScript function to call after fading the element. (Optional)
+	 * @param string $callback The name of a JavaScript function to call after fading the element.
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createFadeToFunction($func_name, $id_to_fade, $animation_time = 1000, $opacity = 0.5, $callback = null) {
@@ -398,7 +398,7 @@ class SwiftJQuery {
 	 * @param string $func_name The name of the JavaScript function.
 	 * @param string $id_to_slide The ID of the HTML element to slide.
 	 * @param integer $animation_time The number of milliseconds the slide animation should last. Default = 1000
-	 * @param string $callback The name of a JavaScript function to call after sliding the element. (Optional)
+	 * @param string $callback The name of a JavaScript function to call after sliding the element.
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createSlideDownFunction($func_name, $id_to_slide, $animation_time = 1000, $callback = null) {
@@ -419,7 +419,7 @@ class SwiftJQuery {
 	 * @param string $func_name The name of the JavaScript function.
 	 * @param string $id_to_slide The ID of the HTML element to slide.
 	 * @param integer $animation_time The number of milliseconds the slide animation should last. Default = 1000
-	 * @param string $callback The name of a JavaScript function to call after sliding the element. (Optional)
+	 * @param string $callback The name of a JavaScript function to call after sliding the element.
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createSlideUpFunction($func_name, $id_to_slide, $animation_time = 1000, $callback = null) {
