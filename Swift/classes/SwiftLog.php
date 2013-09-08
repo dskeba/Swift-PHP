@@ -58,17 +58,17 @@ class SwiftLog {
 	public function __construct($log_dir = null) {
 		$this->m_log_dir = $log_dir;
 		if ($log_dir) {
-			$this->m_log_debug_file = $this->m_log_dir . '/' . 'debug.log';
-			$this->m_log_info_file = $this->m_log_dir . '/' . 'info.log';
-			$this->m_log_warning_file = $this->m_log_dir . '/' . 'warning.log';
-			$this->m_log_error_file = $this->m_log_dir . '/' . 'error.log';
-			$this->m_log_fatal_file = $this->m_log_dir . '/' . 'fatal.log';
+			$this->m_log_debug_file = $this->m_log_dir . '/' . 'debug-' . date('Ymd') . '.log';
+			$this->m_log_info_file = $this->m_log_dir . '/' . 'info-' . date('Ymd') . '.log';
+			$this->m_log_warning_file = $this->m_log_dir . '/' . 'warning-' . date('Ymd') . '.log';
+			$this->m_log_error_file = $this->m_log_dir . '/' . 'error-' . date('Ymd') . '.log';
+			$this->m_log_fatal_file = $this->m_log_dir . '/' . 'fatal-' . date('Ymd') . '.log';
 		} else {
-			$this->m_log_debug_file = $this->m_log_dir . 'debug.log';
-			$this->m_log_info_file = $this->m_log_dir . 'info.log';
-			$this->m_log_warning_file = $this->m_log_dir . 'warning.log';
-			$this->m_log_error_file = $this->m_log_dir . 'error.log';
-			$this->m_log_fatal_file = $this->m_log_dir . 'fatal.log';
+			$this->m_log_debug_file = $this->m_log_dir . 'debug-' . date('Ymd') . '.log';
+			$this->m_log_info_file = $this->m_log_dir . 'info-' . date('Ymd') . '.log';
+			$this->m_log_warning_file = $this->m_log_dir . 'warning-' . date('Ymd') . '.log';
+			$this->m_log_error_file = $this->m_log_dir . 'error-' . date('Ymd') . '.log';
+			$this->m_log_fatal_file = $this->m_log_dir . 'fatal-' . date('Ymd') . '.log';
 		}
 	}
 
