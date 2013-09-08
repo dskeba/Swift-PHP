@@ -43,12 +43,16 @@ class SwiftJQuery {
 	
 	// private properties
 	private $m_scripts = null;
+	private $m_debug_comments = null;
 	
 	/**
 	 * Creates a new SwiftJQuery object.
+	 * @param boolean $debug_comments True to create debug comments. Otherwise false. Default: true
 	 * @return SwiftJQuery The new SwiftJQuery object.
 	 */
-	public function __construct() {}
+	public function __construct($debug_comments = true) {
+		$this->m_debug_comments = $debug_comments;
+	}
 	
 	/**
 	 * Automatically creates and returns an JQuery drop down menu script
@@ -58,8 +62,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createDropDownMenu($top_class, $sub_class) {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createDropDownMenu(" . $top_class . ", " . $sub_class . ")";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createDropDownMenu(" . $top_class . ", " . $sub_class . ")";
+		}
 		$script .= "	$(document).ready(function(){\n";
 		$script .= "		$(\"ul.".$sub_class."\").parent().append(\"<span></span>\"); //Only shows drop down trigger when js is enabled\n";
 		$script .= "		$(\"ul.".$top_class." li a\").hover(function() { //When trigger is clicked...\n";
@@ -83,8 +89,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createAjaxCallback($func_name, $id, $action = 'html', $callback = null) {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createAjaxCallback(" . $func_name . ", " . $id . ", " . $action . ", " . $callback . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createAjaxCallback(" . $func_name . ", " . $id . ", " . $action . ", " . $callback . ")\n";
+		}
 		$script .= "	function " . $func_name . "(data, status, xhr) {\n";
 		$script .= "		if (status == \"success\") {\n";
 		if ($action == 'hide' || $action == 'show' || $action == 'toggle' ||
@@ -113,8 +121,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createChainFunction($func_name, $func_array) {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createChainFunction(" . $func_name . ", " . $func_array . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createChainFunction(" . $func_name . ", " . $func_array . ")\n";
+		}
 		$script .= "	function " . $func_name . "() {\n";
 		for ($i = 0; $i < count($data_ids); $i++) {
 		$script .= "		" . $func_arr[$i] . "();\n";
@@ -134,8 +144,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createAjaxFunction($func_name, $url, $method = "get", $data_ids, $callback) {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createAjaxFunction(" . $func_name . ", " . $url . ", " . $method . ", " . $data_ids . ", " . $callback . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createAjaxFunction(" . $func_name . ", " . $url . ", " . $method . ", " . $data_ids . ", " . $callback . ")\n";
+		}
 		$script .= "	function " . $func_name . "() {\n";
 		$script .= "		var data = {\n";
 		$count = count($data_ids);
@@ -187,8 +199,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createEventHook($id, $event, $callback) {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createEventHook(" . $id . ", " . $event . ", " . $callback . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createEventHook(" . $id . ", " . $event . ", " . $callback . ")\n";
+		}
 		$script .= "	$(document).ready(function(){\n";
 		$script .= "		$(\"#" . $id . "\")." . $event . "(" . $callback . ");\n";
 		$script .= "	});\n";
@@ -204,8 +218,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createIntervalHook($delay, $callback, $interval_var = 'interval_var') {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createIntervalHook(" . $delay . ", " . $callback . ", " . $interval_var . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createIntervalHook(" . $delay . ", " . $callback . ", " . $interval_var . ")\n";
+		}
 		$script .= "	var " . $interval_var . ";\n";
 		$script .= "		$(document).ready(function(){\n";
 		$script .= "			" . $interval_var . " = setInterval(function(){\n";
@@ -223,8 +239,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createIntervalClearFunction($func_name, $interval_var = 'interval_var') {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createIntervalClearFunction(" . $func_name . ", " . $interval_var . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createIntervalClearFunction(" . $func_name . ", " . $interval_var . ")\n";
+		}
 		$script .= "	function " . $func_name . "() {\n";
 		$script .= "		window.clearInterval(" . $interval_var . ");\n";
 		$script .= "	}\n";
@@ -240,8 +258,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createTimeoutHook($delay, $callback, $timeout_var = 'timeout_var') {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createTimeoutHook(" . $delay . ", " . $callback . ", " . $timeout_var . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createTimeoutHook(" . $delay . ", " . $callback . ", " . $timeout_var . ")\n";
+		}
 		$script .= "	var " . $timeout_var . ";\n";
 		$script .= "		$(document).ready(function(){\n";
 		$script .= "			" . $timeout_var . " = setTimeout(function(){\n";
@@ -259,8 +279,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createTimeoutClearFunction($func_name, $timeout_var = 'timeout_var') {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createTimeoutClearFunction(" . $func_name . ", " . $timeout_var . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createTimeoutClearFunction(" . $func_name . ", " . $timeout_var . ")\n";
+		}
 		$script .= "	function " . $func_name . "() {\n";
 		$script .= "		window.clearTimeout(" . $timeout_var . ");\n";
 		$script .= "	}\n";
@@ -276,8 +298,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createSetFunction($func_name, $id_to_set, $id_to_get) {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createSetFunction(" . $func_name . ", " . $id_to_set . ", " . $id_to_get . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createSetFunction(" . $func_name . ", " . $id_to_set . ", " . $id_to_get . ")\n";
+		}
 		$script .= "	function " . $func_name . "() {\n";
 		$script .= "		$(\"#" . $id_to_set . "\").html($(\"#" . $id_to_get . "\").html());\n";
 		$script .= "	}\n";
@@ -292,8 +316,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createClearFunction($func_name, $id_to_clear) {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createClearFunction(" . $func_name . ", " . $id_to_clear . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createClearFunction(" . $func_name . ", " . $id_to_clear . ")\n";
+		}
 		$script .= "	function " . $func_name . "() {\n";
 		$script .= "		$(\"#" . $id_to_clear . "\").html(\"\");\n";
 		$script .= "	}\n";
@@ -310,8 +336,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createHideFunction($func_name, $id_to_hide, $animation_time = 1000, $callback = null) {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createHideFunction(" . $func_name . ", " . $id_to_hide . ", " . $animation_time . ", " . $callback . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createHideFunction(" . $func_name . ", " . $id_to_hide . ", " . $animation_time . ", " . $callback . ")\n";
+		}
 		$script .= "	function " . $func_name . "() {\n";
 		if ($callback) {
 			$script .= "		$(\"#" . $id_to_hide . "\").hide(" . $animation_time . ", " . $callback . ");\n";
@@ -332,8 +360,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createShowFunction($func_name, $id_to_show, $animation_time = 1000, $callback = null) {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createShowFunction(" . $func_name . ", " . $id_to_show . ", " . $animation_time . ", " . $callback . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createShowFunction(" . $func_name . ", " . $id_to_show . ", " . $animation_time . ", " . $callback . ")\n";
+		}
 		$script .= "	function " . $func_name . "() {\n";
 		if ($callback) {
 			$script .= "		$(\"#" . $id_to_show . "\").show(" . $animation_time . ", " . $callback . ");\n";
@@ -354,8 +384,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createToggleFunction($func_name, $id_to_toggle, $animation_time = 1000, $callback = null) {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createToggleFunction(" . $func_name . ", " . $id_to_toggle . ", " . $animation_time . ", " . $callback . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createToggleFunction(" . $func_name . ", " . $id_to_toggle . ", " . $animation_time . ", " . $callback . ")\n";
+		}
 		$script .= "	function " . $func_name . "() {\n";
 		if ($callback) {
 			$script .= "		$(\"#" . $id_to_toggle . "\").toggle(" . $animation_time . ", " . $callback . ");\n";
@@ -376,8 +408,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createFadeOutFunction($func_name, $id_to_fade, $animation_time = 1000, $callback = null) {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createFadeOutFunction(" . $func_name . ", " . $id_to_fade . ", " . $animation_time . ", " . $callback . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createFadeOutFunction(" . $func_name . ", " . $id_to_fade . ", " . $animation_time . ", " . $callback . ")\n";
+		}
 		$script .= "	function " . $func_name . "() {\n";
 		if ($callback) {
 			$script .= "		$(\"#" . $id_to_fade . "\").fadeOut(" . $animation_time . ", " . $callback . ");\n";
@@ -398,8 +432,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createFadeInFunction($func_name, $id_to_fade, $animation_time = 1000, $callback = null) {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createFadeInFunction(" . $func_name . ", " . $id_to_fade . ", " . $animation_time . ", " . $callback . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createFadeInFunction(" . $func_name . ", " . $id_to_fade . ", " . $animation_time . ", " . $callback . ")\n";
+		}
 		$script .= "	function " . $func_name . "() {\n";
 		if ($callback) {
 			$script .= "		$(\"#" . $id_to_fade . "\").fadeIn(" . $animation_time . ", " . $callback . ");\n";
@@ -420,8 +456,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createFadeToggleFunction($func_name, $id_to_fade, $animation_time = 1000, $callback = null) {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createFadeToggleFunction(" . $func_name . ", " . $id_to_fade . ", " . $animation_time . ", " . $callback . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createFadeToggleFunction(" . $func_name . ", " . $id_to_fade . ", " . $animation_time . ", " . $callback . ")\n";
+		}
 		$script .= "	function " . $func_name . "() {\n";
 		if ($callback) {
 			$script .= "		$(\"#" . $id_to_fade . "\").fadeToggle(" . $animation_time . ", " . $callback . ");\n";
@@ -443,8 +481,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createFadeToFunction($func_name, $id_to_fade, $animation_time = 1000, $opacity = 0.5, $callback = null) {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createFadeToFunction(" . $func_name . ", " . $id_to_fade . ", " . $animation_time . ", " . $opacity . ", " . $callback . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createFadeToFunction(" . $func_name . ", " . $id_to_fade . ", " . $animation_time . ", " . $opacity . ", " . $callback . ")\n";
+		}
 		$script .= "	function " . $func_name . "() {\n";
 		if ($callback) {
 			$script .= "		$(\"#" . $id_to_fade . "\").fadeTo(" . $animation_time . ", " . $opacity . ", " . $callback . ");\n";
@@ -465,8 +505,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createSlideDownFunction($func_name, $id_to_slide, $animation_time = 1000, $callback = null) {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createSlideDownFunction(" . $func_name . ", " . $id_to_slide . ", " . $animation_time . ", " . $callback . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createSlideDownFunction(" . $func_name . ", " . $id_to_slide . ", " . $animation_time . ", " . $callback . ")\n";
+		}
 		$script .= "	function " . $func_name . "() {\n";
 		if ($callback) {
 			$script .= "		$(\"#" . $id_to_slide . "\").slideDown(" . $animation_time . ", " . $callback . ");\n";
@@ -487,8 +529,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createSlideUpFunction($func_name, $id_to_slide, $animation_time = 1000, $callback = null) {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createSlideUpFunction(" . $func_name . ", " . $id_to_slide . ", " . $animation_time . ", " . $callback . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createSlideUpFunction(" . $func_name . ", " . $id_to_slide . ", " . $animation_time . ", " . $callback . ")\n";
+		}
 		$script .= "	function " . $func_name . "() {\n";
 		if ($callback) {
 			$script .= "		$(\"#" . $id_to_slide . "\").slideUp(" . $animation_time . ", " . $callback . ");\n";
@@ -509,8 +553,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createSlideToggleFunction($func_name, $id_to_slide, $animation_time = 1000, $callback = null) {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createSlideToggleFunction(" . $func_name . ", " . $id_to_slide . ", " . $animation_time . ", " . $callback . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createSlideToggleFunction(" . $func_name . ", " . $id_to_slide . ", " . $animation_time . ", " . $callback . ")\n";
+		}
 		$script .= "	function " . $func_name . "() {\n";
 		if ($callback) {
 			$script .= "		$(\"#" . $id_to_slide . "\").slideToggle(" . $animation_time . ", " . $callback . ");\n";
@@ -529,8 +575,10 @@ class SwiftJQuery {
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
 	public function createAlertFunction($func_name, $msg) {
-		$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
-		$script .= "	// createAlertFunction(" . $func_name . ", " . $msg . ")\n";
+		if ($this->m_debug_comments) {
+			$script .= "	// Created by " . FW_NAME . " " . FW_VERSION . "\n";
+			$script .= "	// createAlertFunction(" . $func_name . ", " . $msg . ")\n";
+		}
 		$script .= "	function " . $func_name . "() {\n";
 		$script .= "		alert(\"" . $msg . "\");\n";
 		$script .= "	}\n";
