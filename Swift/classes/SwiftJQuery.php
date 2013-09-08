@@ -330,6 +330,27 @@ class SwiftJQuery {
 	}
 	
 	/**
+	 * Creates a JavaScript function that toggles the $id_to_toggle
+	 * @param string $func_name The name of the JavaScript function.
+	 * @param string $id_to_toggle The ID of the HTML element to toggle.
+	 * @param integer $animation_time The number of milliseconds the toggle animation should last. Default = 1000
+	 * @param string $callback The name of a JavaScript function to call after toggling the element. (Optional)
+	 * @return string A HTML compatible script tag with the JavaScript code.
+	 */
+	public function createToggleFunction($func_name, $id_to_toggle, $animation_time = 1000, $callback = null) {
+		$script .= "<script type=\"text/javascript\">\n";
+		$script .= "	function " . $func_name . "() {\n";
+		if ($callback) {
+			$script .= "		$(\"#" . $id_to_toggle . "\").toggle(" . $animation_time . ", " . $callback . ");\n";
+		} else {
+			$script .= "		$(\"#" . $id_to_toggle . "\").toggle(" . $animation_time . ");\n";
+		}
+		$script .= "	}\n";
+		$script .= "</script>\n";
+		return "\n" . $script . "\n";
+	}
+	
+	/**
 	 * Creates a JavaScript function that fades out the $id_to_fade
 	 * @param string $func_name The name of the JavaScript function.
 	 * @param string $id_to_fade The ID of the HTML element to fade.
@@ -365,6 +386,27 @@ class SwiftJQuery {
 			$script .= "		$(\"#" . $id_to_fade . "\").fadeIn(" . $animation_time . ", " . $callback . ");\n";
 		} else {
 			$script .= "		$(\"#" . $id_to_fade . "\").fadeIn(" . $animation_time . ");\n";
+		}
+		$script .= "	}\n";
+		$script .= "</script>\n";
+		return "\n" . $script . "\n";
+	}
+	
+	/**
+	 * Creates a JavaScript function that toggles the fading of the $id_to_fade
+	 * @param string $func_name The name of the JavaScript function.
+	 * @param string $id_to_fade The ID of the HTML element to fade.
+	 * @param integer $animation_time The number of milliseconds the fade animation should last. Default = 1000
+	 * @param string $callback The name of a JavaScript function to call after fading the element. (Optional)
+	 * @return string A HTML compatible script tag with the JavaScript code.
+	 */
+	public function createFadeToggleFunction($func_name, $id_to_fade, $animation_time = 1000, $callback = null) {
+		$script .= "<script type=\"text/javascript\">\n";
+		$script .= "	function " . $func_name . "() {\n";
+		if ($callback) {
+			$script .= "		$(\"#" . $id_to_fade . "\").fadeToggle(" . $animation_time . ", " . $callback . ");\n";
+		} else {
+			$script .= "		$(\"#" . $id_to_fade . "\").fadeToggle(" . $animation_time . ");\n";
 		}
 		$script .= "	}\n";
 		$script .= "</script>\n";
