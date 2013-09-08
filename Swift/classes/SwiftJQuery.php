@@ -485,7 +485,7 @@ class SwiftJQuery {
 	 * @param string $callback The name of a JavaScript function to call after sliding the element. (Optional)
 	 * @return string A HTML compatible script tag with the JavaScript code.
 	 */
-	public function createSlideUpFunction($func_name, $id_to_slide, $animation_time = 1000, $callback = null) {
+	public function createSlideToggleFunction($func_name, $id_to_slide, $animation_time = 1000, $callback = null) {
 		$script .= "<script type=\"text/javascript\">\n";
 		$script .= "	function " . $func_name . "() {\n";
 		if ($callback) {
