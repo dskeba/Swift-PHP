@@ -203,10 +203,10 @@ class Swift {
 		
 	/**
 	 * Creates and returns a new SwiftJQuery object.
-	 * @param boolean $debug_comments True to create debug comments. Otherwise false. Default: true
+	 * @param boolean $debug_comments True to create debug comments. Otherwise false. Default: false
 	 * @return SwiftJQuery A SwiftJQuery object
 	 */
-	public function createJQuery($debug_comments = true) {
+	public function createJQuery($debug_comments = false) {
 		return new SwiftJQuery($debug_comments);
 	}
 	
@@ -358,8 +358,10 @@ class Swift {
 	 * @param boolean $extract Optionally have all stored view data
 	 * extracted into variables and loaded into symbol table.
 	 * (Default: true).
+	 * @param boolean $minimize Optionally have all output compressed
+	 * and minimized. (Default: false)
 	 */
-	public function render($view, $data = null, $extract = true) {
+	public function render($view, $data = null, $extract = true, $minimize = false) {
 		if (isset($data)) {
 			$result = array_merge($this->m_view_data->getAll(), $data);
 			$this->m_view_data->setAll($result);
@@ -368,7 +370,18 @@ class Swift {
 			$all_data = $this->getAllViewData();
 			extract($all_data);
 		}
+		if ($minimize) {
+			function minimize($buffer) {
+				$swift = Swift::getInstance();
+				$sm = $swift->createMinimize();
+				return $sm->minimizeString($buffer);
+			}
+			ob_start('minimize');
+		}
 		require $this->m_config->get('app_view_dir') . '/' . $view;
+		if ($minimize) {
+			ob_end_flush();
+		}
 	}
 	
 }

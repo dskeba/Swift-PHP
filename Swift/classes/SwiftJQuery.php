@@ -47,10 +47,10 @@ class SwiftJQuery {
 	
 	/**
 	 * Creates a new SwiftJQuery object.
-	 * @param boolean $debug_comments True to create debug comments. Otherwise false. Default: true
+	 * @param boolean $debug_comments True to create debug comments. Otherwise false. Default: false
 	 * @return SwiftJQuery The new SwiftJQuery object.
 	 */
-	public function __construct($debug_comments = true) {
+	public function __construct($debug_comments = false) {
 		$this->m_debug_comments = $debug_comments;
 	}
 	

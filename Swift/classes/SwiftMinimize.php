@@ -46,6 +46,25 @@ class SwiftMinimize {
 	 */
 	public function __construct() {}
 	
+	/**
+	 * Minimizes and compresses the provided string. Removes comments, tabs, spaces, and newlines.
+	 * Warning: Does not work with double slash (//) comments
+	 * @param string $buffer The string to minimize.
+	 * @return string The minimized string.
+	 */
+	public function minimizeString($buffer) {
+		/* remove comments */
+        $buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $buffer);
+        /* remove tabs, spaces, newlines, etc. */
+        $buffer = str_replace(array("\r\n","\r","\n","\t",'  ','    ','     '), '', $buffer);
+        /* remove other spaces before/after ; */
+        $buffer = preg_replace(array('(( )+{)','({( )+)'), '{', $buffer);
+        $buffer = preg_replace(array('(( )+})','(}( )+)','(;( )*})'), '}', $buffer);
+        $buffer = preg_replace(array('(;( )+)','(( )+;)'), ';', $buffer);
+		// return string
+		return $buffer;
+	}
+	
 }
 
 ?>
