@@ -53,11 +53,11 @@ class SwiftMinimize {
 	 * @return string The minimized string.
 	 */
 	public function minimizeString($buffer) {
-		/* remove comments */
+		// remove comments
         $buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $buffer);
-        /* remove tabs, spaces, newlines, etc. */
+        // remove tabs, spaces, newlines, etc
         $buffer = str_replace(array("\r\n","\r","\n","\t",'  ','    ','     '), '', $buffer);
-        /* remove other spaces before/after ; */
+        // remove other spaces before/after 
         $buffer = preg_replace(array('(( )+{)','({( )+)'), '{', $buffer);
         $buffer = preg_replace(array('(( )+})','(}( )+)','(;( )*})'), '}', $buffer);
         $buffer = preg_replace(array('(;( )+)','(( )+;)'), ';', $buffer);
