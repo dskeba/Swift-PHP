@@ -241,6 +241,14 @@ class Swift {
 	public function createLog($log_dir = null) {
 		return new SwiftLog($log_dir);
 	}
+	
+	/**
+	 * Creates and returns a new SwiftMinimize object.
+	 * @return SwiftMinimize A SwiftMinimize object
+	 */
+	public function createMinimize() {
+		return new SwiftMinimize();
+	}
     
 	/**
 	 * Get or set configuration settings for Swift. Provide single parameter,
