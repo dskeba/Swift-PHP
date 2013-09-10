@@ -40,11 +40,26 @@
  */
 class SwiftCache {
 	
+	// private properties
+	private $m_cache_file = null;
+	private $m_cache_time = null;
+	private $m_cache_directory = null;
+	private $m_cache_file_path = null;
+	
 	/**
-	 * Creates a new SwiftCache object.
+	 * Creates a new SwiftCache object for the provided $cache_file inside the $cache_directory
+	 * with an expiration time of $cache_time seconds.
+	 * @param string $cache_file The filename to cache output to.
+	 * @param string $cache_time The expiration time in seconds for the cached file.
+	 * @param string $cache_directory The base cache directory to cache and read files from. Default: 'cache'
 	 * @return SwiftCache The new SwiftCache object
 	 */
-	public function __construct() {}
+	public function __construct($cache_file, $cache_time = 300, $cache_directory = 'cache') {
+		$this->m_cache_file = $cache_file;
+		$this->m_cache_file = $cache_time;
+		$this->m_cache_file = $cache_directory;
+		$this->m_cache_file = $cache_directory . '/' . $cache_file;
+	}
 	
 }
 
