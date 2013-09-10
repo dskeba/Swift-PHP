@@ -351,24 +351,16 @@ class Swift {
 	}
 	
 	/**
-	 * Render/load a page using the provided $view.
+	 * Loads the provided $view file from inside the directory provided by the app_view_dir setting
+	 * and loads all variables inside the $data array.
 	 * @param string $view The filename of a view to render/load.
-	 * @param Array $data Optional array of data to merge with 
-	 * already stored view data. (Default: null)
-	 * @param boolean $extract Optionally have all stored view data
-	 * extracted into variables and loaded into symbol table.
-	 * (Default: true).
-	 * @param boolean $minimize Optionally have all output compressed
-	 * and minimized. (Default: false)
+	 * @param Array $data Array of variables to load in the public scope for the $view. (Default: null)
+	 * @param boolean $minimize Minimize and compress all output from the $view. (Default: false)
 	 */
-	public function render($view, $data = null, $extract = true, $minimize = false) {
+	public function render($view, $data = null, $minimize = false) {
 		if (isset($data)) {
 			$result = array_merge($this->m_view_data->getAll(), $data);
 			$this->m_view_data->setAll($result);
-		}
-		if ($extract) {
-			$all_data = $this->getAllViewData();
-			extract($all_data);
 		}
 		if ($minimize) {
 			function minimize($buffer) {
@@ -378,6 +370,8 @@ class Swift {
 			}
 			ob_start('minimize');
 		}
+		$all_data = $this->getAllViewData();
+		extract($all_data);
 		require $this->m_config->get('app_view_dir') . '/' . $view;
 		if ($minimize) {
 			ob_end_flush();
