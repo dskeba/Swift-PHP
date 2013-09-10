@@ -65,6 +65,18 @@ class SwiftMinimize {
 		return $buffer;
 	}
 	
+	/**
+	 * Minimizes and compresses the provided $filename. Removes comments, tabs, spaces, and newlines.
+	 * Warning: Does not work with double slash (//) comments
+	 * @param string $filename The string to minimize.
+	 * @return int Returns the number of bytes that were written to the file, or FALSE on failure.
+	 */
+	public function minimizeFile($filename) {
+		$buffer = file_get_contents($filename);
+		$buffer = $this->minimizeString($buffer);
+		return file_put_contents($filename, $buffer);
+	}
+	
 }
 
 ?>
