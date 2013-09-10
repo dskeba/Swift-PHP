@@ -41,24 +41,44 @@
 class SwiftCache {
 	
 	// private properties
-	private $m_cache_file = null;
+	private $m_cache_dir = null;
+	private $m_cache_key = null;
+	private $m_cache_path = null;
 	private $m_cache_time = null;
-	private $m_cache_directory = null;
-	private $m_cache_file_path = null;
 	
 	/**
-	 * Creates a new SwiftCache object for the provided $cache_file inside the $cache_directory
-	 * with an expiration time of $cache_time seconds.
-	 * @param string $cache_file The filename to cache output to.
-	 * @param string $cache_time The expiration time in seconds for the cached file.
-	 * @param string $cache_directory The base cache directory to cache and read files from. Default: 'cache'
+	 * Creates a new SwiftCache object using the the default cache directory (/Swift/cache/)
+	 * @param string $cache_key An alphanumeric key to reference the stored cache.
+	 * @param int $cache_exp_time The expiration time of the stored cache in seconds. Default = 600 (10 minutes)
 	 * @return SwiftCache The new SwiftCache object
 	 */
-	public function __construct($cache_file, $cache_time = 300, $cache_directory = 'cache') {
-		$this->m_cache_file = $cache_file;
-		$this->m_cache_file = $cache_time;
-		$this->m_cache_file = $cache_directory;
-		$this->m_cache_file = $cache_directory . '/' . $cache_file;
+	public function __construct($cache_key, $cache_time = 600) {
+		$this->m_cache_dir = FW_CACHE_DIR;
+		$this->m_cache_key = $cache_key;
+		$this->m_cache_path = $this->m_cache_dir . '/' . $this->m_cache_key;
+	}
+	
+	/**
+	 * Retrieves and returns the stored cache if it has not yet expired. Otherwise, returns null.
+	 * @return string The stored cache as a string. Returns null if cache is expired.
+	 */
+	public function getCache() {
+		
+	}
+	
+	/**
+	 * Begin storing all output into a buffer untill stopCache() is called.
+	 */
+	public function startCache() {
+		
+	}
+	
+	/**
+	 * Stop storing output and write buffer to the cache.
+	 * @return string The stored cache as a string.
+	 */
+	public function stopCache() {
+		
 	}
 	
 }
