@@ -35,50 +35,54 @@
  */
 
 /**
- * Holds functions to cache output from PHP files.
+ * Holds functions to buffer output from PHP files and store
+ * into cache with the specified key and expiration time.
  * @package Swift
  */
 class SwiftCache {
 	
 	// private properties
 	private $m_cache_dir = null;
-	private $m_cache_key = null;
-	private $m_cache_path = null;
-	private $m_cache_time = null;
 	
 	/**
 	 * Creates a new SwiftCache object using the the default cache directory (/Swift/cache/)
-	 * @param string $cache_key An alphanumeric key to reference the stored cache.
-	 * @param int $cache_exp_time The expiration time of the stored cache in seconds. Default = 600 (10 minutes)
 	 * @return SwiftCache The new SwiftCache object
 	 */
-	public function __construct($cache_key, $cache_time = 600) {
+	public function __construct() {
 		$this->m_cache_dir = FW_CACHE_DIR;
-		$this->m_cache_key = $cache_key;
-		$this->m_cache_path = $this->m_cache_dir . '/' . $this->m_cache_key;
 	}
 	
 	/**
-	 * Retrieves and returns the stored cache if it has not yet expired. Otherwise, returns null.
-	 * @return string The stored cache as a string. Returns null if cache is expired.
+	 * Returns the cache stored with the provided $cache_key if the cache
+	 * is not older then the provided $cache_exp_time. If no cache exists
+	 * or the cache is expired then the function returns null.
+	 * @param string $cache_key An alphanumeric key to reference the stored cache.
+	 * @param int $cache_exp_time The expiration time (in seconds) of the cache. Default = 600
+	 * @return string The stored cache as a string. Returns null if cache does not
+	 * exist or is expired.
 	 */
-	public function getCache() {
+	public function getCache($cache_key, $cache_exp_time) {
 		
 	}
 	
 	/**
-	 * Begin storing all output into a buffer untill stopCache() is called.
+	 * Begin storing all output into a buffer until stopCache() is called.
 	 */
 	public function startCache() {
-		
+		// Clear the buffer before 
+		ob_start();
 	}
 	
 	/**
-	 * Stop storing output and write buffer to the cache.
+	 * Stop storing output from previous call to startCache() and store into
+	 * cache with the provided $cache_key and $cache_exp_time.
+	 * @param string $cache_key An alphanumeric key to reference the stored cache.
+	 * @param int $cache_exp_time The expiration time (in seconds) of the cache. Default = 600
 	 * @return string The stored cache as a string.
 	 */
-	public function stopCache() {
-		
+	public function stopCache($cache_key, $cache_exp_time) {
+		// Get contents and clear buffer
+		$buffer = ob_get_clean();
 	}
 	
 }
