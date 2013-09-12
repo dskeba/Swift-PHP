@@ -61,28 +61,38 @@ class SwiftCache {
 	 * @return string The stored cache as a string. Returns null if cache does not
 	 * exist or is expired.
 	 */
-	public function getCache($cache_key, $cache_exp_time) {
-		
+	public function getCache($cache_key, $cache_exp_time = 600) {
+		$file = $this->m_cache_dir . '/' . $cache_key . '.cache';
+		if (file_exists($file)) {
+			$file_time =  filemtime($file);
+			$cur_time = time();
+			$time_diff = $cur_time - $file_time;
+			if ($time_diff < $cache_exp_time) {
+				$contents = file_get_contents($file);
+				return $contents;
+			}
+		}
+		return null;
 	}
 	
 	/**
 	 * Begin storing all output into a buffer until stopCache() is called.
 	 */
 	public function startCache() {
-		// Clear the buffer before 
 		ob_start();
 	}
 	
 	/**
-	 * Stop storing output from previous call to startCache() and store into
+	 * Stop buffering output from previous call to startCache() and store buffer into
 	 * cache with the provided $cache_key and $cache_exp_time.
 	 * @param string $cache_key An alphanumeric key to reference the stored cache.
-	 * @param int $cache_exp_time The expiration time (in seconds) of the cache. Default = 600
 	 * @return string The stored cache as a string.
 	 */
-	public function stopCache($cache_key, $cache_exp_time) {
-		// Get contents and clear buffer
+	public function stopCache($cache_key) {
 		$buffer = ob_get_clean();
+		$file = $this->m_cache_dir . '/' . $cache_key . '.cache';
+		file_put_contents($file, $buffer, LOCK_EX);
+		return $buffer;
 	}
 	
 }
