@@ -87,11 +87,21 @@ class SwiftCache {
 	 * cache with the provided $cache_key. Returns the stored cache on success, and
 	 * returns false on error.
 	 * @param string $cache_key An alphanumeric key to reference the stored cache.
+	 * @param boolean $cache_minimize On true, buffer will be minimized, by removing
+	 * comments, newlines, tabs, and spaces, before storing into cache and returning.
 	 * @return string The stored cache as a string.
 	 */
-	public function stopCache($cache_key) {
+	public function stopCache($cache_key, $cache_minimize = false) {
 		$buffer = ob_get_clean();
 		$file = $this->m_cache_dir . '/' . $cache_key . '.cache';
+		if ($cache_minimize) {
+			$s = Swift::getInstance();
+			$sm = $s->createMinimize();
+			$buffer = $sm->minimizeString($buffer);
+			if (!$buffer) {
+				return false;
+			}
+		}
 		if (file_put_contents($file, $buffer, LOCK_EX)) {
 			return $buffer;
 		} else {
