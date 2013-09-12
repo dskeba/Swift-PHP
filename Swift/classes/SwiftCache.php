@@ -105,7 +105,7 @@ class SwiftCache {
 		if (file_put_contents($file, $buffer, LOCK_EX)) {
 			return $buffer;
 		} else {
-			return false
+			return false;
 		}
 	}
 	

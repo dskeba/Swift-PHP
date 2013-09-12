@@ -250,6 +250,14 @@ class Swift {
 	public function createMinimize() {
 		return new SwiftMinimize();
 	}
+	
+	/**
+	 * Creates and returns a new SwiftCache object.
+	 * @return SwiftCache A SwiftCache object
+	 */
+	public function createCache() {
+		return new SwiftCache();
+	}
     
 	/**
 	 * Get or set configuration settings for Swift. Provide single parameter,
