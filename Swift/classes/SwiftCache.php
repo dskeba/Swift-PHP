@@ -45,11 +45,12 @@ class SwiftCache {
 	private $m_cache_dir = null;
 	
 	/**
-	 * Creates a new SwiftCache object using the the default cache directory (/Swift/cache/)
+	 * Creates a new SwiftCache object using the provided $cache_dir.
+	 * @param string $cache_dir The directory to store all chached files.
 	 * @return SwiftCache The new SwiftCache object
 	 */
-	public function __construct() {
-		$this->m_cache_dir = FW_CACHE_DIR;
+	public function __construct($cache_dir) {
+		$this->m_cache_dir = $cache_dir;
 	}
 	
 	/**
@@ -87,21 +88,11 @@ class SwiftCache {
 	 * cache with the provided $cache_key. Returns the stored cache on success, and
 	 * returns false on error.
 	 * @param string $cache_key An alphanumeric key to reference the stored cache.
-	 * @param boolean $cache_minimize On true, buffer will be minimized, by removing
-	 * comments, newlines, tabs, and spaces, before storing into cache and returning.
 	 * @return string The stored cache as a string.
 	 */
-	public function stopCache($cache_key, $cache_minimize = false) {
+	public function stopCache($cache_key) {
 		$buffer = ob_get_clean();
 		$file = $this->m_cache_dir . '/' . $cache_key . '.cache';
-		if ($cache_minimize) {
-			$s = Swift::getInstance();
-			$sm = $s->createMinimize();
-			$buffer = $sm->minimizeString($buffer);
-			if (!$buffer) {
-				return false;
-			}
-		}
 		if (file_put_contents($file, $buffer, LOCK_EX)) {
 			return $buffer;
 		} else {

@@ -63,6 +63,7 @@ class Swift {
 	private $m_config;
 	private $m_router;
 	private $m_view_data;
+	private $m_cache;
 	
 	/**
 	 * Creates a new Swift object
@@ -78,6 +79,9 @@ class Swift {
 		$this->m_config->set('app_url', 'http://' . $_SERVER['SERVER_NAME']);
 		$this->m_config->set('app_view_dir', 'view');
 		$this->m_config->set('app_404', null);
+		$this->m_config->set('app_cache_dir', FW_CACHE_DIR);
+		// Initialize our cache object using the default cache directory
+		$this->m_cache = new SwiftCache($this->m_config->get('app_cache_dir'));
 	}
 	
 	/**
@@ -253,10 +257,11 @@ class Swift {
 	
 	/**
 	 * Creates and returns a new SwiftCache object.
+	 * @param string $cache_dir The directory to store all chached files.
 	 * @return SwiftCache A SwiftCache object
 	 */
-	public function createCache() {
-		return new SwiftCache();
+	public function createCache($cache_dir) {
+		return new SwiftCache($cache_dir);
 	}
     
 	/**
@@ -360,6 +365,37 @@ class Swift {
 	}
 	
 	/**
+	 * Returns the cache stored with the provided $cache_key if the cache
+	 * is not older then the provided $cache_exp_time. If no cache exists
+	 * or the cache is expired then the function returns null.
+	 * @param string $cache_key An alphanumeric key to reference the stored cache.
+	 * @param int $cache_exp_time The expiration time (in seconds) of the cache. Default = 600
+	 * @return string The stored cache as a string. Returns null if cache does not
+	 * exist or is expired.
+	 */
+	public function getCache($cache_key, $cache_exp_time = 600) {
+		return $this->m_cache->getCache($cache_key, $cache_exp_time);
+	}
+	
+	/**
+	 * Begin storing all output into a buffer until stopCache() is called.
+	 */
+	public function startCache() {
+		$this->m_cache->startCache();
+	}
+	
+	/**
+	 * Stop buffering output from previous call to startCache() and store buffer into
+	 * cache with the provided $cache_key. Returns the stored cache on success, and
+	 * returns false on error.
+	 * @param string $cache_key An alphanumeric key to reference the stored cache.
+	 * @return string The stored cache as a string.
+	 */
+	public function stopCache($cache_key) {
+		return $this->m_cache->stopCache($cache_key);
+	}
+	
+	/**
 	 * Loads the provided $view file from inside the directory provided by the app_view_dir setting
 	 * and loads all variables inside the $data array.
 	 * @param string $view The filename of a view to render/load.
@@ -367,23 +403,22 @@ class Swift {
 	 * @param boolean $minimize Minimize and compress all output from the $view. (Default: false)
 	 */
 	public function render($view, $data = null, $minimize = false) {
+		$path = $this->m_config->get('app_view_dir') . '/' . $view;
 		if (isset($data)) {
 			$result = array_merge($this->m_view_data->getAll(), $data);
 			$this->m_view_data->setAll($result);
 		}
-		if ($minimize) {
-			function minimize($buffer) {
-				$swift = Swift::getInstance();
-				$sm = $swift->createMinimize();
-				return $sm->minimizeString($buffer);
-			}
-			ob_start('minimize');
-		}
 		$all_data = $this->getAllViewData();
 		extract($all_data);
-		require $this->m_config->get('app_view_dir') . '/' . $view;
 		if ($minimize) {
-			ob_end_flush();
+			ob_start();
+			require $path;
+			$buffer = ob_get_clean();
+			$swift = Swift::getInstance();
+			$sm = $swift->createMinimize();
+			echo $sm->minimizeString($buffer);
+		} else {
+			require $path;
 		}
 	}
 	
