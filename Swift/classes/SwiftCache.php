@@ -84,15 +84,19 @@ class SwiftCache {
 	
 	/**
 	 * Stop buffering output from previous call to startCache() and store buffer into
-	 * cache with the provided $cache_key and $cache_exp_time.
+	 * cache with the provided $cache_key. Returns the stored cache on success, and
+	 * returns false on error.
 	 * @param string $cache_key An alphanumeric key to reference the stored cache.
 	 * @return string The stored cache as a string.
 	 */
 	public function stopCache($cache_key) {
 		$buffer = ob_get_clean();
 		$file = $this->m_cache_dir . '/' . $cache_key . '.cache';
-		file_put_contents($file, $buffer, LOCK_EX);
-		return $buffer;
+		if (file_put_contents($file, $buffer, LOCK_EX)) {
+			return $buffer;
+		} else {
+			return false
+		}
 	}
 	
 }
