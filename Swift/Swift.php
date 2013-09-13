@@ -118,6 +118,22 @@ class Swift {
 	}
 	
 	/**
+	 * Creates and returns a new SwiftRegistry object.
+	 * @return SwiftRegistry A SwiftRegistry object
+	 */
+	public function createRegistry() {
+		return new SwiftRegistry();
+	}
+	
+	/**
+	 * Creates and returns a new SwiftRouter object.
+	 * @return SwiftRouter A SwiftRouter object
+	 */
+	public function createRouter() {
+		return new SwiftRouter();
+	}
+	
+	/**
 	 * Creates a new SwiftDb object and automatically connects to it
 	 * using the database settings found in the config.
 	 * @return SwiftDb Db object
@@ -283,21 +299,21 @@ class Swift {
 	/**
 	 * Map the provided url pattern to a given callback function.
 	 * The $pattern may contain one or many regular expressions 
-	 * which can be matched using preg_match(). Each match in 
+	 * which will be matched using preg_match(). Each match in 
 	 * the $pattern is stored and may be retrieved by calling
 	 * param() function.
 	 * The $callback function is automatically called when a
 	 * url match is made with the provided $pattern.
 	 * @param string $pattern A url pattern to match. May contain multiple reg exps.
-	 * @param string $callback A callback function that is auto-called upon a match.
+	 * @param string $callback A callback function that is called upon a match.
 	 */
 	public function map($pattern, $callback) {
 		return $this->m_router->setRoute($pattern, $callback);
 	}
 	
 	/**
-	 * Get the request uri from the web server.
-	 * @return string The current request uri.
+	 * Get the request URI from the web server.
+	 * @return string The current request URI.
 	 */
 	public function getRequestUri() {
 		return $this->m_router->getRequestUri();
