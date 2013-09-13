@@ -44,6 +44,7 @@ define('FW_CORE_DIR', dirname(__FILE__));
 define('FW_BASE_DIR', dirname(FW_CORE_DIR));
 define('FW_CLASSES_DIR', FW_CORE_DIR . '/' . 'classes');
 define('FW_INCLUDES_DIR', FW_CORE_DIR . '/' . 'includes');
+define('FW_LOG_DIR', FW_CORE_DIR . '/' . 'log');
 define('FW_CACHE_DIR', FW_CORE_DIR . '/' . 'cache');
 
 // Include our PHP Class autoloader
@@ -56,13 +57,14 @@ require_once("autoloader.php");
  */
 class Swift {
 	
-	// static variable to hold instance of our Swift object
+	// Static variable to hold instance of our Swift object
 	private static $m_instance;
 	
-	// variables to hold our config and router objects
+	// Variables to hold our Swift objects
 	private $m_config;
 	private $m_router;
 	private $m_view_data;
+	private $m_log;
 	private $m_cache;
 	
 	/**
@@ -79,13 +81,16 @@ class Swift {
 		$this->m_config->set('app_url', 'http://' . $_SERVER['SERVER_NAME']);
 		$this->m_config->set('app_view_dir', 'view');
 		$this->m_config->set('app_404', null);
+		$this->m_config->set('app_log_dir', FW_LOG_DIR);
 		$this->m_config->set('app_cache_dir', FW_CACHE_DIR);
+		// Initialize our log object using the default log directory
+		$this->m_log = new SwiftLog($this->m_config->get('app_log_dir'));
 		// Initialize our cache object using the default cache directory
 		$this->m_cache = new SwiftCache($this->m_config->get('app_cache_dir'));
 	}
 	
 	/**
-	 * Gets an instance of the Swift class and returns it.
+	 * Returns an instance of the Swift class.
 	 * @return Swift A Swift object
 	 */
 	public static function getInstance() {
@@ -96,13 +101,15 @@ class Swift {
 	}
 	
 	/**
-	 * Configures the App and Router using settings from the config
+	 * Configures the App and Router using settings from the config.
 	 * and then dispatches the request.
 	 */
 	public function run() {
-		// Before running, ensure our important settings are formatted correctly:
-		$this->m_config->set('app_url', rtrim($this->m_config->get('app_url'), '/')); // Remove trailing slash from 'app_url' setting
-		$this->m_config->set('app_view_dir', trim($this->m_config->get('app_view_dir'), '/')); // Remove leading and trailing slash from 'app_view_dir' setting
+		// Before running, ensure our important settings are formatted correctly
+		// Remove trailing slash from 'app_url' setting
+		$this->m_config->set('app_url', rtrim($this->m_config->get('app_url'), '/'));
+		// Remove leading and trailing slash from 'app_view_dir' setting
+		$this->m_config->set('app_view_dir', trim($this->m_config->get('app_view_dir'), '/'));
 		// Create 'app_view_url' setting based on other provided settings
 		$this->m_config->set('app_view_url', $this->m_config->get('app_url') . '/' . $this->m_config->get('app_view_dir'));
 		$callback = $this->m_router->dispatch();
@@ -378,6 +385,28 @@ class Swift {
 	 */
 	public function getAllViewData() {
 		return $this->m_view_data->getAll();
+	}
+	
+	/**
+	 * Logs a timestamp and the provided $message string into a dated log file
+	 * of the provided $type.
+	 * @param string $message The message string to log.
+	 * @param string $type The type of log file to store the message in. Options 
+	 * for type include: debug, info, warning, error, and fatal. Default: info.
+	 * @return int Returns the number of bytes that were written to the log file, or false on failure.
+	 */
+	public function log($message, $type = 'info') {
+		if ($type == 'debug') {
+			$this->m_log->logDebug($message);
+		} else if ($type == 'warning') {
+			$this->m_log->logWarning($message);
+		} else if ($type == 'error') {
+			$this->m_log->logError($message);
+		} else if ($type == 'fatal') {
+			$this->m_log->logFatal($message);
+		} else {
+			$this->m_log->logInfo($message);
+		}
 	}
 	
 	/**

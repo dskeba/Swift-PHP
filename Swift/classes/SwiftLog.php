@@ -52,10 +52,10 @@ class SwiftLog {
 	
 	/**
 	 * Creates a new SwiftLog object.
-	 * @param string $log_dir The base log directory to store logs in. Default: null
+	 * @param string $log_dir The base log directory to store logs in.
 	 * @return SwiftLog The new SwiftLog object
 	 */
-	public function __construct($log_dir = null) {
+	public function __construct($log_dir) {
 		$this->m_log_dir = $log_dir;
 		if ($log_dir) {
 			$this->m_log_debug_file = $this->m_log_dir . '/' . 'debug-' . date('Ymd') . '.log';
@@ -64,11 +64,11 @@ class SwiftLog {
 			$this->m_log_error_file = $this->m_log_dir . '/' . 'error-' . date('Ymd') . '.log';
 			$this->m_log_fatal_file = $this->m_log_dir . '/' . 'fatal-' . date('Ymd') . '.log';
 		} else {
-			$this->m_log_debug_file = $this->m_log_dir . 'debug-' . date('Ymd') . '.log';
-			$this->m_log_info_file = $this->m_log_dir . 'info-' . date('Ymd') . '.log';
-			$this->m_log_warning_file = $this->m_log_dir . 'warning-' . date('Ymd') . '.log';
-			$this->m_log_error_file = $this->m_log_dir . 'error-' . date('Ymd') . '.log';
-			$this->m_log_fatal_file = $this->m_log_dir . 'fatal-' . date('Ymd') . '.log';
+			$this->m_log_debug_file = 'debug-' . date('Ymd') . '.log';
+			$this->m_log_info_file = 'info-' . date('Ymd') . '.log';
+			$this->m_log_warning_file = 'warning-' . date('Ymd') . '.log';
+			$this->m_log_error_file = 'error-' . date('Ymd') . '.log';
+			$this->m_log_fatal_file = 'fatal-' . date('Ymd') . '.log';
 		}
 	}
 
