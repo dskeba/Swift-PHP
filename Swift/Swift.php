@@ -388,24 +388,23 @@ class Swift {
 	}
 	
 	/**
-	 * Logs a timestamp and the provided $message string into a dated log file
-	 * of the provided $type.
+	 * Stores the provided $message string into a log file of the provided $type.
 	 * @param string $message The message string to log.
-	 * @param string $type The type of log file to store the message in. Options 
-	 * for type include: debug, info, warning, error, and fatal. Default: info.
+	 * @param string $type The type of log file to store the message in. 
+	 * Options for type include: debug, info, warning, error, and fatal. Default: info.
 	 * @return int Returns the number of bytes that were written to the log file, or false on failure.
 	 */
 	public function log($message, $type = 'info') {
 		if ($type == 'debug') {
-			$this->m_log->logDebug($message);
+			return $this->m_log->logDebug($message);
 		} else if ($type == 'warning') {
-			$this->m_log->logWarning($message);
+			return $this->m_log->logWarning($message);
 		} else if ($type == 'error') {
-			$this->m_log->logError($message);
+			return $this->m_log->logError($message);
 		} else if ($type == 'fatal') {
-			$this->m_log->logFatal($message);
+			return $this->m_log->logFatal($message);
 		} else {
-			$this->m_log->logInfo($message);
+			return $this->m_log->logInfo($message);
 		}
 	}
 	
