@@ -7,20 +7,18 @@ A PHP5 micro framework that provides lightweight and secure components for creat
 Swift PHP provides the following features:
 
 * URL Routing
-* MVC Design Pattern
-* Rapid Prototyping
 * Purely Object Oriented
+* Secure File Structure
 * User Input Validation
 * Fast Web Caching
 * PHP To JQuery
-* Minify HTML and JavaScript
+* Minify HTML and JavaScripts
 * Easy-to-use AJAX
 * Simple Logging
 * Text To Image
-* HTML Form Builder
-* XML Sitemaps
-* RSS Feeds
-* XML-RPC Pings
+* HTML Form and Tag Builder
+* RSS and Sitemap Maker
+* Send XML-RPC Pings
 * Support for Google API's
 * MySQL Database Management
 
