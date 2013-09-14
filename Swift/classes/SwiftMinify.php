@@ -1,8 +1,8 @@
 <?php
 /**
- * SwiftMinimize.php
+ * SwiftMinify.php
  *
- * This file contains the SwiftMinimize class.
+ * This file contains the SwiftMinify class.
  *
  * @author Derek Skeba
  * @copyright 2010 - 2013 Media Vim LLC
@@ -38,11 +38,11 @@
  * Holds functions to minimize and compress string and file content.
  * @package Swift
  */
-class SwiftMinimize {
+class SwiftMinify {
 	
 	/**
-	 * Creates a new SwiftMinimize object.
-	 * @return SwiftMinimize The new SwiftMinimize object
+	 * Creates a new SwiftMinify object.
+	 * @return SwiftMinify The new SwiftMinify object
 	 */
 	public function __construct() {}
 	
@@ -52,7 +52,7 @@ class SwiftMinimize {
 	 * @param string $buffer The string to minimize.
 	 * @return string The minimized string.
 	 */
-	public function minimizeString($buffer) {
+	public function minifyString($buffer) {
 		// remove comments
 		$buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $buffer);
 		// remove tabs, spaces, newlines, etc
@@ -71,7 +71,7 @@ class SwiftMinimize {
 	 * @param string $filename The string to minimize.
 	 * @return int Returns the number of bytes that were written to the file, or FALSE on failure.
 	 */
-	public function minimizeFile($filename) {
+	public function minifyFile($filename) {
 		// Get the original contents of the file
 		$buffer = file_get_contents($filename);
 		// minimize the contents

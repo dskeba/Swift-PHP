@@ -271,11 +271,11 @@ class Swift {
 	}
 	
 	/**
-	 * Creates and returns a new SwiftMinimize object.
-	 * @return SwiftMinimize A SwiftMinimize object
+	 * Creates and returns a new SwiftMinify object.
+	 * @return SwiftMinify A SwiftMinify object
 	 */
-	public function createMinimize() {
-		return new SwiftMinimize();
+	public function createMinify() {
+		return new SwiftMinify();
 	}
 	
 	/**
@@ -445,9 +445,9 @@ class Swift {
 	 * and loads all variables inside the $data array.
 	 * @param string $view The filename of a view to render/load.
 	 * @param Array $data Array of variables to load in the public scope for the $view. (Default: null)
-	 * @param boolean $minimize Minimize and compress all output from the $view. (Default: false)
+	 * @param boolean $minify Minimize and compress all HTML and JavaScript output from the $view. (Default: false)
 	 */
-	public function render($view, $data = null, $minimize = false) {
+	public function render($view, $data = null, $minify = false) {
 		$path = $this->m_config->get('app_view_dir') . '/' . $view;
 		if (isset($data)) {
 			$result = array_merge($this->m_view_data->getAll(), $data);
@@ -455,13 +455,13 @@ class Swift {
 		}
 		$all_data = $this->getAllViewData();
 		extract($all_data);
-		if ($minimize) {
+		if ($minify) {
 			ob_start();
 			require $path;
 			$buffer = ob_get_clean();
 			$swift = Swift::getInstance();
-			$sm = $swift->createMinimize();
-			echo $sm->minimizeString($buffer);
+			$sm = $swift->createMinify();
+			echo $sm->minifyString($buffer);
 		} else {
 			require $path;
 		}
