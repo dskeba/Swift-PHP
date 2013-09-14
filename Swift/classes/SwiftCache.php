@@ -50,6 +50,7 @@ class SwiftCache {
 	 * @return SwiftCache The new SwiftCache object
 	 */
 	public function __construct($cache_dir) {
+		// Store the cache directory
 		$this->m_cache_dir = $cache_dir;
 	}
 	
@@ -63,16 +64,25 @@ class SwiftCache {
 	 * exist or is expired.
 	 */
 	public function getCache($cache_key, $cache_exp_time = 600) {
+		// setup the file path
 		$file = $this->m_cache_dir . '/' . $cache_key . '.cache';
+		// check if cache file exists already
 		if (file_exists($file)) {
+			// get the last modified time
 			$file_time =  filemtime($file);
+			// get the current time
 			$cur_time = time();
+			// find the difference in seconds
 			$time_diff = $cur_time - $file_time;
+			// check if cache is not expired
 			if ($time_diff < $cache_exp_time) {
+				// get the contents of the cache file
 				$contents = file_get_contents($file);
+				// return the cache if it is not expired
 				return $contents;
 			}
 		}
+		// return null if cache is expired
 		return null;
 	}
 	
@@ -80,6 +90,7 @@ class SwiftCache {
 	 * Begin storing all output into a buffer until stopCache() is called.
 	 */
 	public function startCache() {
+		// start buffering all output to browser
 		ob_start();
 	}
 	
@@ -91,11 +102,16 @@ class SwiftCache {
 	 * @return string The stored cache as a string.
 	 */
 	public function stopCache($cache_key) {
+		// stop buffering output and store contents into a string. clear the buffer.
 		$buffer = ob_get_clean();
+		// figure out the cache file path
 		$file = $this->m_cache_dir . '/' . $cache_key . '.cache';
+		// store the buffer into the cache file
 		if (file_put_contents($file, $buffer, LOCK_EX)) {
+			// return buffer if successful
 			return $buffer;
 		} else {
+			// return false if failed to write cache file
 			return false;
 		}
 	}

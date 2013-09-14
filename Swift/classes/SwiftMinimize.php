@@ -72,8 +72,11 @@ class SwiftMinimize {
 	 * @return int Returns the number of bytes that were written to the file, or FALSE on failure.
 	 */
 	public function minimizeFile($filename) {
+		// Get the original contents of the file
 		$buffer = file_get_contents($filename);
+		// minimize the contents
 		$buffer = $this->minimizeString($buffer);
+		// store minimized contents back into file and return
 		return file_put_contents($filename, $buffer);
 	}
 	

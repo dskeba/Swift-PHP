@@ -56,6 +56,7 @@ class SwiftLog {
 	 * @return SwiftLog The new SwiftLog object
 	 */
 	public function __construct($log_dir) {
+		// figure out filenames for all log file types based on provided log directory
 		$this->m_log_dir = $log_dir;
 		if ($log_dir) {
 			$this->m_log_debug_file = $this->m_log_dir . '/' . 'debug-' . date('Ymd') . '.log';
