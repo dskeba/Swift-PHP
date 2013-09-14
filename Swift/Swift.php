@@ -8,7 +8,7 @@
  * @copyright 2010 - 2013 Media Vim LLC
  * @link http://swiftphp.org
  * @license http://swiftphp.org/license
- * @version 1.1.1
+ * @version 1.2
  * @package Swift
  *
  * MIT LICENSE
@@ -39,11 +39,13 @@ error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 
 // Define constants for Swift PHP framework
 define('FW_NAME', 'Swift PHP');
-define('FW_VERSION', '1.1.1');
+define('FW_VERSION', '1.2');
 define('FW_CORE_DIR', dirname(__FILE__));
 define('FW_BASE_DIR', dirname(FW_CORE_DIR));
 define('FW_CLASSES_DIR', FW_CORE_DIR . '/' . 'classes');
 define('FW_INCLUDES_DIR', FW_CORE_DIR . '/' . 'includes');
+define('FW_LOG_DIR', FW_CORE_DIR . '/' . 'log');
+define('FW_CACHE_DIR', FW_CORE_DIR . '/' . 'cache');
 
 // Include our PHP Class autoloader
 require_once("autoloader.php");
@@ -55,13 +57,15 @@ require_once("autoloader.php");
  */
 class Swift {
 	
-	// static variable to hold instance of our Swift object
+	// Static variable to hold instance of our Swift object
 	private static $m_instance;
 	
-	// variables to hold our config and router objects
+	// Variables to hold our Swift objects
 	private $m_config;
 	private $m_router;
 	private $m_view_data;
+	private $m_log;
+	private $m_cache;
 	
 	/**
 	 * Creates a new Swift object
@@ -77,10 +81,16 @@ class Swift {
 		$this->m_config->set('app_url', 'http://' . $_SERVER['SERVER_NAME']);
 		$this->m_config->set('app_view_dir', 'view');
 		$this->m_config->set('app_404', null);
+		$this->m_config->set('app_log_dir', FW_LOG_DIR);
+		$this->m_config->set('app_cache_dir', FW_CACHE_DIR);
+		// Initialize our log object using the default log directory
+		$this->m_log = new SwiftLog($this->m_config->get('app_log_dir'));
+		// Initialize our cache object using the default cache directory
+		$this->m_cache = new SwiftCache($this->m_config->get('app_cache_dir'));
 	}
 	
 	/**
-	 * Gets an instance of the Swift class and returns it.
+	 * Returns an instance of the Swift class.
 	 * @return Swift A Swift object
 	 */
 	public static function getInstance() {
@@ -91,13 +101,15 @@ class Swift {
 	}
 	
 	/**
-	 * Configures the App and Router using settings from the config
+	 * Configures the App and Router using settings from the config.
 	 * and then dispatches the request.
 	 */
 	public function run() {
-		// Before running, ensure our important settings are formatted correctly:
-		$this->m_config->set('app_url', rtrim($this->m_config->get('app_url'), '/')); // Remove trailing slash from 'app_url' setting
-		$this->m_config->set('app_view_dir', trim($this->m_config->get('app_view_dir'), '/')); // Remove leading and trailing slash from 'app_view_dir' setting
+		// Before running, ensure our important settings are formatted correctly
+		// Remove trailing slash from 'app_url' setting
+		$this->m_config->set('app_url', rtrim($this->m_config->get('app_url'), '/'));
+		// Remove leading and trailing slash from 'app_view_dir' setting
+		$this->m_config->set('app_view_dir', trim($this->m_config->get('app_view_dir'), '/'));
 		// Create 'app_view_url' setting based on other provided settings
 		$this->m_config->set('app_view_url', $this->m_config->get('app_url') . '/' . $this->m_config->get('app_view_dir'));
 		$callback = $this->m_router->dispatch();
@@ -110,6 +122,22 @@ class Swift {
 			}
 		}
 		call_user_func($callback);
+	}
+	
+	/**
+	 * Creates and returns a new SwiftRegistry object.
+	 * @return SwiftRegistry A SwiftRegistry object
+	 */
+	public function createRegistry() {
+		return new SwiftRegistry();
+	}
+	
+	/**
+	 * Creates and returns a new SwiftRouter object.
+	 * @return SwiftRouter A SwiftRouter object
+	 */
+	public function createRouter() {
+		return new SwiftRouter();
 	}
 	
 	/**
@@ -203,10 +231,11 @@ class Swift {
 		
 	/**
 	 * Creates and returns a new SwiftJQuery object.
+	 * @param boolean $debug_comments True to create debug comments. Otherwise false. Default: false
 	 * @return SwiftJQuery A SwiftJQuery object
 	 */
-	public function createJQuery() {
-		return new SwiftJQuery();
+	public function createJQuery($debug_comments = false) {
+		return new SwiftJQuery($debug_comments);
 	}
 	
 	/**
@@ -240,6 +269,23 @@ class Swift {
 	public function createLog($log_dir = null) {
 		return new SwiftLog($log_dir);
 	}
+	
+	/**
+	 * Creates and returns a new SwiftMinify object.
+	 * @return SwiftMinify A SwiftMinify object
+	 */
+	public function createMinify() {
+		return new SwiftMinify();
+	}
+	
+	/**
+	 * Creates and returns a new SwiftCache object.
+	 * @param string $cache_dir The directory to store all chached files.
+	 * @return SwiftCache A SwiftCache object
+	 */
+	public function createCache($cache_dir) {
+		return new SwiftCache($cache_dir);
+	}
     
 	/**
 	 * Get or set configuration settings for Swift. Provide single parameter,
@@ -260,21 +306,21 @@ class Swift {
 	/**
 	 * Map the provided url pattern to a given callback function.
 	 * The $pattern may contain one or many regular expressions 
-	 * which can be matched using preg_match(). Each match in 
+	 * which will be matched using preg_match(). Each match in 
 	 * the $pattern is stored and may be retrieved by calling
 	 * param() function.
 	 * The $callback function is automatically called when a
 	 * url match is made with the provided $pattern.
 	 * @param string $pattern A url pattern to match. May contain multiple reg exps.
-	 * @param string $callback A callback function that is auto-called upon a match.
+	 * @param string $callback A callback function that is called upon a match.
 	 */
 	public function map($pattern, $callback) {
 		return $this->m_router->setRoute($pattern, $callback);
 	}
 	
 	/**
-	 * Get the request uri from the web server.
-	 * @return string The current request uri.
+	 * Get the request URI from the web server.
+	 * @return string The current request URI.
 	 */
 	public function getRequestUri() {
 		return $this->m_router->getRequestUri();
@@ -342,24 +388,83 @@ class Swift {
 	}
 	
 	/**
-	 * Render/load a page using the provided $view.
-	 * @param string $view The filename of a view to render/load.
-	 * @param Array $data Optional array of data to merge with 
-	 * already stored view data. (Default: null)
-	 * @param boolean $extract Optionally have all stored view data
-	 * extracted into variables and loaded into symbol table.
-	 * (Default: true).
+	 * Stores a timestamp and $message string to a log file in the
+	 * directory specified by the 'app_log_dir' setting. The log file
+	 * written to will be formated: "<type>-<date>.log" e.g. "error-20130913.log"
+	 * @param string $message The message string to log.
+	 * @param string $type The type of log message. Options: debug, info, warning, error, and fatal. Default: info.
+	 * @return int Returns the number of bytes that were written to the log file, or false on failure.
 	 */
-	public function render($view, $data = null, $extract = true) {
+	public function log($message, $type = 'info') {
+		if ($type == 'debug') {
+			return $this->m_log->logDebug($message);
+		} else if ($type == 'warning') {
+			return $this->m_log->logWarning($message);
+		} else if ($type == 'error') {
+			return $this->m_log->logError($message);
+		} else if ($type == 'fatal') {
+			return $this->m_log->logFatal($message);
+		} else {
+			return $this->m_log->logInfo($message);
+		}
+	}
+	
+	/**
+	 * Returns the cache stored with the provided $cache_key if the cache
+	 * is not older then the provided $cache_exp_time. If no cache exists
+	 * or the cache is expired then the function returns null.
+	 * @param string $cache_key An alphanumeric key to reference the stored cache.
+	 * @param int $cache_exp_time The expiration time (in seconds) of the cache. Default = 600
+	 * @return string The stored cache as a string. Returns null if cache does not
+	 * exist or is expired.
+	 */
+	public function getCache($cache_key, $cache_exp_time = 600) {
+		return $this->m_cache->getCache($cache_key, $cache_exp_time);
+	}
+	
+	/**
+	 * Begin storing all output into a buffer until stopCache() is called.
+	 */
+	public function startCache() {
+		$this->m_cache->startCache();
+	}
+	
+	/**
+	 * Stop buffering output from previous call to startCache() and store buffer into
+	 * cache with the provided $cache_key. Returns the stored cache on success, and
+	 * returns false on error.
+	 * @param string $cache_key An alphanumeric key to reference the stored cache.
+	 * @return string The stored cache as a string.
+	 */
+	public function stopCache($cache_key) {
+		return $this->m_cache->stopCache($cache_key);
+	}
+	
+	/**
+	 * Loads the provided $view file from inside the directory provided by the app_view_dir setting
+	 * and loads all variables inside the $data array.
+	 * @param string $view The filename of a view to render/load.
+	 * @param Array $data Array of variables to load in the public scope for the $view. (Default: null)
+	 * @param boolean $minify Minimize and compress all HTML and JavaScript output from the $view. (Default: false)
+	 */
+	public function render($view, $data = null, $minify = false) {
+		$path = $this->m_config->get('app_view_dir') . '/' . $view;
 		if (isset($data)) {
 			$result = array_merge($this->m_view_data->getAll(), $data);
 			$this->m_view_data->setAll($result);
 		}
-		if ($extract) {
-			$all_data = $this->getAllViewData();
-			extract($all_data);
+		$all_data = $this->getAllViewData();
+		extract($all_data);
+		if ($minify) {
+			ob_start();
+			require $path;
+			$buffer = ob_get_clean();
+			$swift = Swift::getInstance();
+			$sm = $swift->createMinify();
+			echo $sm->minifyString($buffer);
+		} else {
+			require $path;
 		}
-		require $this->m_config->get('app_view_dir') . '/' . $view;
 	}
 	
 }

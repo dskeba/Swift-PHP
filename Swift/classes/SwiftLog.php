@@ -8,7 +8,7 @@
  * @copyright 2010 - 2013 Media Vim LLC
  * @link http://swiftphp.org
  * @license http://swiftphp.org/license
- * @version 1.1.1
+ * @version 1.2
  * @package Swift
  *
  * MIT LICENSE
@@ -52,23 +52,24 @@ class SwiftLog {
 	
 	/**
 	 * Creates a new SwiftLog object.
-	 * @param string $log_dir The base log directory to store logs in. Default: null
+	 * @param string $log_dir The base log directory to store logs in.
 	 * @return SwiftLog The new SwiftLog object
 	 */
-	public function __construct($log_dir = null) {
+	public function __construct($log_dir) {
+		// figure out filenames for all log file types based on provided log directory
 		$this->m_log_dir = $log_dir;
 		if ($log_dir) {
-			$this->m_log_debug_file = $this->m_log_dir . '/' . 'debug.log';
-			$this->m_log_info_file = $this->m_log_dir . '/' . 'info.log';
-			$this->m_log_warning_file = $this->m_log_dir . '/' . 'warning.log';
-			$this->m_log_error_file = $this->m_log_dir . '/' . 'error.log';
-			$this->m_log_fatal_file = $this->m_log_dir . '/' . 'fatal.log';
+			$this->m_log_debug_file = $this->m_log_dir . '/' . 'debug-' . date('Ymd') . '.log';
+			$this->m_log_info_file = $this->m_log_dir . '/' . 'info-' . date('Ymd') . '.log';
+			$this->m_log_warning_file = $this->m_log_dir . '/' . 'warning-' . date('Ymd') . '.log';
+			$this->m_log_error_file = $this->m_log_dir . '/' . 'error-' . date('Ymd') . '.log';
+			$this->m_log_fatal_file = $this->m_log_dir . '/' . 'fatal-' . date('Ymd') . '.log';
 		} else {
-			$this->m_log_debug_file = $this->m_log_dir . 'debug.log';
-			$this->m_log_info_file = $this->m_log_dir . 'info.log';
-			$this->m_log_warning_file = $this->m_log_dir . 'warning.log';
-			$this->m_log_error_file = $this->m_log_dir . 'error.log';
-			$this->m_log_fatal_file = $this->m_log_dir . 'fatal.log';
+			$this->m_log_debug_file = 'debug-' . date('Ymd') . '.log';
+			$this->m_log_info_file = 'info-' . date('Ymd') . '.log';
+			$this->m_log_warning_file = 'warning-' . date('Ymd') . '.log';
+			$this->m_log_error_file = 'error-' . date('Ymd') . '.log';
+			$this->m_log_fatal_file = 'fatal-' . date('Ymd') . '.log';
 		}
 	}
 
