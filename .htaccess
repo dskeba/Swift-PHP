@@ -6,9 +6,8 @@ RewriteBase /
 
 # Remove the www prefix
 RewriteCond %{REQUEST_METHOD} =GET
-RewriteCond %{HTTP_HOST} ^www\.(.*) [NC]
-RewriteCond %{REQUEST_URI} ^(.*)$ [NC]
-RewriteRule .* %1/%2 [R=301,NC,L]
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ http://%1%{REQUEST_URI} [R=301,NC,L]
 
 # Remove multiple slashes anywhere
 RewriteCond %{REQUEST_URI} ^(.*)//(.*)$
