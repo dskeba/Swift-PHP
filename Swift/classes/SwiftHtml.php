@@ -8,7 +8,7 @@
  * @copyright 2010 - 2013 Media Vim LLC
  * @link http://swiftphp.org
  * @license http://swiftphp.org/license
- * @version 1.2.2
+ * @version 1.2.3
  * @package Swift
  *
  * MIT LICENSE
@@ -147,8 +147,7 @@ class SwiftHtml {
 	 * @return string A HTML compatible meta tag.
 	 */
 	public function createKeywordsTag($keywords) {
-		$keyword_str = implode(", ", $keywords);
-		return $this->createMetaTag("keywords", $keyword_str);
+		return $this->createMetaTag("keywords", $keywords);
 	}
 	
 	/**
