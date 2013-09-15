@@ -8,7 +8,7 @@
  * @copyright 2010 - 2013 Media Vim LLC
  * @link http://swiftphp.org
  * @license http://swiftphp.org/license
- * @version 1.2
+ * @version 1.2.1
  * @package Swift
  *
  * MIT LICENSE
@@ -55,7 +55,7 @@ class SwiftHtml {
 		$s = Swift::getInstance();
 		return "<!-- Internet Explorer HTML5 enabling script: -->
 		<!--[if IE]>
-			<script src=\"". $s->config('app_url') ."/Swift/includes/js/html5.js\"></script>
+			<script src=\"". $s->config('app_url') . "/Swift/includes/js/html5shiv.js\"></script>
 			<style type=\"text/css\">
 				.clear {
 					zoom: 1;
@@ -72,7 +72,7 @@ class SwiftHtml {
 	 */
 	public function getJQuery() {
 		$s = Swift::getInstance();
-		return $this->createJavaScriptTag($s->config('app_url') ."/Swift/includes/js/jquery.js");
+		return $this->createJavaScriptTag($s->config('app_url') . "/Swift/includes/js/jquery.js");
 	}
 	
 	/**

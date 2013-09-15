@@ -6,6 +6,7 @@ A PHP5 micro framework that provides lightweight and secure components for creat
 
 Swift PHP provides the following features:
 
+* Scalable
 * URL Routing
 * Purely Object Oriented
 * Secure File Structure

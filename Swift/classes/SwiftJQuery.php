@@ -8,7 +8,7 @@
  * @copyright 2010 - 2013 Media Vim LLC
  * @link http://swiftphp.org
  * @license http://swiftphp.org/license
- * @version 1.2
+ * @version 1.2.1
  * @package Swift
  *
  * MIT LICENSE
@@ -52,6 +52,17 @@ class SwiftJQuery {
 	 */
 	public function __construct($debug_comments = false) {
 		$this->m_debug_comments = $debug_comments;
+	}
+	
+	/**
+	 * Returns a HTML script tag which includes the jquery.js engine into the web page.
+	 * to ensure HTML5 compatability for MSIE.
+	 * @return string An HTML script tag.
+	 */
+	public function getJQuery() {
+		$s = Swift::getInstance();
+		$sh = $s->createHtml();
+		return $sh->getJQuery();
 	}
 	
 	/**
