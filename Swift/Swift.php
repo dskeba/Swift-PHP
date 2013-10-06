@@ -101,10 +101,11 @@ class Swift {
 	}
 	
 	/**
-	 * Configures the App and Router using settings from the config.
+	 * Configures the App and Router using settings from the config
 	 * and then dispatches the request.
+	 * @param boolean $start_session If true, a PHP Session will be started. Default = false
 	 */
-	public function run() {
+	public function run($start_session = false) {
 		// Before running, ensure our important settings are formatted correctly
 		// Remove trailing slash from 'app_url' setting
 		$this->m_config->set('app_url', rtrim($this->m_config->get('app_url'), '/'));
@@ -112,6 +113,10 @@ class Swift {
 		$this->m_config->set('app_view_dir', trim($this->m_config->get('app_view_dir'), '/'));
 		// Create 'app_view_url' setting based on other provided settings
 		$this->m_config->set('app_view_url', $this->m_config->get('app_url') . '/' . $this->m_config->get('app_view_dir'));
+		// Start PHP Sessions if needed
+		if ($start_session) {
+			start_session();
+		}
 		$callback = $this->m_router->dispatch();
 		if (!$callback) {
 			$callback_404 = $this->m_config->get('app_404');
