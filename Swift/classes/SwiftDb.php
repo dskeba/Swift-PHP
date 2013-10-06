@@ -180,6 +180,7 @@ class SwiftDb {
 	
 	/**
 	 * Converts any string to a safe, escaped version for using on queries.
+	 * Note: It is recommended to only store escaped strings into columns with a utf8 collation.
 	 * @param string $str The query string you want to make safe
 	 * @return string|false The safe version of the string or false
 	 */
@@ -193,6 +194,7 @@ class SwiftDb {
 	
 	/**
 	 * Strips slashes from an escapped string. Single slashes are removed. Double slashes become single slashes.
+	 * Note: This function behaves identical to the PHP stipslashes() function.
 	 * @param string $str The query string you want to strip slashes from.
 	 * @return string The string after removing slashes.
 	 */
