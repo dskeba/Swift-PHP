@@ -183,12 +183,21 @@ class SwiftDb {
 	 * @param string $str The query string you want to make safe
 	 * @return string|false The safe version of the string or false
 	 */
-	public function safeString($str) {
+	public function escapeString($str) {
 		if ($this->m_link) {
 			$str = mysqli_real_escape_string($this->m_link, $str);
 			return $str;
 		}
 		return false;
+	}
+	
+	/**
+	 * Strips slashes from an escapped string. Single slashes are removed. Double slashes become single slashes.
+	 * @param string $str The query string you want to strip slashes from.
+	 * @return string The string after removing slashes.
+	 */
+	public function stripSlashes($str) {
+		return stripslashes($str);
 	}
 	
 }
