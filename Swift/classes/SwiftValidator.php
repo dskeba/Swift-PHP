@@ -49,16 +49,18 @@ class SwiftValidator {
 	public function __construct() {}
 	
 	/**
-	 * Checks a string's length to see if it falls within the given range of numbers.
+	 * Checks $str to see if its length is less than the $low and/or higher than the $high.
 	 * @param string $str The string to check
-	 * @param integer $low The low end of the range
-	 * @param integer $high The high end of the range
-	 * @return boolean True if the string's length falls within the given range. False if not.
+	 * @param integer $low The low end of the range. Default = null
+	 * @param integer $high The high end of the range. Default = null
+	 * @return boolean False if the string's length is less than the $low and/or higher than the $high. True, otherwise.
 	 */
-	public function isLength($str, $low, $high) {
-		// Must be between $low and $high length
+	public function isLength($str, $low = null, $high = null) {
 		$length = strlen($str);
-		if ($length < $low || $length > $high) {
+		if ($length < $low && $low != null) {
+			return 0;
+		}
+		if ($length > $high && $high != null) {
 			return 0;
 		}
 		return 1;
@@ -196,15 +198,17 @@ class SwiftValidator {
 	}
 	
 	/**
-	 * Checks whether a string is bigger then the given length and contains only
-	 * digits, letters, and underscores.
+	 * Checks whether a string is within given length range and contains only digits and/or letters.
 	 * @param string $user The string to check
-	 * @param string $length The minimum length of the username
+	 * @param integer $len_min The minimum length of the $user. Default = null
+	 * @param integer $len_max The maximum length of the $user. Default = null
 	 * @return boolean True if the string appears to be a well formated username. False otherwise.
 	 */
-	public function isUsername($user, $length) {
-		// User must be bigger than $length chars and contain only digits, letters and underscore
-		if (preg_match("/^[0-9a-zA-Z_]{".$length.",}$/", $user) === 0) {
+	public function isUsername($user, $len_min = null, $len_max = null) {
+		if (!$this->isLength($user, $len_min, $len_max)) {
+			return 0;
+		}
+		if (!$this->isAlphaNumeric($user)) {
 			return 0;
 		}
 		return 1;
@@ -214,13 +218,16 @@ class SwiftValidator {
 	 * Checks to see if a password is at least $lenth characters and must contains at least one
 	 * lower case letter, one upper case letter, and one digit
 	 * @param string $pass The password string to check.
-	 * @param string $length The minimum length of the password
+	 * @param integer $len_min The minimum length of the $user. Default = null
+	 * @param integer $len_max The maximum length of the $user. Default = null
 	 * @return boolean True if the string appears to be a strong password. False otherwise.
 	 */
-	public function isPassword($pass, $length) {
-		// Password must be at least $length characters and must contain at least one lower case
-		// letter, one upper case letter and one digit
-		if (preg_match("/^.*(?=.{".$length.",})(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/", $pass) === 0) {
+	public function isPassword($pass, $len_min = null, $len_max = null) {
+		if (!$this->isLength($pass, $len_min, $len_max)) {
+			return 0;
+		}
+		// Password must contain at least one lower case letter, one upper case letter, and one digit
+		if (preg_match("/^.*(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/", $pass) === 0) {
 			return 0;
 		}
 		return 1;
