@@ -87,10 +87,11 @@ class SwiftHtml {
 	/**
 	 * Creates and returns an HTML link tag to the provided stylesheet.
 	 * @param string $url The URL of the stylesheet.
+	 * @param string $media The media type attribute for the HTML link tag.
 	 * @return string A HTML compatible link tag.
 	 */
-	public function createStyleSheetTag($url) {
-		return $this->createLinkTag("stylesheet", $url, "text/css");
+	public function createStyleSheetTag($url, $media = null) {
+		return $this->createLinkTag("stylesheet", $url, "text/css", null, $media);
 	}
 	
 	/**
