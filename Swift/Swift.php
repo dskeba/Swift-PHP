@@ -44,7 +44,7 @@ define('FW_CORE_DIR', dirname(__FILE__));
 define('FW_BASE_DIR', dirname(FW_CORE_DIR));
 define('FW_CLASSES_DIR', FW_CORE_DIR . '/' . 'classes');
 define('FW_INCLUDES_DIR', FW_CORE_DIR . '/' . 'includes');
-define('FW_LOG_DIR', FW_CORE_DIR . '/' . 'log');
+define('FW_LOGS_DIR', FW_CORE_DIR . '/' . 'logs');
 define('FW_CACHE_DIR', FW_CORE_DIR . '/' . 'cache');
 
 // Include our PHP Class autoloader
@@ -81,7 +81,7 @@ class Swift {
 		$this->m_config->set('app_url', 'http://' . $_SERVER['SERVER_NAME']);
 		$this->m_config->set('app_view_dir', 'view');
 		$this->m_config->set('app_404', null);
-		$this->m_config->set('app_log_dir', FW_LOG_DIR);
+		$this->m_config->set('app_log_dir', FW_LOGS_DIR);
 		$this->m_config->set('app_cache_dir', FW_CACHE_DIR);
 		// Initialize our log object using the default log directory
 		$this->m_log = new SwiftLog($this->m_config->get('app_log_dir'));
