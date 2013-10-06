@@ -202,6 +202,18 @@ class SwiftDb {
 		return stripslashes($str);
 	}
 	
+	/**
+	 * Prepares the SQL query, and returns a statement handle to be used for further operations on the statement. 
+	 * The query must consist of a single SQL statement.
+	 * @param string $q The query string to prepare in the MySQL database.
+	 * This parameter can include one or more parameter markers in the SQL statement by 
+	 * embedding question mark (?) characters at the appropriate positions.
+	 * @return mysqli_stmt A mysqli statement object or FALSE if an error occurred.
+	 */
+	public function prepare($q) {
+		return mysqli_prepare($this->m_link, $q);
+	}
+	
 }
 
 ?>
