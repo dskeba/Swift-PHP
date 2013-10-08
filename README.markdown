@@ -57,4 +57,4 @@ Swift PHP is created and maintained by [Derek Skeba](http://derekskeba.com) from
 
 ## Open Source License
 
-Swift PHP is released under the MIT public license.
+Swift PHP is released under the MIT public [license](http://swiftphp.org/license/).
