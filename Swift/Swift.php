@@ -115,7 +115,7 @@ class Swift {
 		$this->m_config->set('app_view_url', $this->m_config->get('app_url') . '/' . $this->m_config->get('app_view_dir'));
 		// Start PHP Sessions if needed
 		if ($start_session) {
-			start_session();
+			session_start();
 		}
 		$callback = $this->m_router->dispatch();
 		if (!$callback) {
