@@ -310,8 +310,7 @@ class SwiftHtml {
 	 * @param array $option_array An array, where array key is the option value and array value is the option label.
 	 * @param string $name The name attribute. (Optional)
 	 * @param string $id The ID attribute. (Optional)
-	 * @param string $value The value of the textarea. (Optional)
-	 * @param Integer $selected_option The index of the $option_array to preset as selected. (Optional)
+	 * @param integer $selected_option The index of the $option_array to preset as selected. (Optional)
 	 * @return string A HTML compatible select tag.
 	 */
 	public function createSelectTag($option_array = null, $name = null, $id = null, $selected_option = -1) {
@@ -328,10 +327,10 @@ class SwiftHtml {
 		$select_tag .= ">\n";
 		foreach ($option_array as $key => $value) {
 			if ($selected_option == $i++) {
-				$select_tag .= $this->createOptionTag($key, $key, $value, true);
+				$select_tag .= $this->createOptionTag(null, null, $value, $key, true);
 				$first_option = false;
 			} else {
-				$select_tag .= $this->createOptionTag($key, $key, $value, false);
+				$select_tag .= $this->createOptionTag(null, null, $value, $key, false);
 			}
 		}
 		$select_tag .= "</select>\n";
@@ -342,11 +341,12 @@ class SwiftHtml {
 	 * Creates and returns an HTML option tag with the provided attributes.
 	 * @param string $name The name attribute. (Optional)
 	 * @param string $id The ID attribute. (Optional)
-	 * @param string $value The value of the textarea. (Optional)
-	 * @param string $value Whether this value should be selected. Default = false (Optional)
+	 * @param string $value The value of the option. (Optional)
+	 * @param string $label The label of the option. (Optional)
+	 * @param boolean $selected Whether this value should be selected. Default = false (Optional)
 	 * @return string A HTML compatible option tag.
 	 */
-	public function createOptionTag($name = null, $id = null, $value = null, $selected = false) {
+	public function createOptionTag($name = null, $id = null, $value = null, $label = null, $selected = false) {
 		$option_tag = "<option ";
 		if ($name) {
 			$option_tag .= " name=\"" . $name . "\"";
@@ -357,9 +357,12 @@ class SwiftHtml {
 		if ($selected) {
 			$option_tag .= " selected=\"selected\"";
 		}
-		$option_tag .= ">";
 		if ($value) {
-			$option_tag .= $value;
+			$option_tag .= " value=\"" . $value . "\"";
+		}
+		$option_tag .= ">";
+		if ($label) {
+			$option_tag .= $label;
 		}
 		$option_tag .= "</option>\n";
 		return $option_tag;

@@ -208,7 +208,7 @@ class SwiftForm {
 	
 	/**
 	 * Creates and adds a select field with the provided options and attributes to the SwiftForm.
-	 * @param array $option_array An array, where array key is the option value and array value is the option label.
+	 * @param array $option_array An array, where array key is the option label and array value is the option value.
 	 * @param string $name The name attribute. (Optional)
 	 * @param string $id The ID attribute. (Optional)
 	 * @param String $label A label for the select field. (Optional)
