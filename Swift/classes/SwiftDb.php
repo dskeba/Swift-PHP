@@ -186,8 +186,7 @@ class SwiftDb {
 	 */
 	public function escapeString($str) {
 		if ($this->m_link) {
-			$str = mysqli_real_escape_string($this->m_link, $str);
-			return $str;
+			return mysqli_real_escape_string($this->m_link, $str);
 		}
 		return false;
 	}
