@@ -40,7 +40,7 @@
  * @param string $class Name of the requested PHP class
  */
 function autoLoadSwift($class) {
-    require_once(FW_CLASSES_DIR . '/' . $class_name . '.php');
+    require_once(FW_CLASSES_DIR . '/' . $class . '.php');
 }
 
 /**
