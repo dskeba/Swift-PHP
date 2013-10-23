@@ -2,7 +2,7 @@
 /**
  * autoloader.php
  *
- * Contains __autoload() function in global scope to
+ * Contains autoloader functions in global scope to
  * handle automatic loading of any required classes.
  *
  * @author Derek Skeba
@@ -36,10 +36,26 @@
  */
 
 /**
- * A PHP magic function that includes the requested class file.
- * @param string $class_name Name of the request php class
+ * This function automatically loads Swift classes.
+ * @param string $class Name of the requested PHP class
  */
-function __autoload($class_name) {
-	require_once(FW_CLASSES_DIR . '/' . $class_name . '.php');
+function autoLoadSwift($class) {
+    require_once(FW_CLASSES_DIR . '/' . $class_name . '.php');
 }
+
+/**
+ * This function automatically loads PHPMailer classes.
+ * @param string $class Name of the requested PHP class
+ */
+function autoLoadPhpMailer($class) {
+    require_once(FW_INCLUDES_DIR . '/phpmailer/' . 'class.' . strtolower($class) . '.php');
+}
+
+// Append autoLoadSwift to the PHP class autoloader queue
+spl_autoload_register('autoLoadSwift');
+
+// Append autoLoadPhpMailer to the PHP class autoloader queue
+spl_autoload_register('autoLoadPhpMailer');
+
+
 ?>
