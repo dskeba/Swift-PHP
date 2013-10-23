@@ -40,7 +40,7 @@
  * @param string $class Name of the requested PHP class
  */
 function autoLoadSwift($class) {
-    require_once(FW_CLASSES_DIR . '/' . $class . '.php');
+    include_once(FW_CLASSES_DIR . '/' . $class . '.php');
 }
 
 /**
@@ -51,11 +51,11 @@ function autoLoadPhpMailer($class) {
     require_once(FW_INCLUDES_DIR . '/phpmailer/' . 'class.' . strtolower($class) . '.php');
 }
 
-// Append autoLoadSwift to the PHP class autoloader queue
-spl_autoload_register('autoLoadSwift');
+// Prepend autoLoadSwift to the PHP class autoloader queue
+spl_autoload_register('autoLoadSwift', false, true);
 
 // Append autoLoadPhpMailer to the PHP class autoloader queue
-spl_autoload_register('autoLoadPhpMailer');
+spl_autoload_register('autoLoadPhpMailer', false, false);
 
 
 ?>
