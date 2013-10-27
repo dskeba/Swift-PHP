@@ -48,7 +48,7 @@ function autoLoadSwift($class) {
  * @param string $class Name of the requested PHP class
  */
 function autoLoadPhpMailer($class) {
-    require_once(FW_INCLUDES_DIR . '/phpmailer/' . 'class.' . strtolower($class) . '.php');
+    require_once(FW_INCLUDES_DIR . '/php/phpmailer/' . 'class.' . strtolower($class) . '.php');
 }
 
 // Prepend autoLoadSwift to the PHP class autoloader queue

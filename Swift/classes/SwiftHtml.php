@@ -55,7 +55,7 @@ class SwiftHtml {
 		$s = Swift::getInstance();
 		return "<!-- Internet Explorer HTML5 enabling script: -->
 		<!--[if IE]>
-			<script src=\"". $s->config('app_url') . "/Swift/includes/js/html5shiv.js\"></script>
+			<script src=\"". $s->config('app_url') . "/Swift/includes/js/html5shiv/html5shiv.js\"></script>
 			<style type=\"text/css\">
 				.clear {
 					zoom: 1;
@@ -72,7 +72,7 @@ class SwiftHtml {
 	 */
 	public function getJQuery() {
 		$s = Swift::getInstance();
-		return $this->createJavaScriptTag($s->config('app_url') . "/Swift/includes/js/jquery.js");
+		return $this->createJavaScriptTag($s->config('app_url') . "/Swift/includes/js/jquery/jquery-1.10.2.min.js");
 	}
 	
 	/**
