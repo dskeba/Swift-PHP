@@ -8,7 +8,7 @@
  * @copyright 2010 - 2013 Media Vim LLC
  * @link http://swiftphp.org
  * @license http://swiftphp.org/license
- * @version 1.3.4
+ * @version 1.3.5
  * @package Swift
  *
  * MIT LICENSE
