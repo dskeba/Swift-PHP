@@ -110,10 +110,40 @@ class SwiftForm {
 				$label_data = "<label" . $valign_out . ">" . $label . "</label>\n";
 			}
 		}
-		if ($ajax_event) {
-			$attribute_array[$ajax_event] = 'ajax_' . $this->m_form_id . '();';
+		$field_data = $swift_html->createInputTag($type, $name, $id, $value);
+		if ($field_data) {
+			$this->m_fields[count($this->m_fields)] = $field_data;
+			$this->m_labels[count($this->m_labels)] = $label_data;
+			if ($id) {
+				$this->m_field_ids[count($this->m_field_ids)] = $id;
+			}
+			return true;
+		} else {
+			return false;
 		}
-		$field_data = $swift_html->createInputTag($type, $name, $id, $value, $attribute_array);
+	}
+	
+	/**
+	 * Creates and adds a custom field to the SwiftForm.
+	 * @param string $field_html The HTML input type. (Default: text)
+	 * @param string $id The ID attribute. (Optional)
+	 * @param String $label A label for the field. (Optional)
+	 * @param String $label_valign The vertical-align css style for the label. Default = top (Optional)
+	 * @return boolean True on success. Otherwise False.
+	 */
+	public function addCustomField($field_html, $id = null, $label = null, $label_valign = "top") {
+		$swift = Swift::getInstance();
+		if ($label) {
+			if ($label_valign) {
+				$valign_out = " style=\"vertical-align:" . $label_valign . ";\" ";
+			}
+			if ($id) {
+				$label_data = "<label " . $valign_out . "for=\"" . $id . "\">" . $label . "</label>\n";
+			} else {
+				$label_data = "<label" . $valign_out . ">" . $label . "</label>\n";
+			}
+		}
+		$field_data = $field_html;
 		if ($field_data) {
 			$this->m_fields[count($this->m_fields)] = $field_data;
 			$this->m_labels[count($this->m_labels)] = $label_data;
