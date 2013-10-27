@@ -291,6 +291,14 @@ class Swift {
 	public function createCache($cache_dir) {
 		return new SwiftCache($cache_dir);
 	}
+	
+	/**
+	 * Creates and returns a new PHPMailer object.
+	 * @return PHPMailer A PHPMailer object
+	 */
+	public function createPHPMailer() {
+		return new PHPMailer();
+	}
     
 	/**
 	 * Get or set configuration settings for Swift. Provide single parameter,
