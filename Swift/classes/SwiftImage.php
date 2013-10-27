@@ -95,15 +95,10 @@ class SwiftImage {
 	 * @param String $text The text to find the width for.
 	 * @param Integer $size The size of the font.
 	 * @param Integer $angle The angle of the text. (Default: 0)
-	 * @param String $font The name of the font. (Default: arial)
+	 * @param String $font The name of the font. (Default: opensans)
 	 * @return Integer The pixel width of the text.
 	 */
-	public function getTextWidth($text, $size, $angle = 0, $font = 'arial') {
-		// Check the font param
-		if ($font != 'arial' && $font != 'comicsans' && $font != 'couriernew' && $font != 'georgia' && $font != 'tahoma' && $font != 'timesnewroman' && $font != 'verdana') {
-			// Set it to our default font
-			$font = 'arial';
-		}
+	public function getTextWidth($text, $size, $angle = 0, $font = 'opensans') {
 		// Add the path to our select font
 		$font = FW_INCLUDES_DIR . '/fonts/' . $font . '.ttf';
 		$arr = imagettfbbox($size, $angle, $font, $text);
@@ -115,15 +110,10 @@ class SwiftImage {
 	 * @param String $text The text to find the height for.
 	 * @param Integer $size The size of the font.
 	 * @param Integer $angle The angle of the text. (Default: 0)
-	 * @param String $font The name of the font. (Default: arial)
+	 * @param String $font The name of the font. (Default: opensans)
 	 * @return Integer The pixel height of the text.
 	 */
-	public function getTextHeight($text, $size, $angle = 0, $font = 'arial') {
-		// Check the font param
-		if ($font != 'arial' && $font != 'comicsans' && $font != 'couriernew' && $font != 'georgia' && $font != 'tahoma' && $font != 'timesnewroman' && $font != 'verdana') {
-			// Set it to our default font
-			$font = 'arial';
-		}
+	public function getTextHeight($text, $size, $angle = 0, $font = 'opensans') {
 		// Add the path to our select font
 		$font = FW_INCLUDES_DIR . '/fonts/' . $font . '.ttf';
 		$arr = imagettfbbox($size, $angle, $font, $text);
@@ -148,21 +138,16 @@ class SwiftImage {
 	 * @param Integer $size The size of the text.
 	 * @param Array $color An array containing color values from 0 to 255 for the keys: 'red', 'green', 'blue', and 'alpha'.
 	 * @param Mixed $position Sets the position of the text on the image. Use String value to specify relative position: center, top, bottom, left, right, topleft, bottomleft, topright, bottomright. Otherwise, provide Array with X and Y keys describing coordinates.
-	 * @param String $font Sets the font type. (arial, comicsans, couriernew, georgia, tahoma, timesnewroman, verdana)
+	 * @param String $font Sets the font type. (opensans, comicsans, couriernew, georgia, tahoma, timesnewroman, verdana)
 	 * @param Integer $x_padding Sets the x coordinate padding when positioning the text. (Default: 10)
 	 * @param Integer $y_padding Sets the Y coordinate padding when positioning the text. (Default: 10)
 	 * @param Integer $angle Sets the angle in degrees to draw the text at.
 	 * @return Boolean True on success, otherwise False.
 	 */
-	public function drawText($text, $size, $color = array('red' => '0', 'green' => '0', 'blue' => '0', 'alpha' => '0'), $font = 'arial', $position = 'center', $x_padding = 10, $y_padding = 10, $angle = 0) {
+	public function drawText($text, $size, $color = array('red' => '0', 'green' => '0', 'blue' => '0', 'alpha' => '0'), $font = 'opensans', $position = 'center', $x_padding = 10, $y_padding = 10, $angle = 0) {
 		// Find width and height of our text
 		$text_width = $this->getTextWidth($text, $size, $angle, $font);
 		$text_height = $this->getTextHeight($text, $size, $angle, $font);
-		// Check the font param
-		if ($font != 'arial' && $font != 'comicsans' && $font != 'couriernew' && $font != 'georgia' && $font != 'tahoma' && $font != 'timesnewroman' && $font != 'verdana') {
-			// Set it to our default font
-			$font = 'arial';
-		}
 		// Add the path to our select font
 		$font = FW_INCLUDES_DIR . '/fonts/' . $font . '.ttf';
 		// Position our text on the image
