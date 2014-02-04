@@ -254,7 +254,8 @@ class SwiftRouter {
 			foreach ($_GET as $key => $value) {
 				$vars[$key] = $value;
 			}
-		} elseif (!empty($_POST)) {
+		}
+		if (!empty($_POST)) {
 			foreach ($_POST as $key => $value) {
 				$vars[$key] = $value;
 			}
