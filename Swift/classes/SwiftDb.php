@@ -129,6 +129,23 @@ class SwiftDb {
 	}
 	
 	/**
+	 * Executes multiple queries separated by a semicolon on the currently connected MySQL database.
+	 * @param string $q The query string to run on the database.
+	 * @return mysqli_result MySQLi result object
+	 */
+	public function multiQuery($q) {
+		if (mysqli_multi_query($this->m_link, $q)) {
+			if ($this->m_result = mysqli_store_result($this->m_link)) {
+				return $this->m_result;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	/**
 	 * Fetches the next row of the current or given query result and returns
 	 * and associative array.
 	 * @param mysqli_result $res MySQLi result object
@@ -162,6 +179,26 @@ class SwiftDb {
 	 */
 	public function getResult() {
 		return $this->m_result;
+	}
+	
+	/**
+	 * Frees the current result if one exists and returns the next result from a multi query.
+	 * @return mysqli_result The next result from a MySQL multi query
+	 */
+	public function nextResult() {
+		if ($this->m_result) {
+			mysqli_free_result($this->m_result);
+		}
+		if (mysqli_more_results($this->m_link)) {
+			mysqli_next_result($this->m_link);
+			if ($this->m_result = mysqli_store_result($this->m_link)) {
+				return $this->m_result;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 	
 	/**
