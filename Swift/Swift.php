@@ -39,7 +39,7 @@ error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 
 // Define constants for Swift PHP framework
 define('FW_NAME', 'Swift PHP');
-define('FW_VERSION', '1.3.5');
+define('FW_VERSION', '1.3.8');
 define('FW_CORE_DIR', dirname(__FILE__));
 define('FW_BASE_DIR', dirname(FW_CORE_DIR));
 define('FW_CLASSES_DIR', FW_CORE_DIR . '/' . 'classes');
