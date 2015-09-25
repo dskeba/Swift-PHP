@@ -5,15 +5,15 @@
  * This file contains the SwiftPinger class.
  *
  * @author Derek Skeba
- * @copyright 2010 - 2013 Media Vim LLC
+ * @copyright 2010 - 2015 Derek Skeba
  * @link http://swiftphp.org
  * @license http://swiftphp.org/license
- * @version 1.3.7
+ * @version 1.3.8
  * @package Swift
  *
  * MIT LICENSE
  *
- * Copyright (c) 2010 - 2013 Media Vim LLC (http://mediavim.com)
+ * Copyright (c) 2010 - 2015 Derek Skeba
  *
  * Permission is hereby granted, free of charge, to any person obtaining 
  * a copy of this software and associated documentation files (the "Software"), 

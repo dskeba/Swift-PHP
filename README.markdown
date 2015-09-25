@@ -53,7 +53,7 @@ Follow [@swiftphp](http://www.twitter.com/swiftphp) on Twitter to get updates an
 
 ## About the Author
 
-Swift PHP is created and maintained by [Derek Skeba](http://derekskeba.com) from [Media Vim LLC](http://mediavim.com).
+Swift PHP is created and maintained by [Derek Skeba](http://derekskeba.com)
 
 ## Open Source License
 
