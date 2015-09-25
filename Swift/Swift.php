@@ -44,8 +44,8 @@ define('FW_CORE_DIR', dirname(__FILE__));
 define('FW_BASE_DIR', dirname(FW_CORE_DIR));
 define('FW_CLASSES_DIR', FW_CORE_DIR . '/' . 'classes');
 define('FW_INCLUDES_DIR', FW_CORE_DIR . '/' . 'includes');
-define('FW_LOGS_DIR', FW_BASE_DIR . '/' . 'logs');
-define('FW_CACHE_DIR', FW_BASE_DIR . '/' . 'cache');
+define('FW_LOGS_DIR', FW_CORE_DIR . '/' . 'logs');
+define('FW_CACHE_DIR', FW_CORE_DIR . '/' . 'cache');
 
 // Include our PHP Class autoloader
 require_once("autoloader.php");
