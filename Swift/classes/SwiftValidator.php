@@ -126,7 +126,7 @@ class SwiftValidator {
 	 */
 	public function isAddress($address) {
 		// Address must be word characters only
-		if (preg_match("/^[a-zA-Z0-9 _-.,:\"\']+$/", $address) === 0) {
+		if (preg_match("/^[a-zA-Z0-9 _\-.,:\"\']+$/", $address) === 0) {
 			return 0;
 		}
 		return 1;
