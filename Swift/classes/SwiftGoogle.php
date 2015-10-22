@@ -8,7 +8,7 @@
  * @copyright 2010 - 2015 Derek Skeba
  * @link http://swiftphp.org
  * @license http://swiftphp.org/license
- * @version 1.3.8
+ * @version 1.3.9
  * @package Swift
  *
  * MIT LICENSE
